@@ -48,87 +48,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 // ============================================================
-// Work carousel — prev / next buttons
+// Featured work slideshow — auto-cycle, hold 2.5s, crossfade
 // ============================================================
 
-const track = document.getElementById('workTrack');
-const prevBtn = document.querySelector('.carousel-btn.prev');
-const nextBtn = document.querySelector('.carousel-btn.next');
+const slides = document.querySelectorAll('#slideshow .slide');
+let currentSlide = 0;
 
-if (track && prevBtn && nextBtn) {
-    const scrollAmount = 250;
-
-    prevBtn.addEventListener('click', () => {
-        track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
-
-    nextBtn.addEventListener('click', () => {
-        track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    });
+if (slides.length > 1) {
+    setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 2500);
 }
-
-
-// ============================================================
-// Work filters — real filtering by data-category
-// ============================================================
-
-const filterBtns = document.querySelectorAll('.filter');
-const workCards = document.querySelectorAll('.work-card');
-
-filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-        filterBtns.forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const selected = btn.dataset.filter;
-
-        workCards.forEach((card) => {
-            const matches = selected === 'all' || card.dataset.category === selected;
-            card.style.display = matches ? '' : 'none';
-        });
-    });
-});
-
-
-// ============================================================
-// Lightbox — click a work card to pop it up larger
-// ============================================================
-
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxDesc = document.getElementById('lightboxDesc');
-const lightboxClose = document.getElementById('lightboxClose');
-
-function openLightbox(card) {
-    const img = card.dataset.img;
-    const title = card.dataset.title;
-    const desc = card.dataset.desc;
-
-    lightboxImg.src = img;
-    lightboxImg.alt = title;
-    lightboxTitle.textContent = title;
-    lightboxDesc.textContent = desc;
-
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-workCards.forEach((card) => {
-    card.addEventListener('click', () => openLightbox(card));
-});
-
-lightboxClose.addEventListener('click', closeLightbox);
-
-lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-});
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
-});
