@@ -407,64 +407,113 @@ nav ul a:hover::after {
 .work-card {
     scroll-snap-align: center;
     flex: 0 0 auto;
-    width: 220px;
+    width: 280px;
     border-radius: 18px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: #111;
+    overflow: visible;
+    border: none;
+    background: transparent;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .work-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(184, 255, 59, 0.25);
 }
 
 .work-card.featured {
-    width: 320px;
-    border: 1px solid rgba(184, 255, 59, 0.45);
-    box-shadow: 0 0 40px rgba(184, 255, 59, 0.12);
+    width: 400px;
 }
 
-.wc-media {
+.work-card.featured .laptop-screen {
+    box-shadow: 0 0 50px rgba(184, 255, 59, 0.18), inset 0 0 0 2px rgba(184, 255, 59, 0.35);
+}
+
+
+/* ---- Laptop mockup ---- */
+
+.laptop {
     position: relative;
-    height: 240px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 56px;
+    width: 100%;
 }
 
-.work-card.featured .wc-media {
-    height: 280px;
+.laptop-screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #0a0a0a;
+    border-radius: 12px 12px 4px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+    transition: box-shadow 0.4s ease;
 }
 
-.play-btn {
+.work-card:hover .laptop-screen {
+    box-shadow: 0 0 0 1px rgba(184, 255, 59, 0.2), 0 0 45px rgba(184, 255, 59, 0.14), 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+}
+
+.laptop-notch {
     position: absolute;
-    bottom: 14px;
-    right: 14px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    color: #fff;
-    transition: all 0.25s ease;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36%;
+    height: 14px;
+    background: #0a0a0a;
+    border-radius: 0 0 10px 10px;
+    z-index: 3;
 }
 
-.work-card:hover .play-btn {
-    background: #b8ff3b;
-    color: #000;
+.laptop-notch::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #1a1a1a;
 }
+
+.laptop-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transform: scale(1.0);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card:hover .laptop-screen img {
+    transform: scale(1.06);
+}
+
+.laptop-base {
+    position: relative;
+    width: 108%;
+    left: -4%;
+    height: 10px;
+    background: linear-gradient(to bottom, #d4d4d4, #b0b0b0);
+    border-radius: 0 0 8px 8px;
+}
+
+.laptop-base::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14%;
+    height: 100%;
+    background: #999;
+    border-radius: 0 0 4px 4px;
+}
+
 
 .wc-info {
-    padding: 16px 18px 18px;
+    padding: 18px 4px 0;
 }
 
 .wc-info h3 {
@@ -651,6 +700,91 @@ footer {
 
 .footer-links a:hover {
     color: #b8ff3b;
+}
+
+
+/* ============================================================
+   LIGHTBOX / POP-UP MODAL
+============================================================ */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(4, 4, 4, 0.92);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 28px;
+    right: 32px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.lightbox-close:hover {
+    border-color: #b8ff3b;
+    color: #b8ff3b;
+    transform: rotate(90deg);
+}
+
+.lightbox-content {
+    width: 100%;
+    max-width: 880px;
+    transform: scale(0.94) translateY(16px);
+    opacity: 0;
+    transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox.active .lightbox-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.lightbox-laptop {
+    width: 100%;
+}
+
+.lightbox-laptop .laptop-screen {
+    box-shadow: 0 0 0 1px rgba(184, 255, 59, 0.25), 0 0 80px rgba(184, 255, 59, 0.15), 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-info {
+    text-align: center;
+    margin-top: 28px;
+}
+
+.lightbox-info h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.lightbox-info p {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #888;
 }
 
 
