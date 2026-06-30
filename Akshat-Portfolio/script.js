@@ -69,19 +69,66 @@ if (track && prevBtn && nextBtn) {
 
 
 // ============================================================
-// Work filters — visual active state
-// (Hook actual filtering logic here once real project data/tags exist)
+// Work filters — real filtering by data-category
 // ============================================================
 
 const filterBtns = document.querySelectorAll('.filter');
+const workCards = document.querySelectorAll('.work-card');
 
 filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
         filterBtns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Placeholder: currently shows all cards regardless of filter.
-        // When real project tags are added, filter .work-card elements
-        // by matching their data-category attribute against btn.dataset.filter.
+        const selected = btn.dataset.filter;
+
+        workCards.forEach((card) => {
+            const matches = selected === 'all' || card.dataset.category === selected;
+            card.style.display = matches ? '' : 'none';
+        });
     });
+});
+
+
+// ============================================================
+// Lightbox — click a work card to pop it up larger
+// ============================================================
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxTitle = document.getElementById('lightboxTitle');
+const lightboxDesc = document.getElementById('lightboxDesc');
+const lightboxClose = document.getElementById('lightboxClose');
+
+function openLightbox(card) {
+    const img = card.dataset.img;
+    const title = card.dataset.title;
+    const desc = card.dataset.desc;
+
+    lightboxImg.src = img;
+    lightboxImg.alt = title;
+    lightboxTitle.textContent = title;
+    lightboxDesc.textContent = desc;
+
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+workCards.forEach((card) => {
+    card.addEventListener('click', () => openLightbox(card));
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+
+lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
 });
