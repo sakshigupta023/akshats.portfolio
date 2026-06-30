@@ -325,32 +325,35 @@ nav ul a:hover::after {
    WORK SECTION
 ============================================================ */
 
+/* ============================================================
+   WORK SECTION — single screen slideshow
+============================================================ */
+
 .work-section {
     position: relative;
     z-index: 1;
-    max-width: 1320px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 32px 100px;
+    padding: 60px 32px 140px;
 }
 
-.work-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 28px;
+.featured-laptop-wrap {
+    position: relative;
 }
 
-.eyebrow {
+.featured-corner-label {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.25em;
+    text-transform: uppercase;
     color: #fff;
+    margin-bottom: 24px;
 }
 
-.eyebrow .dot {
+.featured-corner-label .dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -358,78 +361,8 @@ nav ul a:hover::after {
     box-shadow: 0 0 8px rgba(184, 255, 59, 0.8);
 }
 
-.view-all {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: #999;
-    transition: color 0.25s ease;
-}
 
-.view-all:hover {
-    color: #b8ff3b;
-}
-
-.view-all:hover .arrow {
-    transform: translateX(3px);
-}
-
-
-/* ---- Carousel ---- */
-
-.work-carousel {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.work-track {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 8px 4px 16px;
-    flex: 1;
-}
-
-.work-track::-webkit-scrollbar {
-    display: none;
-}
-
-.work-track {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.work-card {
-    scroll-snap-align: center;
-    flex: 0 0 auto;
-    width: 280px;
-    border-radius: 18px;
-    overflow: visible;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.work-card:hover {
-    transform: translateY(-6px);
-}
-
-.work-card.featured {
-    width: 400px;
-}
-
-.work-card.featured .laptop-screen {
-    box-shadow: 0 0 50px rgba(184, 255, 59, 0.18), inset 0 0 0 2px rgba(184, 255, 59, 0.35);
-}
-
-
-/* ---- Laptop mockup ---- */
+/* ---- Laptop frame (shared base, big variant for the single screen) ---- */
 
 .laptop {
     position: relative;
@@ -441,16 +374,11 @@ nav ul a:hover::after {
     width: 100%;
     aspect-ratio: 16 / 10;
     background: #0a0a0a;
-    border-radius: 12px 12px 4px 4px;
+    border-radius: 14px 14px 4px 4px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: none;
     overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 30px 60px -20px rgba(0, 0, 0, 0.7);
-    transition: box-shadow 0.4s ease;
-}
-
-.work-card:hover .laptop-screen {
-    box-shadow: 0 0 0 1px rgba(184, 255, 59, 0.2), 0 0 45px rgba(184, 255, 59, 0.14), 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 40px 90px -20px rgba(0, 0, 0, 0.75);
 }
 
 .laptop-notch {
@@ -458,8 +386,8 @@ nav ul a:hover::after {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 36%;
-    height: 14px;
+    width: 22%;
+    height: 16px;
     background: #0a0a0a;
     border-radius: 0 0 10px 10px;
     z-index: 3;
@@ -468,35 +396,22 @@ nav ul a:hover::after {
 .laptop-notch::after {
     content: '';
     position: absolute;
-    top: 4px;
+    top: 5px;
     left: 50%;
     transform: translateX(-50%);
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: #1a1a1a;
 }
 
-.laptop-screen img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    transform: scale(1.0);
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.work-card:hover .laptop-screen img {
-    transform: scale(1.06);
-}
-
 .laptop-base {
     position: relative;
-    width: 108%;
-    left: -4%;
-    height: 10px;
-    background: linear-gradient(to bottom, #d4d4d4, #b0b0b0);
-    border-radius: 0 0 8px 8px;
+    width: 110%;
+    left: -5%;
+    height: 14px;
+    background: linear-gradient(to bottom, #d4d4d4, #aeaeae);
+    border-radius: 0 0 10px 10px;
 }
 
 .laptop-base::after {
@@ -505,91 +420,43 @@ nav ul a:hover::after {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 14%;
+    width: 12%;
     height: 100%;
     background: #999;
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 5px 5px;
+}
+
+.laptop-big .laptop-screen {
+    box-shadow: 0 0 0 1px rgba(184, 255, 59, 0.18), 0 0 80px rgba(184, 255, 59, 0.1), 0 40px 90px -20px rgba(0, 0, 0, 0.75);
 }
 
 
-.wc-info {
-    padding: 18px 4px 0;
-}
+/* ---- Slideshow ---- */
 
-.wc-info h3 {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1.25;
-}
-
-.work-card.featured .wc-info h3 {
-    font-size: 17px;
-}
-
-.wc-info p {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #888;
-}
-
-.carousel-btn {
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #fff;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.25s ease;
-}
-
-.carousel-btn:hover {
-    border-color: #b8ff3b;
-    color: #b8ff3b;
-}
-
-
-/* ---- Filters ---- */
-
-.work-filters {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 28px;
-    flex-wrap: wrap;
-}
-
-.filter {
-    font-size: 13px;
-    color: #888;
-    padding: 8px 4px;
-    transition: color 0.25s ease;
+.slideshow {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-.filter:not(:last-child)::after {
-    content: '';
+.slide {
     position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.1);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 1.2s ease, transform 6s ease;
 }
 
-.filter:hover {
-    color: #ccc;
+.slide.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 2;
 }
 
-.filter.active {
-    color: #b8ff3b;
-    font-weight: 600;
-}
 
 
 /* ============================================================
@@ -704,91 +571,6 @@ footer {
 
 
 /* ============================================================
-   LIGHTBOX / POP-UP MODAL
-============================================================ */
-
-.lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    background: rgba(4, 4, 4, 0.92);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 24px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-
-.lightbox.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.lightbox-close {
-    position: absolute;
-    top: 28px;
-    right: 32px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #fff;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.25s ease;
-}
-
-.lightbox-close:hover {
-    border-color: #b8ff3b;
-    color: #b8ff3b;
-    transform: rotate(90deg);
-}
-
-.lightbox-content {
-    width: 100%;
-    max-width: 880px;
-    transform: scale(0.94) translateY(16px);
-    opacity: 0;
-    transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.lightbox.active .lightbox-content {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-}
-
-.lightbox-laptop {
-    width: 100%;
-}
-
-.lightbox-laptop .laptop-screen {
-    box-shadow: 0 0 0 1px rgba(184, 255, 59, 0.25), 0 0 80px rgba(184, 255, 59, 0.15), 0 40px 80px -20px rgba(0, 0, 0, 0.8);
-}
-
-.lightbox-info {
-    text-align: center;
-    margin-top: 28px;
-}
-
-.lightbox-info h3 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-}
-
-.lightbox-info p {
-    margin-top: 6px;
-    font-size: 13px;
-    color: #888;
-}
-
-
-/* ============================================================
    RESPONSIVE
 ============================================================ */
 
@@ -836,14 +618,6 @@ footer {
     .skills-section {
         padding-left: 20px;
         padding-right: 20px;
-    }
-
-    .work-card {
-        width: 180px;
-    }
-
-    .work-card.featured {
-        width: 260px;
     }
 
     .footer-bottom {
