@@ -334,11 +334,13 @@ nav ul a:hover::after {
     z-index: 1;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 32px 140px;
+    padding: 60px 32px 120px;
 }
 
 .featured-laptop-wrap {
     position: relative;
+    max-width: 680px;
+    margin: 0 auto;
 }
 
 .featured-corner-label {
@@ -602,6 +604,10 @@ footer {
 
     nav ul {
         display: none;
+    }
+
+    .featured-laptop-wrap {
+        max-width: 540px;
     }
 }
 
