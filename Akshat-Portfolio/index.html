@@ -135,10 +135,13 @@
 
             <div class="work-track" id="workTrack">
 
-                <article class="work-card">
-                    <div class="wc-media" style="background:linear-gradient(160deg,#1a0606,#2a0d0d);">
-                        <span class="wc-emoji">📱</span>
-                        <button class="play-btn" aria-label="Play"><span>▶</span></button>
+                <article class="work-card" data-category="graphics" data-img="assets/work/work1.jpg" data-title="Pocket FM Campaign" data-desc="Branding">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work1.jpg" alt="Pocket FM Campaign" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
                     </div>
                     <div class="wc-info">
                         <h3>Pocket FM Campaign</h3>
@@ -146,9 +149,13 @@
                     </div>
                 </article>
 
-                <article class="work-card">
-                    <div class="wc-media" style="background:linear-gradient(160deg,#06140d,#0d2a1a);">
-                        <span class="wc-emoji">🤖</span>
+                <article class="work-card" data-category="motion" data-img="assets/work/work2.jpg" data-title="AI Motion Experiment" data-desc="Motion Graphics">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work2.jpg" alt="AI Motion Experiment" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
                     </div>
                     <div class="wc-info">
                         <h3>AI Motion Experiment</h3>
@@ -156,10 +163,13 @@
                     </div>
                 </article>
 
-                <article class="work-card featured">
-                    <div class="wc-media" style="background:linear-gradient(160deg,#0a0a0a,#1a1a1a);">
-                        <span class="wc-emoji">🎬</span>
-                        <button class="play-btn" aria-label="Play"><span>▶</span></button>
+                <article class="work-card featured" data-category="video" data-img="assets/work/work3.jpg" data-title="Storytelling Video" data-desc="Video Edit">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work3.jpg" alt="Storytelling Video" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
                     </div>
                     <div class="wc-info">
                         <h3>Storytelling Video</h3>
@@ -167,9 +177,13 @@
                     </div>
                 </article>
 
-                <article class="work-card">
-                    <div class="wc-media" style="background:linear-gradient(160deg,#1a0f00,#2e1900);">
-                        <span class="wc-emoji">🏆</span>
+                <article class="work-card" data-category="contests" data-img="assets/work/work4.jpg" data-title="Contest Winning Entry" data-desc="Contest Design">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work4.jpg" alt="Contest Winning Entry" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
                     </div>
                     <div class="wc-info">
                         <h3>Contest Winning Entry</h3>
@@ -177,13 +191,59 @@
                     </div>
                 </article>
 
-                <article class="work-card">
-                    <div class="wc-media" style="background:linear-gradient(160deg,#06140a,#0d2616);">
-                        <span class="wc-emoji">🌿</span>
+                <article class="work-card" data-category="graphics" data-img="assets/work/work5.jpg" data-title="Brand Identity Design" data-desc="Identity">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work5.jpg" alt="Brand Identity Design" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
                     </div>
                     <div class="wc-info">
                         <h3>Brand Identity Design</h3>
                         <p>Identity</p>
+                    </div>
+                </article>
+
+                <article class="work-card" data-category="storytelling" data-img="assets/work/work6.jpg" data-title="Editorial Layout" data-desc="Storytelling">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work6.jpg" alt="Editorial Layout" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
+                    </div>
+                    <div class="wc-info">
+                        <h3>Editorial Layout</h3>
+                        <p>Storytelling</p>
+                    </div>
+                </article>
+
+                <article class="work-card" data-category="motion" data-img="assets/work/work7.jpg" data-title="Logo Animation" data-desc="Motion Graphics">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work7.jpg" alt="Logo Animation" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
+                    </div>
+                    <div class="wc-info">
+                        <h3>Logo Animation</h3>
+                        <p>Motion Graphics</p>
+                    </div>
+                </article>
+
+                <article class="work-card" data-category="contests" data-img="assets/work/work8.jpg" data-title="Poster Design Award" data-desc="Contest Design">
+                    <div class="laptop">
+                        <div class="laptop-screen">
+                            <div class="laptop-notch"></div>
+                            <img src="assets/work/work8.jpg" alt="Poster Design Award" loading="lazy">
+                        </div>
+                        <div class="laptop-base"></div>
+                    </div>
+                    <div class="wc-info">
+                        <h3>Poster Design Award</h3>
+                        <p>Contest Design</p>
                     </div>
                 </article>
 
@@ -268,6 +328,31 @@
         </div>
 
     </footer>
+
+    <!-- ================= Lightbox / Pop-up Modal ================= -->
+
+    <div class="lightbox" id="lightbox">
+
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+
+        <div class="lightbox-content">
+
+            <div class="lightbox-laptop">
+                <div class="laptop-screen">
+                    <div class="laptop-notch"></div>
+                    <img src="" alt="" id="lightboxImg">
+                </div>
+                <div class="laptop-base"></div>
+            </div>
+
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDesc"></p>
+            </div>
+
+        </div>
+
+    </div>
 
     <script src="script.js"></script>
 
