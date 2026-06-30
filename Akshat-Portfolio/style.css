@@ -363,6 +363,25 @@ nav ul a:hover::after {
     box-shadow: 0 0 8px rgba(184, 255, 59, 0.8);
 }
 
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.eyebrow .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #b8ff3b;
+    box-shadow: 0 0 8px rgba(184, 255, 59, 0.8);
+}
+
 
 /* ---- Laptop frame (shared base, big variant for the single screen) ---- */
 
@@ -462,6 +481,160 @@ nav ul a:hover::after {
 
 
 /* ============================================================
+   ABOUT SECTION
+============================================================ */
+
+.about-section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 32px 80px;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+    margin-top: 28px;
+}
+
+.about-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #999;
+}
+
+.about-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.meta-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #b8ff3b;
+    margin-bottom: 12px;
+}
+
+.meta-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.5;
+}
+
+.meta-sub {
+    font-size: 13px;
+    color: #777;
+    margin-top: 4px;
+}
+
+.meta-list {
+    list-style: none;
+}
+
+.meta-list li {
+    font-size: 13px;
+    color: #aaa;
+    padding: 5px 0;
+    padding-left: 18px;
+    position: relative;
+}
+
+.meta-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: #b8ff3b;
+    font-size: 10px;
+    top: 8px;
+}
+
+
+/* ============================================================
+   PROFESSIONAL JOURNEY — Timeline
+============================================================ */
+
+.journey-section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 32px 100px;
+}
+
+.timeline {
+    position: relative;
+    margin-top: 36px;
+    padding-left: 28px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 40px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -33px;
+    top: 4px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #444;
+    border: 2px solid #060606;
+}
+
+.timeline-dot.current {
+    background: #b8ff3b;
+    box-shadow: 0 0 0 4px rgba(184, 255, 59, 0.15);
+}
+
+.timeline-period {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #b8ff3b;
+    margin-bottom: 6px;
+}
+
+.timeline-role {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #fff;
+}
+
+.timeline-co {
+    font-weight: 400;
+    color: #777;
+    font-size: 15px;
+}
+
+.timeline-desc {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: #888;
+    max-width: 600px;
+}
+
+
+
+/* ============================================================
    SKILLS SECTION
 ============================================================ */
 
@@ -515,10 +688,10 @@ nav ul a:hover::after {
 .skill-icon.ai  { background: #330000; color: #ff9a00; }
 .skill-icon.ae  { background: #00005b; color: #9999ff; }
 .skill-icon.pr  { background: #00005b; color: #9999ff; }
-.skill-icon.figma    { background: #1a1a1a; color: #b8ff3b; }
-.skill-icon.blender  { background: #1a1a1a; color: #ea7600; }
-.skill-icon.c4d      { background: #1a1a1a; color: #fff; font-size: 9px; }
-.skill-icon.davinci  { background: #1a1a1a; color: #ff6b35; }
+.skill-icon.gpt     { background: #0d2818; color: #19c37d; }
+.skill-icon.higgs   { background: #1a2e0a; color: #b8ff3b; font-size: 10px; }
+.skill-icon.midj    { background: #1a1a1a; color: #fff; }
+.skill-icon.runway  { background: #1a1a1a; color: #b8ff3b; }
 
 
 /* ============================================================
@@ -542,6 +715,33 @@ footer {
 }
 
 .footer-cta span {
+    color: #b8ff3b;
+}
+
+.contact-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #999;
+    transition: color 0.25s ease;
+}
+
+a.contact-item:hover {
+    color: #b8ff3b;
+}
+
+.contact-icon {
+    font-size: 13px;
     color: #b8ff3b;
 }
 
