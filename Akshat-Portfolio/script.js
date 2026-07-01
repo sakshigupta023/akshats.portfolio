@@ -1,124 +1,264 @@
-/* ============================================================
-   NAVBAR
-============================================================ */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+/* ===========================================
+   LOADER
+=========================================== */
 
-
-/* ============================================================
-   SCROLL REVEAL
-============================================================ */
-const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add('visible'), i * 80);
-            revealObs.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
-
-/* ============================================================
-   HERO ENTRANCE
-============================================================ */
-window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), 80 + i * 110);
-    });
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
 });
 
+/* ===========================================
+   NAVBAR SCROLL
+=========================================== */
 
-/* ============================================================
-   NETFLIX CARD POP-OUT SLIDESHOW
+const header = document.querySelector("header");
 
-   Flow per slide:
-     1. Load image into popout card (hidden, scale(1), opacity 0)
-     2. Set bg in thumb slot
-     3. POP OUT  →  scale(1.32) translateY(-6%), opacity 1   [0.5s spring]
-     4. HOLD 2.5s  (user sees it large)
-     5. SNAP IN  →  scale(1), opacity 0                      [0.4s sharp]
-     6. Short pause, then next slide
-============================================================ */
+window.addEventListener("scroll", () => {
 
-const slides       = document.querySelectorAll('.screen-slide');
-const popoutCard   = document.getElementById('popoutCard');
-const popoutImg    = document.getElementById('popoutImg');
-const progressBar  = document.getElementById('slideProgressBar');
+    if (window.scrollY > 40) {
 
-const T_OUT   = 500;   // pop-out spring
-const T_HOLD  = 2500;  // hold time
-const T_IN    = 400;   // snap-in
-const T_PAUSE = 350;   // gap before next
+        header.classList.add("scrolled");
 
-let current = 0;
-let started = false;
+    } else {
 
-// Pre-load all slide backgrounds immediately
-slides.forEach(slide => {
-    if (slide.dataset.src) {
-        slide.style.backgroundImage = `url('${slide.dataset.src}')`;
+        header.classList.remove("scrolled");
+
     }
+
 });
 
-// Show first slide thumb
-slides[0].classList.add('active');
+/* ===========================================
+   SCROLL REVEAL
+=========================================== */
 
-function runSlide(idx) {
-    const slide = slides[idx];
-    const src   = slide.dataset.src || '';
+const observer = new IntersectionObserver((entries) => {
 
-    // — Step 1: switch thumb (crossfade) —
-    slides.forEach(s => s.classList.remove('active'));
-    slide.classList.add('active');
+    entries.forEach((entry) => {
 
-    // — Step 2: load image into popout (while invisible) —
-    popoutImg.src = src;
+        if (entry.isIntersecting) {
 
-    // Reset: no transition, invisible, same size as thumb
-    popoutCard.className = 'popout-card';
+            entry.target.classList.add("show");
 
-    // Reset progress bar instantly
-    progressBar.style.transition = 'none';
-    progressBar.style.width = '0%';
-    void progressBar.offsetWidth;
+        }
 
-    // — Step 3: POP OUT (next frame so reset is applied) —
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-        popoutCard.classList.add('popping-out');
+    });
 
-        // Progress bar animates over hold period
-        setTimeout(() => {
-            progressBar.style.transition = `width ${T_HOLD}ms linear`;
-            progressBar.style.width = '100%';
-        }, T_OUT);
-    }));
+}, {
 
-    // — Step 4 → 5: after hold, SNAP IN —
-    setTimeout(() => {
-        popoutCard.classList.remove('popping-out');
-        popoutCard.classList.add('snapping-in');
-    }, T_OUT + T_HOLD);
+    threshold: 0.15
 
-    // — Step 6: next slide —
-    setTimeout(() => {
-        current = (idx + 1) % slides.length;
-        runSlide(current);
-    }, T_OUT + T_HOLD + T_IN + T_PAUSE);
+});
+
+document.querySelectorAll("section,.card,.skill,.timeline-item").forEach((el) => {
+
+    observer.observe(el);
+
+});
+
+/* ===========================================
+   HERO IMAGE FLOAT
+=========================================== */
+
+const heroImage = document.querySelector(".hero-image");
+
+let angle = 0;
+
+function floatImage() {
+
+    angle += 0.01;
+
+    heroImage.style.transform =
+        `translateY(${Math.sin(angle) * 10}px)`;
+
+    requestAnimationFrame(floatImage);
+
 }
 
-// Start only when the card stage scrolls into view
-const stageEl = document.getElementById('laptopStage');
-const startObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting && !started) {
-            started = true;
-            setTimeout(() => runSlide(0), 500);
-            startObs.disconnect();
-        }
-    });
-}, { threshold: 0.35 });
+floatImage();
 
-if (stageEl) startObs.observe(stageEl);
+/* ===========================================
+   HERO PARALLAX
+=========================================== */
+
+document.addEventListener("mousemove", (e) => {
+
+    const x = (window.innerWidth / 2 - e.clientX) / 45;
+
+    const y = (window.innerHeight / 2 - e.clientY) / 45;
+
+    heroImage.style.transform =
+
+        `translate(${x}px,${y}px)`;
+
+});
+
+/* ===========================================
+   BUTTON RIPPLE
+=========================================== */
+
+document.querySelectorAll(".btn-primary").forEach((button) => {
+
+button.addEventListener("mousemove",(e)=>{
+
+const rect=button.getBoundingClientRect();
+
+const x=e.clientX-rect.left;
+
+const y=e.clientY-rect.top;
+
+button.style.setProperty("--x",x+"px");
+
+button.style.setProperty("--y",y+"px");
+
+});
+
+});
+/* ===========================================
+   SMOOTH SCROLL
+=========================================== */
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+    anchor.addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if (target) {
+
+            target.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "start"
+
+            });
+
+        }
+
+    });
+
+});
+
+/* ===========================================
+   CARD HOVER TILT
+=========================================== */
+
+const cards = document.querySelectorAll(".card");
+
+cards.forEach((card) => {
+
+    card.addEventListener("mousemove", (e) => {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+
+        const y = e.clientY - rect.top;
+
+        const rotateX = ((y / rect.height) - 0.5) * -10;
+
+        const rotateY = ((x / rect.width) - 0.5) * 10;
+
+        card.style.transform = `perspective(1000px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        translateY(-10px)`;
+
+    });
+
+    card.addEventListener("mouseleave", () => {
+
+        card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+
+    });
+
+});
+
+/* ===========================================
+   ACTIVE NAV LINK
+=========================================== */
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+window.addEventListener("scroll", () => {
+
+    let current = "";
+
+    sections.forEach((section) => {
+
+        const top = section.offsetTop - 150;
+
+        if (pageYOffset >= top) {
+
+            current = section.getAttribute("id");
+
+        }
+
+    });
+
+    navLinks.forEach((link) => {
+
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+});
+
+/* ===========================================
+   SKILL HOVER EFFECT
+=========================================== */
+
+const skills = document.querySelectorAll(".skill");
+
+skills.forEach((skill) => {
+
+    skill.addEventListener("mouseenter", () => {
+
+        skill.style.transform = "translateY(-8px) scale(1.05)";
+
+    });
+
+    skill.addEventListener("mouseleave", () => {
+
+        skill.style.transform = "translateY(0) scale(1)";
+
+    });
+
+});
+
+/* ===========================================
+   PARALLAX GLOW
+=========================================== */
+
+const glow = document.querySelector(".gradient");
+
+document.addEventListener("mousemove", (e) => {
+
+    const x = (e.clientX / window.innerWidth) * 100;
+
+    const y = (e.clientY / window.innerHeight) * 100;
+
+    glow.style.background = `
+    radial-gradient(circle at ${x}% ${y}%,
+    rgba(158,255,79,.22),
+    transparent 70%)
+    `;
+
+});
+
+/* ===========================================
+   CONSOLE MESSAGE
+=========================================== */
+
+console.log(
+"%cDesigned & Developed by Sakshi ❤️",
+"color:#9EFF4F;font-size:16px;font-weight:bold;"
+);
