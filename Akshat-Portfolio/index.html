@@ -58,44 +58,27 @@
         <span class="work-label-text">Featured Work</span>
     </div>
 
-    <!-- The laptop frame -->
-    <div class="laptop-stage reveal" id="laptopStage">
+    <!-- Netflix-style card stage — no frame, just the image -->
+    <div class="card-stage reveal" id="laptopStage">
 
-        <div class="laptop-frame">
-            <div class="laptop-lid">
-                <div class="laptop-bezel">
-                    <div class="laptop-notch"></div>
-
-                    <!-- The screen — media pops OUT of this -->
-                    <div class="laptop-screen" id="laptopScreen">
-
-                        <!-- Static slides inside screen -->
-                        <div class="screen-slides" id="screenSlides">
-                            <div class="screen-slide active" data-type="image" data-src="assets/work/work1.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work2.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work3.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work4.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work5.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work6.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work7.jpg"></div>
-                            <div class="screen-slide" data-type="image" data-src="assets/work/work8.jpg"></div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-            <div class="laptop-hinge"></div>
-            <div class="laptop-base">
-                <div class="laptop-keyboard"></div>
-                <div class="laptop-trackpad"></div>
+        <!-- Thumbnail strip — the "resting" small card -->
+        <div class="card-thumb" id="cardThumb">
+            <div class="screen-slides" id="screenSlides">
+                <div class="screen-slide active" data-src="assets/work/work1.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work2.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work3.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work4.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work5.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work6.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work7.jpg"></div>
+                <div class="screen-slide" data-src="assets/work/work8.jpg"></div>
             </div>
         </div>
 
-        <!-- Pop-out element — flies out of screen, holds, flies back -->
+        <!-- Popout card — scales up out of the thumb, holds, scales back -->
         <div class="popout-card" id="popoutCard">
             <img class="popout-img" id="popoutImg" src="" alt="">
-            <video class="popout-video" id="popoutVideo" muted playsinline loop></video>
+            <div class="popout-glow" id="popoutGlow"></div>
         </div>
 
     </div>
