@@ -1,353 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Akshat Sharma | Lead Graphic Designer</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- ================= Background ================= -->
+<!-- BACKGROUND -->
+<div class="background">
+    <div class="bg-vignette"></div>
+    <div class="bg-glow-left"></div>
+    <div class="bg-glow-right"></div>
+    <div class="bg-noise"></div>
+</div>
 
-    <div class="background">
+<!-- NAVBAR -->
+<header id="navbar">
+    <nav>
+        <a href="#" class="logo">AKSHAT</a>
+        <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#journey">Journey</a></li>
+            <li><a href="#skills">Skills</a></li>
+        </ul>
+        <a href="assets/CV_graphic_designer.jpg" class="resume-btn" target="_blank">Resume ↗</a>
+    </nav>
+</header>
 
-        <div class="glow"></div>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <p class="greet reveal">HELLO, I'M</p>
+        <h1 class="reveal">AKSHAT<br>SHARMA</h1>
+        <p class="role reveal">LEAD GRAPHIC DESIGNER</p>
+        <p class="intro reveal">I create visuals that connect, communicate<br>and leave a lasting impact.</p>
+        <div class="hero-btns reveal">
+            <a href="#work" class="btn-primary">View My Work <span class="arrow">→</span></a>
+            <a href="assets/CV_graphic_designer.jpg" class="btn-outline" target="_blank">Download CV <span>↓</span></a>
+        </div>
+    </div>
+    <div class="hero-image reveal">
+        <img src="assets/hero/akshat-hero.png" alt="Akshat Sharma">
+    </div>
+</section>
 
-        <div class="line left"></div>
+<!-- FEATURED WORK -->
+<section id="work" class="work-section">
 
-        <div class="line right"></div>
+    <div class="work-label reveal">
+        <span class="dot-pulse"></span>
+        <span class="work-label-text">Featured Work</span>
+    </div>
+
+    <!-- The laptop frame -->
+    <div class="laptop-stage reveal" id="laptopStage">
+
+        <div class="laptop-frame">
+            <div class="laptop-lid">
+                <div class="laptop-bezel">
+                    <div class="laptop-notch"></div>
+
+                    <!-- The screen — media pops OUT of this -->
+                    <div class="laptop-screen" id="laptopScreen">
+
+                        <!-- Static slides inside screen -->
+                        <div class="screen-slides" id="screenSlides">
+                            <div class="screen-slide active" data-type="image" data-src="assets/work/work1.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work2.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work3.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work4.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work5.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work6.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work7.jpg"></div>
+                            <div class="screen-slide" data-type="image" data-src="assets/work/work8.jpg"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="laptop-hinge"></div>
+            <div class="laptop-base">
+                <div class="laptop-keyboard"></div>
+                <div class="laptop-trackpad"></div>
+            </div>
+        </div>
+
+        <!-- Pop-out element — flies out of screen, holds, flies back -->
+        <div class="popout-card" id="popoutCard">
+            <img class="popout-img" id="popoutImg" src="" alt="">
+            <video class="popout-video" id="popoutVideo" muted playsinline loop></video>
+        </div>
 
     </div>
 
-    <!-- ================= Navbar ================= -->
+    <!-- Progress bar -->
+    <div class="slide-progress" id="slideProgress">
+        <div class="slide-progress-bar" id="slideProgressBar"></div>
+    </div>
 
-    <header id="navbar">
+</section>
 
-        <nav>
-
-            <a href="#" class="logo">AKSHAT</a>
-
-            <ul>
-
-                <li><a href="#work">Work</a></li>
-
-                <li><a href="#about">About</a></li>
-
-                <li><a href="#journey">Journey</a></li>
-
-                <li><a href="#skills">Skills</a></li>
-
+<!-- ABOUT -->
+<section id="about" class="about-section">
+    <p class="eyebrow reveal"><span class="dot"></span> In a Nutshell</p>
+    <div class="about-grid reveal">
+        <p class="about-text">I love blending human imagination with advanced AI tools to create fresh, modern multimedia. My focus is entirely on brand-building, taking a spark of an idea and turning it into a cohesive, high-impact visual style that makes a company stand out.</p>
+        <p class="about-text">To me, design isn't just about making things look pretty — it's about building a visual identity that people actually connect with.</p>
+    </div>
+    <div class="about-meta reveal">
+        <div class="meta-block">
+            <p class="meta-label">Education</p>
+            <p class="meta-value">Bachelor of Journalism and Mass Communication — ISOMES</p>
+            <p class="meta-sub">CCS University · 2021</p>
+        </div>
+        <div class="meta-block">
+            <p class="meta-label">Core Skills</p>
+            <ul class="meta-list">
+                <li>Creative Direction &amp; Team Leadership</li>
+                <li>Generative AI Integration</li>
+                <li>Brand Identity &amp; Visual Storytelling</li>
+                <li>End-to-End Multimedia Production</li>
+                <li>Growth-Driven Design</li>
             </ul>
-
-            <a href="assets/CV_graphic_designer.jpg" class="resume-btn" target="_blank">
-
-                Resume ↗
-
-            </a>
-
-        </nav>
-
-    </header>
-
-    <!-- ================= Hero ================= -->
-
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <p class="greet reveal">HELLO, I'M</p>
-
-            <h1 class="reveal">
-
-                AKSHAT
-
-                <br>
-
-                SHARMA
-
-            </h1>
-
-            <p class="role reveal">
-
-                LEAD GRAPHIC DESIGNER
-
-            </p>
-
-            <p class="intro reveal">
-
-                I create visuals that connect, communicate
-                <br>
-                and leave a lasting impact.
-
-            </p>
-
-            <div class="hero-btns reveal">
-
-                <a href="#work" class="btn-primary">
-
-                    View My Work <span class="arrow">→</span>
-
-                </a>
-
-                <a href="assets/CV_graphic_designer.jpg" class="btn-outline" target="_blank">
-
-                    Download CV <span class="icon-down">↓</span>
-
-                </a>
-
-            </div>
-
         </div>
+    </div>
+</section>
 
-        <div class="hero-image reveal">
-
-            <img src="assets/hero/akshat-hero.png" alt="Akshat Sharma">
-
-        </div>
-
-    </section>
-
-    <!-- ================= Selected / Featured Work ================= -->
-
-    <section id="work" class="work-section">
-
-        <div class="featured-laptop-wrap reveal">
-
-            <p class="featured-corner-label"><span class="dot"></span> Featured Work</p>
-
-            <div class="laptop laptop-big">
-                <div class="laptop-screen">
-                    <div class="laptop-notch"></div>
-
-                    <div class="slideshow" id="slideshow">
-                        <img src="assets/work/work1.jpg" alt="" class="slide active">
-                        <img src="assets/work/work2.jpg" alt="" class="slide">
-                        <img src="assets/work/work3.jpg" alt="" class="slide">
-                        <img src="assets/work/work4.jpg" alt="" class="slide">
-                        <img src="assets/work/work5.jpg" alt="" class="slide">
-                        <img src="assets/work/work6.jpg" alt="" class="slide">
-                        <img src="assets/work/work7.jpg" alt="" class="slide">
-                        <img src="assets/work/work8.jpg" alt="" class="slide">
-                    </div>
-                </div>
-                <div class="laptop-base"></div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================= About ================= -->
-
-    <section id="about" class="about-section">
-
-        <p class="eyebrow reveal"><span class="dot"></span> In a Nutshell</p>
-
-        <div class="about-grid reveal">
-
-            <p class="about-text">
-                I love blending human imagination with advanced AI tools to create
-                fresh, modern multimedia. My focus is entirely on brand-building,
-                taking a spark of an idea and turning it into a cohesive, high-impact
-                visual style that makes a company stand out.
-            </p>
-
-            <p class="about-text">
-                To me, design isn't just about making things look pretty — it's about
-                building a visual identity that people actually connect with.
-            </p>
-
-        </div>
-
-        <div class="about-meta reveal">
-
-            <div class="meta-block">
-                <p class="meta-label">Education</p>
-                <p class="meta-value">Bachelor of Journalism and Mass Communication — ISOMES</p>
-                <p class="meta-sub">CCS University · 2021</p>
-            </div>
-
-            <div class="meta-block">
-                <p class="meta-label">Core Skills</p>
-                <ul class="meta-list">
-                    <li>Creative Direction &amp; Team Leadership</li>
-                    <li>Generative AI Integration</li>
-                    <li>Brand Identity &amp; Visual Storytelling</li>
-                    <li>End-to-End Multimedia Production</li>
-                    <li>Growth-Driven Design</li>
-                </ul>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================= Professional Journey ================= -->
-
-    <section id="journey" class="journey-section">
-
-        <p class="eyebrow reveal"><span class="dot"></span> Professional Journey</p>
-
-        <div class="timeline">
-
-            <div class="timeline-item reveal">
-                <div class="timeline-dot current"></div>
-                <div class="timeline-content">
-                    <p class="timeline-period">April 2026 — Present</p>
-                    <h3 class="timeline-role">Lead Graphic Designer <span class="timeline-co">· Pocket FM</span></h3>
-                    <p class="timeline-desc">
-                        Lead and mentor a high-performing creative team, overseeing daily
-                        design workflows, high-impact community contests, and the
-                        integration of generative AI tools to scale Hindi UGC asset production.
-                    </p>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <p class="timeline-period">2025 — 2026</p>
-                    <h3 class="timeline-role">Sr. Graphic Designer</h3>
-                    <p class="timeline-desc">
-                        Conceptualized and executed highly engaging community contests,
-                        using advanced AI workflows to design promotional videos,
-                        graphics, and foundational branding assets.
-                    </p>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <p class="timeline-period">2024 — 2025</p>
-                    <h3 class="timeline-role">Graphic Designer</h3>
-                    <p class="timeline-desc">
-                        Created visually compelling digital and print assets while
-                        collaborating across teams to ensure a cohesive visual identity
-                        and seamless user experience.
-                    </p>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <p class="timeline-period">2023 — 2024</p>
-                    <h3 class="timeline-role">Ass. Graphic Designer</h3>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <p class="timeline-period">2022 — 2023</p>
-                    <h3 class="timeline-role">Junior Graphic Designer</h3>
-                </div>
-            </div>
-
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <p class="timeline-period">Dec 2021 — Feb 2022</p>
-                    <h3 class="timeline-role">Intern · Graphic Designer</h3>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================= Skills ================= -->
-
-    <section id="skills" class="skills-section">
-
-        <p class="eyebrow"><span class="dot"></span> My Toolkit</p>
-
-        <div class="skills-row">
-
-            <div class="skill-chip">
-                <span class="skill-icon ae">Ae</span> After Effects
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon pr">Pr</span> Premiere Pro
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon ps">Ps</span> Photoshop
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon ai">Ai</span> Illustrator
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon gpt">◐</span> ChatGPT
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon higgs">H</span> Higgsfield
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon midj">✦</span> Midjourney
-            </div>
-
-            <div class="skill-chip">
-                <span class="skill-icon runway">▶</span> AI Video Tools
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================= Footer / Contact ================= -->
-
-    <footer id="contact">
-
-        <p class="footer-cta">Let's create something <span>unforgettable.</span></p>
-
-        <a href="mailto:Sharmaakshat756@gmail.com" class="btn-primary">Say Hello <span class="arrow">→</span></a>
-
-        <div class="contact-details reveal">
-
-            <a href="mailto:Sharmaakshat756@gmail.com" class="contact-item">
-                <span class="contact-icon">✉</span> Sharmaakshat756@gmail.com
-            </a>
-
-            <a href="tel:+919958653008" class="contact-item">
-                <span class="contact-icon">☎</span> +91 9958653008
-            </a>
-
-            <span class="contact-item">
-                <span class="contact-icon">📍</span> Ghaziabad, U.P.
-            </span>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>© 2025 Akshat Sharma</p>
-            <div class="footer-links">
-                <a href="#">LinkedIn</a>
-                <a href="#">Behance</a>
-                <a href="#">Instagram</a>
+<!-- JOURNEY -->
+<section id="journey" class="journey-section">
+    <p class="eyebrow reveal"><span class="dot"></span> Professional Journey</p>
+    <div class="timeline">
+        <div class="timeline-item reveal">
+            <div class="timeline-dot current"></div>
+            <div class="timeline-content">
+                <p class="timeline-period">April 2026 — Present</p>
+                <h3 class="timeline-role">Lead Graphic Designer <span class="timeline-co">· Pocket FM</span></h3>
+                <p class="timeline-desc">Lead and mentor a high-performing creative team, overseeing daily design workflows, high-impact community contests, and the integration of generative AI tools to scale Hindi UGC asset production.</p>
             </div>
         </div>
+        <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <p class="timeline-period">2025 — 2026</p>
+                <h3 class="timeline-role">Sr. Graphic Designer</h3>
+                <p class="timeline-desc">Conceptualized and executed highly engaging community contests, using advanced AI workflows to design promotional videos, graphics, and foundational branding assets.</p>
+            </div>
+        </div>
+        <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <p class="timeline-period">2024 — 2025</p>
+                <h3 class="timeline-role">Graphic Designer</h3>
+                <p class="timeline-desc">Created visually compelling digital and print assets while collaborating across teams to ensure a cohesive visual identity and seamless user experience.</p>
+            </div>
+        </div>
+        <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <p class="timeline-period">2023 — 2024</p>
+                <h3 class="timeline-role">Ass. Graphic Designer</h3>
+            </div>
+        </div>
+        <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <p class="timeline-period">2022 — 2023</p>
+                <h3 class="timeline-role">Junior Graphic Designer</h3>
+            </div>
+        </div>
+        <div class="timeline-item reveal">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+                <p class="timeline-period">Dec 2021 — Feb 2022</p>
+                <h3 class="timeline-role">Intern · Graphic Designer</h3>
+            </div>
+        </div>
+    </div>
+</section>
 
-    </footer>
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+    <p class="eyebrow reveal"><span class="dot"></span> My Toolkit</p>
+    <div class="skills-grid reveal">
 
-    <script src="script.js"></script>
+        <div class="skill-card">
+            <div class="skill-icon-wrap ae">
+                <span>Ae</span>
+            </div>
+            <p class="skill-name">After Effects</p>
+            <p class="skill-cat">Motion</p>
+        </div>
 
+        <div class="skill-card">
+            <div class="skill-icon-wrap pr">
+                <span>Pr</span>
+            </div>
+            <p class="skill-name">Premiere Pro</p>
+            <p class="skill-cat">Video</p>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon-wrap ps">
+                <span>Ps</span>
+            </div>
+            <p class="skill-name">Photoshop</p>
+            <p class="skill-cat">Design</p>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon-wrap ai-tool">
+                <span>Ai</span>
+            </div>
+            <p class="skill-name">Illustrator</p>
+            <p class="skill-cat">Design</p>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon-wrap gpt">
+                <span>GPT</span>
+            </div>
+            <p class="skill-name">ChatGPT</p>
+            <p class="skill-cat">AI</p>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon-wrap midj">
+                <span>MJ</span>
+            </div>
+            <p class="skill-name">Midjourney</p>
+            <p class="skill-cat">AI Image</p>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon-wrap higgs">
+                <span>HF</span>
+            </div>
+            <p class="skill-name">Higgsfield</p>
+            <p class="skill-cat">AI Video</p>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-icon-wrap runway">
+                <span>RW</span>
+            </div>
+            <p class="skill-name">AI Video Tools</p>
+            <p class="skill-cat">AI</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+    <p class="footer-cta">Let's create something <span>unforgettable.</span></p>
+    <a href="mailto:Sharmaakshat756@gmail.com" class="btn-primary">Say Hello <span class="arrow">→</span></a>
+    <div class="contact-details">
+        <a href="mailto:Sharmaakshat756@gmail.com" class="contact-item"><span class="contact-icon">✉</span> Sharmaakshat756@gmail.com</a>
+        <a href="tel:+919958653008" class="contact-item"><span class="contact-icon">☎</span> +91 9958653008</a>
+        <span class="contact-item"><span class="contact-icon">📍</span> Ghaziabad, U.P.</span>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 Akshat Sharma</p>
+        <div class="footer-links">
+            <a href="#">LinkedIn</a>
+            <a href="#">Behance</a>
+            <a href="#">Instagram</a>
+        </div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
-
 </html>
