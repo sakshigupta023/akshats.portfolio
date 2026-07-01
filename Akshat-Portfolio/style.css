@@ -245,14 +245,14 @@ nav ul a:hover::after { width:100%; }
 .reveal.visible { opacity:1; transform:translateY(0); }
 
 /* ============================================================
-   WORK SECTION — laptop + pop-out
+   WORK SECTION — Netflix card pop-out
 ============================================================ */
 .work-section {
     position: relative;
     z-index: 1;
     max-width: 1280px;
     margin: 0 auto;
-    padding: 60px 32px 140px;
+    padding: 60px 32px 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -262,10 +262,9 @@ nav ul a:hover::after { width:100%; }
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
     align-self: flex-start;
 }
-
 .work-label-text {
     font-size: 12px;
     font-weight: 700;
@@ -273,7 +272,6 @@ nav ul a:hover::after { width:100%; }
     text-transform: uppercase;
     color: #fff;
 }
-
 .dot-pulse {
     width: 8px;
     height: 8px;
@@ -283,82 +281,30 @@ nav ul a:hover::after { width:100%; }
     animation: dotPulse 2s infinite;
 }
 @keyframes dotPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(231,76,60,0.6); }
-    70%  { box-shadow: 0 0 0 10px rgba(231,76,60,0); }
-    100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
+    0%   { box-shadow: 0 0 0 0   rgba(231,76,60,0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(231,76,60,0);   }
+    100% { box-shadow: 0 0 0 0   rgba(231,76,60,0);   }
 }
 
-/* ---- LAPTOP STAGE — contains frame + popout ---- */
-.laptop-stage {
+/* ---- CARD STAGE — the whole animation container ---- */
+.card-stage {
     position: relative;
-    width: 720px;
-    max-width: 90vw;
+    width: 680px;
+    max-width: 88vw;
+    /* extra height below so the popped-out card has room */
+    padding-bottom: 80px;
 }
 
-/* ---- LAPTOP FRAME ---- */
-.laptop-frame { position:relative; width:100%; }
-
-.laptop-lid {
+/* ---- THUMB — the small resting card ---- */
+.card-thumb {
     position: relative;
     width: 100%;
-    background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
-    border-radius: 14px 14px 2px 2px;
-    padding: 16px;
-    padding-bottom: 10px;
-    box-shadow: 0 -2px 0 0 #3a3a3a, 0 4px 40px rgba(0,0,0,0.8);
-}
-
-/* Apple logo area on lid back (decorative) */
-.laptop-lid::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    right: 14px;
-    width: 14px;
-    height: 14px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50%;
-}
-
-.laptop-bezel {
-    position: relative;
-    background: #0a0a0a;
-    border-radius: 8px;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
     overflow: hidden;
+    background: #0a0a0a;
     border: 1px solid rgba(255,255,255,0.08);
-}
-
-.laptop-notch {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 28%;
-    height: 18px;
-    background: #0a0a0a;
-    border-radius: 0 0 10px 10px;
-    z-index: 5;
-}
-.laptop-notch::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #1e1e1e;
-    box-shadow: 0 0 0 1px #2a2a2a;
-}
-
-/* ---- SCREEN inside bezel ---- */
-.laptop-screen {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    background: #050505;
-    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
 .screen-slides {
@@ -366,134 +312,102 @@ nav ul a:hover::after { width:100%; }
     width: 100%;
     height: 100%;
 }
-
 .screen-slide {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.4s ease;
 }
 .screen-slide.active { opacity: 1; }
 
-/* ---- HINGE ---- */
-.laptop-hinge {
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(to bottom, #1a1a1a, #222);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-
-/* ---- BASE ---- */
-.laptop-base {
-    position: relative;
-    width: 108%;
-    left: -4%;
-    background: linear-gradient(to bottom, #2e2e2e, #252525);
-    border-radius: 0 0 10px 10px;
-    padding: 12px 24px 14px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-}
-.laptop-keyboard {
-    width: 80%;
-    height: 50px;
-    margin: 0 auto;
-    background: repeating-linear-gradient(
-        90deg,
-        rgba(255,255,255,0.04) 0px,
-        rgba(255,255,255,0.04) 4px,
-        transparent 4px,
-        transparent 8px
-    );
-    border-radius: 4px;
-    opacity: 0.5;
-}
-.laptop-trackpad {
-    width: 28%;
-    height: 18px;
-    margin: 8px auto 0;
-    background: rgba(255,255,255,0.04);
-    border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.06);
-}
-
-/* ---- POP-OUT CARD ---- */
-/*
-   Starts inside the screen (scale 0.3, no shadow, opacity 0)
-   Pops OUT (scale 1.15, flies up, big shadow, bright)
-   Holds for 2.5s
-   Snaps back IN (scale 0.3 back to screen)
-*/
+/* ---- POPOUT CARD — same dimensions, overlaid, scales up ---- */
 .popout-card {
     position: absolute;
-    /* Centered over the screen */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.28);
-    width: 85%;
-    aspect-ratio: 16 / 10;
-    border-radius: 8px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
     overflow: hidden;
     z-index: 20;
+    /* resting = same size as thumb, invisible */
+    transform: scale(1);
     opacity: 0;
     pointer-events: none;
-    box-shadow: none;
-    /* transition for return snap */
     transition: none;
+    box-shadow: none;
 }
 
+/* OUT: scale up, rise slightly, full opacity */
 .popout-card.popping-out {
     transition:
-        transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.3s ease,
-        box-shadow 0.45s ease;
-    transform: translate(-50%, -62%) scale(1.15);
+        transform  0.5s cubic-bezier(0.34, 1.4, 0.64, 1),
+        opacity    0.3s ease,
+        box-shadow 0.5s ease,
+        border-radius 0.5s ease;
+    transform: scale(1.32) translateY(-6%);
     opacity: 1;
+    border-radius: 12px;
     box-shadow:
-        0 40px 100px rgba(0,0,0,0.85),
-        0 0 0 1px rgba(231,76,60,0.25),
-        0 0 60px rgba(180,20,20,0.2);
+        0 50px 120px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(231,76,60,0.2),
+        0 0 80px rgba(160,10,10,0.25);
 }
 
+/* IN: back to original size, fade out */
 .popout-card.snapping-in {
     transition:
-        transform 0.35s cubic-bezier(0.55, 0, 0.45, 1),
-        opacity 0.25s ease,
-        box-shadow 0.35s ease;
-    transform: translate(-50%, -50%) scale(0.28);
+        transform  0.4s cubic-bezier(0.55, 0, 0.45, 1),
+        opacity    0.3s ease,
+        box-shadow 0.4s ease,
+        border-radius 0.4s ease;
+    transform: scale(1);
     opacity: 0;
+    border-radius: 16px;
     box-shadow: none;
 }
 
-.popout-img, .popout-video {
-    position: absolute;
-    inset: 0;
+.popout-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
-.popout-img { display:block; }
-.popout-video { display:none; }
-.popout-card.is-video .popout-img { display:none; }
-.popout-card.is-video .popout-video { display:block; }
+
+/* Red glow under the popped card */
+.popout-glow {
+    position: absolute;
+    bottom: -30px;
+    left: 10%;
+    right: 10%;
+    height: 60px;
+    background: radial-gradient(ellipse, rgba(200,20,20,0.35), transparent 70%);
+    filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 19;
+}
+.popout-card.popping-out ~ .popout-glow { opacity: 1; }
 
 /* ---- PROGRESS BAR ---- */
 .slide-progress {
-    width: 720px;
-    max-width: 90vw;
+    width: 680px;
+    max-width: 88vw;
     height: 2px;
     background: rgba(255,255,255,0.08);
     border-radius: 2px;
     margin-top: 20px;
     overflow: hidden;
+    align-self: center;
 }
 .slide-progress-bar {
     height: 100%;
     width: 0%;
     background: linear-gradient(to right, #c0392b, #e74c3c);
     border-radius: 2px;
-    transition: width 0.1s linear;
 }
 
 /* ============================================================
