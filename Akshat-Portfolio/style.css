@@ -390,7 +390,7 @@ nav ul a:hover::after { width:100%; }
 
 .card-bg-img {
     position: absolute;
-    inset: -30px; /* Provides overflow boundaries for smooth parallax translations */
+    inset: -30px; 
     background-size: cover;
     background-position: center;
     will-change: transform;
@@ -408,7 +408,7 @@ video.card-bg-img {
     left: 50%;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Magic property acting exactly like background-size: cover */
+    object-fit: cover; 
     transform: translate(-50%, -50%) scale(1.06) translate(var(--move-x, 0px), var(--move-y, 0px));
 }
 
