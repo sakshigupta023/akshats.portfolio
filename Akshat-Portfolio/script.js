@@ -1,15 +1,11 @@
 /* ============================================================
-   NAVBAR EFFECT
+   NAVBAR & SCROLL EFFECT
 ============================================================ */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
-
-/* ============================================================
-   SCROLL REVEAL MONITORING
-============================================================ */
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
         if (e.isIntersecting) {
@@ -20,26 +16,111 @@ const revealObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-
-/* ============================================================
-   HERO ENTRANCE COORDINATION
-============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.hero .reveal').forEach((el, i) => {
         setTimeout(() => el.classList.add('visible'), 80 + i * 110);
     });
 });
 
+/* ============================================================
+   CASE STUDY MODAL STRUCTURAL MAPPINGS (OPTION B)
+============================================================ */
+const projectDataHub = {
+    'pixel-play': {
+        meta: "Competition &middot; Cinematic Direction",
+        title: "Pixel Play Showcase",
+        desc: "A comprehensive generative AI video pipeline showcasing complete timeline synchronization. Engineered using text-to-video diffusion loops combined with synthesized spectral audio elements.",
+        tags: ["Runway Gen-2", "Higgsfield AI", "Audio Sync"],
+        videoSrc: "./assets/work/pixel-play.mp4"
+    },
+    'pocket-fm': {
+        meta: "Campaign &middot; Generative AI Workflow",
+        title: "Pocket FM Scale Assets",
+        desc: "Automated deep graphic workflows to scale asset requirements across high-impact Hindi UGC story universes. Boosted community asset deployment efficiency by more than 40%.",
+        tags: ["Midjourney", "Prompt Matrix", "Asset Scaling"],
+        imgSrc: "assets/work/work2.jpg"
+    },
+    'chernobyl': {
+        meta: "Keyart &middot; Matte Painting",
+        title: "Chernobyl Promo Art",
+        desc: "Atmospheric promotional poster configuration managing customized fine-grain composition maps and industrial exposure fields to echo narrative weight.",
+        tags: ["Photoshop", "Matte Composite", "Color Grading"],
+        imgSrc: "assets/work/work3.jpg"
+    },
+    'contests': {
+        meta: "Community Engagement &middot; Strategy",
+        title: "High-Impact Contests",
+        desc: "Designed and scaled structural promotional media vectors targeted towards global user design marathons. Managed end-to-end promotional visuals and cross-channel community operations.",
+        tags: ["Creative Direction", "AI Promos", "Campaign Layout"],
+        imgSrc: "assets/work/work4.jpg"
+    },
+    'stranger-things': {
+        meta: "VFX Motion &middot; High-Contrast",
+        title: "Stranger Things Concept",
+        desc: "Cinematic title framing study built in After Effects. Seamlessly intersections neon glow layouts with heavy analog film-grain mapping channels.",
+        tags: ["After Effects", "Premiere Pro", "VFX Motion"],
+        imgSrc: "assets/work/work5.jpg"
+    }
+};
+
+const modalOverlay = document.getElementById('premiumProjectModal');
+const modalMediaAnchor = document.getElementById('modalMediaAnchor');
+const modalMetaField = document.getElementById('modalMetaField');
+const modalTitleField = document.getElementById('modalTitleField');
+const modalDescField = document.getElementById('modalDescField');
+const modalTagsField = document.getElementById('modalTagsField');
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+document.querySelectorAll('.open-modal-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const projectId = btn.getAttribute('data-project');
+        const data = projectDataHub[projectId];
+        if (!data) return;
+
+        modalMetaField.innerHTML = data.meta;
+        modalTitleField.innerText = data.title;
+        modalDescField.innerText = data.desc;
+        
+        modalTagsField.innerHTML = '';
+        data.tags.forEach(t => {
+            const span = document.createElement('span');
+            span.className = 'tag';
+            span.innerText = t;
+            modalTagsField.appendChild(span);
+        });
+
+        if (data.videoSrc) {
+            modalMediaAnchor.innerHTML = `<video autoplay loop controls playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${data.videoSrc}" type="video/mp4"></video>`;
+        } else {
+            modalMediaAnchor.innerHTML = `<img src="${data.imgSrc}" style="width:100%; height:100%; object-fit:cover;" alt="Showcase">`;
+        }
+
+        modalOverlay.classList.add('modal-visible');
+    });
+});
+
+if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', () => {
+        modalOverlay.classList.remove('modal-visible');
+        modalMediaAnchor.innerHTML = ''; // Instantly kill audio stream
+    });
+}
+modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('modal-visible');
+        modalMediaAnchor.innerHTML = '';
+    }
+});
 
 /* ============================================================
-   PREMIUM FEATURED WORK DESIGN INTERACTIVES
+   PREMIUM FEATURED WORK DESIGN INTERACTIVES & MULTI-SLIDESHOW
 ============================================================ */
 const workSection = document.getElementById('work');
 const accordionStage = document.getElementById('accordionStage');
 const workCards = document.querySelectorAll('.work-card');
 const indicatorProgress = document.getElementById('workIndicatorProgress');
 
-// Initialize Intersection Observers to trigger staggered viewport entrances
 const workSectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting || document.readyState === 'complete') {
@@ -49,12 +130,10 @@ const workSectionObserver = new IntersectionObserver((entries) => {
             workSectionObserver.unobserve(entry.target);
         }
     });
-}, { threshold: 0.05 }); // Lowered threshold to ensure it fires instantly
+}, { threshold: 0.05 });
 
 if (workSection) {
     workSectionObserver.observe(workSection);
-    
-    // Safety Fallback Trigger: Forces layout exposure if observer execution lags
     setTimeout(() => {
         workSection.querySelectorAll('.animate-init').forEach(el => {
             el.classList.add('animate-active');
@@ -62,82 +141,120 @@ if (workSection) {
     }, 800);
 }
 
-/**
- * Sync Tracking Indicator 
- * Controls status updates on the horizontal tracking track
- */
 function updateProgressIndicator(activeIndex) {
     if (!indicatorProgress || window.innerWidth <= 768) return;
     const totalCards = workCards.length;
     const segmentsWidth = 100 / totalCards;
-    
     indicatorProgress.style.width = `${segmentsWidth}%`;
     indicatorProgress.style.transform = `translateX(${activeIndex * 100}%)`;
 }
-
-// Initial Call setup on boot
 updateProgressIndicator(0);
 
+// Sequential Multi-Slide Loop Framework Initialization
+let activeSlideshowIntervals = [];
+
+function initializeCardSlideshowSequence(card) {
+    const wrap = card.querySelector('.dynamic-slideshow');
+    if (!wrap) return;
+    
+    const slides = wrap.querySelectorAll('.card-bg-img');
+    if (slides.length <= 1) return;
+    
+    let activeSlideIndex = 0;
+    
+    const intervalId = setInterval(() => {
+        slides[activeSlideIndex].classList.remove('active-slide');
+        
+        // Handle native pause commands over video slide segments
+        if (slides[activeSlideIndex].tagName === 'VIDEO') {
+            slides[activeSlideIndex].pause();
+        }
+        
+        activeSlideIndex = (activeSlideIndex + 1) % slides.length;
+        slides[activeSlideIndex].classList.add('active-slide');
+        
+        // Handle play evaluations on targeted video slides
+        if (slides[activeSlideIndex].tagName === 'VIDEO') {
+            slides[activeSlideIndex].muted = true;
+            slides[activeSlideIndex].play().catch(e => console.log(e));
+        }
+    }, 2800); // Transitions to next clip or graphic every 2.8 seconds smoothly
+    
+    activeSlideshowIntervals.push({ card: card, interval: intervalId });
+}
+
+function terminateCardSlideshowSequence(card) {
+    activeSlideshowIntervals = activeSlideshowIntervals.filter(item => {
+        if (item.card === card) {
+            clearInterval(item.interval);
+            
+            // Re-set display stack state to first element anchor
+            const slides = card.querySelectorAll('.card-bg-img');
+            slides.forEach((s, idx) => {
+                if (idx === 0) {
+                    s.classList.add('active-slide');
+                    if (s.tagName === 'VIDEO') s.play().catch(e => console.log(e));
+                } else {
+                    s.classList.remove('active-slide');
+                    if (s.tagName === 'VIDEO') s.pause();
+                }
+            });
+            return false;
+        }
+        return true;
+    });
+}
+
+// Setup Active Card Initial Slideshow Run
+if(workCards[0]) initializeCardSlideshowSequence(workCards[0]);
+
 /**
- * Desktop Accordion Hover State Listeners with Force-Play Mechanics
+ * Desktop Accordion Hover Listening Channels
  */
 workCards.forEach((card, index) => {
     card.addEventListener('mouseenter', () => {
-        if (window.innerWidth <= 768) return; // Ignore hover actions inside mobile viewport matrices
+        if (window.innerWidth <= 768) return; 
         
         workCards.forEach(c => {
             c.classList.remove('active');
-            // Pause any out-of-focus background media loops to preserve resources
-            const inactiveVideo = c.querySelector('video');
-            if (inactiveVideo) {
-                inactiveVideo.pause();
-            }
+            terminateCardSlideshowSequence(c);
+            const fallbackVid = c.querySelector('video');
+            if (fallbackVid) fallbackVid.pause();
         });
 
         card.classList.add('active');
         updateProgressIndicator(index);
+        initializeCardSlideshowSequence(card);
 
         // Force initialize playback sequences on targeted active media tags immediately
-        const activeVideo = card.querySelector('video');
-        if (activeVideo) {
+        const activeVideo = card.querySelector('.active-slide');
+        if (activeVideo && activeVideo.tagName === 'VIDEO') {
             activeVideo.muted = true;
-            const playPromise = activeVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(err => console.log("Autoplay blocked on hover:", err));
-            }
+            activeVideo.play().catch(err => console.log("Autoplay blocked on hover:", err));
         }
     });
 });
 
 /**
  * Hardware Accelerated Parallax Animation Engine Loops
- * Feeds custom variables into will-change target boundaries via requestAnimationFrame loops
  */
-let targetMouseX = 0;
-let targetMouseY = 0;
-let currentMouseX = 0;
-let currentMouseY = 0;
-
-// Lower numbers generate heavier cinematic dampening weight properties
+let targetMouseX = 0; let targetMouseY = 0; let currentMouseX = 0; let currentMouseY = 0;
 const interpolationFactor = 0.08; 
 
 window.addEventListener('mousemove', (e) => {
-    // Center point tracking layout equations
     targetMouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
     targetMouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
 }, { passive: true });
 
 function processParallaxLoop() {
-    // Linear Interpolation equations
     currentMouseX += (targetMouseX - currentMouseX) * interpolationFactor;
     currentMouseY += (targetMouseY - currentMouseY) * interpolationFactor;
 
-    // Constrain relative pixel offset output translation ceilings
     const pxOffsetValueX = currentMouseX * 28;
     const pxOffsetValueY = currentMouseY * 28;
 
-    // Apply translations exclusively to active visual items (images or videos)
-    const activeMediaElement = document.querySelector('.work-card.active .card-bg-wrap > *');
+    // Apply parallax matrix shift properties directly onto the targeted slide element layer
+    const activeMediaElement = document.querySelector('.work-card.active .card-bg-wrap .active-slide');
     if (activeMediaElement && window.innerWidth > 768) {
         activeMediaElement.style.setProperty('--move-x', `${pxOffsetValueX}px`);
         activeMediaElement.style.setProperty('--move-y', `${pxOffsetValueY}px`);
@@ -145,20 +262,16 @@ function processParallaxLoop() {
 
     requestAnimationFrame(processParallaxLoop);
 }
-
-// Execute animation processing loop
 requestAnimationFrame(processParallaxLoop);
 
 /**
  * Universal Autoplay Recovery Anchor
- * Forces video initialization immediately upon structural landing windows
  */
 window.addEventListener('DOMContentLoaded', () => {
     const defaultVideoElement = document.getElementById('showcaseVideo');
     if (defaultVideoElement) {
         defaultVideoElement.muted = true;
         defaultVideoElement.play().catch(err => {
-            // Fallback: trigger playback on user's first scroll/click gesture if the browser blocks cold autoplay
             const initialInteractionTrigger = () => {
                 defaultVideoElement.play().catch(e => console.log(e));
                 window.removeEventListener('click', initialInteractionTrigger);
@@ -176,11 +289,8 @@ window.addEventListener('DOMContentLoaded', () => {
 if (accordionStage) {
     accordionStage.addEventListener('scroll', () => {
         if (window.innerWidth > 768) return;
-        
         const stageWidth = accordionStage.offsetWidth;
         const currentScrollPosition = accordionStage.scrollLeft;
-        
-        // Calculate index values based on horizontal location ranges
         const estimatedIndex = Math.round(currentScrollPosition / (stageWidth * 0.85));
         
         if (workCards[estimatedIndex] && !workCards[estimatedIndex].classList.contains('active')) {
