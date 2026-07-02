@@ -21,7 +21,6 @@ img { display:block; max-width:100%; }
     background: #07030a;
 }
 
-/* Deep red vignette at all edges */
 .bg-vignette {
     position: absolute;
     inset: 0;
@@ -33,7 +32,6 @@ img { display:block; max-width:100%; }
     );
 }
 
-/* Left warm glow */
 .bg-glow-left {
     position: absolute;
     left: -10%;
@@ -45,7 +43,6 @@ img { display:block; max-width:100%; }
     filter: blur(20px);
 }
 
-/* Right warm glow */
 .bg-glow-right {
     position: absolute;
     right: -10%;
@@ -57,7 +54,6 @@ img { display:block; max-width:100%; }
     filter: blur(20px);
 }
 
-/* Subtle film noise texture overlay */
 .bg-noise {
     position: absolute;
     inset: 0;
@@ -235,7 +231,7 @@ nav ul a:hover::after { width:100%; }
 }
 
 /* ============================================================
-   REVEAL
+   REVEAL (General)
 ============================================================ */
 .reveal {
     opacity: 0;
@@ -245,33 +241,41 @@ nav ul a:hover::after { width:100%; }
 .reveal.visible { opacity:1; transform:translateY(0); }
 
 /* ============================================================
-   WORK SECTION — Netflix card pop-out
+   PREMIUM CINEMATIC WORK SECTION
 ============================================================ */
 .work-section {
     position: relative;
     z-index: 1;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 60px 32px 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 100%;
+    padding: 120px 0;
+    overflow: hidden;
+    background: transparent;
 }
 
-.work-label {
+.work-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
     display: flex;
+    flex-direction: column;
+}
+
+/* Label Status Badge */
+.work-label {
+    display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 40px;
-    align-self: flex-start;
+    margin-bottom: 24px;
 }
+
 .work-label-text {
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.7);
 }
+
 .dot-pulse {
     width: 8px;
     height: 8px;
@@ -280,134 +284,302 @@ nav ul a:hover::after { width:100%; }
     box-shadow: 0 0 0 0 rgba(231,76,60,0.6);
     animation: dotPulse 2s infinite;
 }
+
 @keyframes dotPulse {
     0%   { box-shadow: 0 0 0 0   rgba(231,76,60,0.6); }
     70%  { box-shadow: 0 0 0 10px rgba(231,76,60,0);   }
     100% { box-shadow: 0 0 0 0   rgba(231,76,60,0);   }
 }
 
-/* ---- CARD STAGE — the whole animation container ---- */
-.card-stage {
-    position: relative;
-    width: 680px;
-    max-width: 88vw;
-    /* extra height below so the popped-out card has room */
-    padding-bottom: 80px;
+/* Typography Hierarchy */
+.work-heading {
+    font-size: clamp(2.5rem, 4vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 16px;
 }
 
-/* ---- THUMB — the small resting card ---- */
-.card-thumb {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #0a0a0a;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+.work-subheading {
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+    font-weight: 400;
+    color: #8a8590;
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 56px;
 }
 
-.screen-slides {
-    position: relative;
+/* Viewport Scroll Entrance Initialization States */
+.work-section .animate-init {
+    opacity: 0;
+    will-change: transform, opacity, filter;
+}
+
+.work-section .work-label.animate-init {
+    transform: translateY(30px);
+}
+
+.work-section .work-heading.animate-init {
+    transform: translateY(60px);
+}
+
+.work-section .work-subheading.animate-init {
+    transform: translateY(30px);
+    filter: blur(10px);
+}
+
+.work-section .accordion-stage.animate-init {
+    transform: translateX(120px) scale(0.95);
+}
+
+/* Entrance Active States driven smoothly by JS IntersectionObserver */
+.work-section .animate-active {
+    opacity: 1 !important;
+    transform: translate(0) scale(1) !important;
+    filter: blur(0) !important;
+}
+
+.work-label.animate-active { transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.work-heading.animate-active { transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1); transition-delay: 0.1s; }
+.work-subheading.animate-active { transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1), filter 1s cubic-bezier(0.25, 1, 0.5, 1); transition-delay: 0.25s; }
+.accordion-stage.animate-active { transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1); transition-delay: 0.35s; }
+
+/* ---- ACCORDION STAGE HUB ---- */
+.accordion-stage {
+    display: flex;
+    gap: 16px;
     width: 100%;
+    height: 540px;
+    margin-bottom: 40px;
+    perspective: 1000px;
+}
+
+/* ---- PREMIUM EXPANDABLE CARD UNIT ---- */
+.work-card {
+    position: relative;
     height: 100%;
+    flex-basis: 12%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #120d18;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    will-change: flex-basis, flex-grow, border-color, box-shadow;
+    transition: flex-basis 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                flex-grow 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.4s ease, 
+                box-shadow 0.6s ease;
 }
-.screen-slide {
+
+/* Active Expanded State Configuration Mapping */
+.work-card.active {
+    flex-basis: 50%;
+    flex-grow: 5;
+    cursor: default;
+    border-color: rgba(231, 76, 60, 0.35);
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.85), 
+                0 0 50px rgba(231, 76, 60, 0.15);
+}
+
+/* Inactive Card Ambient Dim Rules */
+.work-card:not(.active) {
+    filter: brightness(0.7) saturate(0.85);
+}
+.work-card:not(.active):hover {
+    filter: brightness(0.9) saturate(1);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Card Background Graphic Container and Masks */
+.card-bg-wrap {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.card-bg-img {
+    position: absolute;
+    inset: -20px; /* Bleed margins to provide space for fluid parallax translation */
     background-size: cover;
     background-position: center;
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    will-change: transform;
+    transform: scale(1.05) translate(var(--move-x, 0px), var(--move-y, 0px));
+    transition: transform 0.1s linear, filter 0.6s ease;
 }
-.screen-slide.active { opacity: 1; }
 
-/* ---- POPOUT CARD — same dimensions, overlaid, scales up ---- */
-.popout-card {
+/* Active Image Micro-zoom Allocation */
+.work-card.active .card-bg-img {
+    filter: scale(1.08);
+}
+
+/* Elegant Movie Poster Shadow Mask Overlay */
+.card-overlay {
     position: absolute;
-    top: 0;
+    inset: 0;
+    background: linear-gradient(to top, 
+        rgba(8, 4, 10, 0.95) 0%, 
+        rgba(8, 4, 10, 0.7) 30%, 
+        rgba(8, 4, 10, 0.2) 70%, 
+        rgba(8, 4, 10, 0.4) 100%);
+    will-change: opacity;
+    transition: opacity 0.8s ease;
+    z-index: 2;
+}
+
+.work-card:not(.active) .card-overlay {
+    background: linear-gradient(to top, 
+        rgba(8, 4, 10, 0.98) 0%, 
+        rgba(8, 4, 10, 0.85) 40%, 
+        rgba(8, 4, 10, 0.5) 100%);
+}
+
+/* ---- CARD CONTENT POSITIONING HUB ---- */
+.card-content {
+    position: absolute;
+    bottom: 0;
     left: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 16px;
-    overflow: hidden;
-    z-index: 20;
-    /* resting = same size as thumb, invisible */
-    transform: scale(1);
-    opacity: 0;
+    padding: 40px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
     pointer-events: none;
-    transition: none;
-    box-shadow: none;
 }
 
-/* OUT: scale up, rise slightly, full opacity */
-.popout-card.popping-out {
-    transition:
-        transform  0.5s cubic-bezier(0.34, 1.4, 0.64, 1),
-        opacity    0.3s ease,
-        box-shadow 0.5s ease,
-        border-radius 0.5s ease;
-    transform: scale(1.32) translateY(-6%);
-    opacity: 1;
-    border-radius: 12px;
-    box-shadow:
-        0 50px 120px rgba(0,0,0,0.9),
-        0 0 0 1px rgba(231,76,60,0.2),
-        0 0 80px rgba(160,10,10,0.25);
-}
-
-/* IN: back to original size, fade out */
-.popout-card.snapping-in {
-    transition:
-        transform  0.4s cubic-bezier(0.55, 0, 0.45, 1),
-        opacity    0.3s ease,
-        box-shadow 0.4s ease,
-        border-radius 0.4s ease;
-    transform: scale(1);
+/* Content Element Transformations Based on Active State Card Framework */
+.card-meta {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #e74c3c;
+    margin-bottom: 8px;
     opacity: 0;
-    border-radius: 16px;
-    box-shadow: none;
+    transform: translateY(20px);
+    will-change: transform, opacity;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.popout-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.card-title {
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transform: translateY(0);
+    will-change: transform;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Red glow under the popped card */
-.popout-glow {
+/* Vertical Title Rotation Mapping for Inactive Accordion Columns */
+.work-card:not(.active) .card-title {
+    transform: translateY(-20px) rotate(-90px);
+    transform-origin: left bottom;
     position: absolute;
-    bottom: -30px;
-    left: 10%;
-    right: 10%;
-    height: 60px;
-    background: radial-gradient(ellipse, rgba(200,20,20,0.35), transparent 70%);
-    filter: blur(12px);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    z-index: 19;
+    bottom: 50px;
+    left: 45px;
 }
-.popout-card.popping-out ~ .popout-glow { opacity: 1; }
 
-/* ---- PROGRESS BAR ---- */
-.slide-progress {
-    width: 680px;
-    max-width: 88vw;
-    height: 2px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    margin-top: 20px;
-    overflow: hidden;
-    align-self: center;
+.card-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 480px;
+    margin-top: 14px;
+    opacity: 0;
+    transform: translateY(25px);
+    will-change: transform, opacity;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.slide-progress-bar {
+
+.card-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(25px);
+    will-change: transform, opacity;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+.card-cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(231, 76, 60, 0.9);
+    padding: 10px 22px;
+    border-radius: 100px;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: transform, opacity, background-color;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                background-color 0.3s ease;
+}
+
+.card-cta:hover {
+    background: rgba(231, 76, 60, 1);
+}
+
+.cta-arr {
+    transition: transform 0.3s ease;
+}
+.card-cta:hover .cta-arr {
+    transform: translateX(4px);
+}
+
+/* Stagger Animation Delays Over Expanded Trigger Conversions */
+.work-card.active .card-meta { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+.work-card.active .card-title { transform: translateY(0); }
+.work-card.active .card-description { opacity: 1; transform: translateY(0); transition-delay: 0.28s; }
+.work-card.active .card-tags { opacity: 1; transform: translateY(0); transition-delay: 0.34s; }
+.work-card.active .card-cta { opacity: 1; transform: translateY(0); transition-delay: 0.42s; }
+
+/* ---- GLOBAL SLIDER INDICATOR TRACK ---- */
+.work-indicator-track {
+    width: 100%;
+    max-width: 240px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 100px;
+    margin: 12px auto 0;
+    overflow: hidden;
+}
+
+.work-indicator-progress {
     height: 100%;
-    width: 0%;
-    background: linear-gradient(to right, #c0392b, #e74c3c);
-    border-radius: 2px;
+    width: 20%;
+    background: #e74c3c;
+    border-radius: 100px;
+    will-change: transform, width;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ============================================================
@@ -581,7 +753,7 @@ nav ul a:hover::after { width:100%; }
 .skill-icon-wrap.runway{ background:linear-gradient(135deg,#0d001a,#4a0080); color:#c77dff; }
 
 .skill-name { font-size:12px; font-weight:600; color:#ddd; text-align:center; line-height:1.3; }
-.skill-cat  { font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.1em; }
+.skill-cat   { font-size:10px; color:#555; text-transform:uppercase; letter-spacing:0.1em; }
 
 /* ============================================================
    EYEBROW (reused)
@@ -656,8 +828,62 @@ a.contact-item:hover { color:#e74c3c; }
 .footer-links a:hover { color:#e74c3c; }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE LAYOUT SYSTEMS
 ============================================================ */
+@media (max-width:1100px) {
+    .accordion-stage { height: 460px; }
+    .card-content { padding: 24px; }
+}
+
+@media (max-width:900px) {
+    /* Tablet UI Transitions: Reduced gaps and structural scaling padding steps */
+    .work-container { padding: 0 24px; }
+    .accordion-stage { gap: 10px; height: 420px; }
+}
+
+@media (max-width:768px) {
+    /* Mobile Framework Translation: Transform from desktop columns into clear swiping card layouts */
+    .accordion-stage {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+        height: auto;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 20px;
+        scrollbar-width: none; /* Strip out ugly default scrollbars */
+    }
+    .accordion-stage::-webkit-scrollbar { display: none; }
+
+    .work-card {
+        flex-basis: 85% !important;
+        flex-grow: 0 !important;
+        flex-shrink: 0 !important;
+        height: 480px;
+        scroll-snap-align: center;
+        border-radius: 16px;
+    }
+
+    .work-card:not(.active) {
+        filter: brightness(0.85);
+    }
+
+    .work-card:not(.active) .card-title {
+        transform: none !important;
+        position: static !important;
+    }
+
+    .card-content {
+        pointer-events: auto;
+    }
+
+    /* Keep descriptive content safely visible over tap configurations inside mobile viewport blocks */
+    .card-meta, .card-description, .card-tags, .card-cta {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
 @media (max-width:1024px) {
     .hero { flex-direction:column; text-align:center; padding-top:120px; gap:48px; }
     .hero-content { max-width:100%; }
@@ -671,7 +897,6 @@ a.contact-item:hover { color:#e74c3c; }
     header { padding:16px 20px; }
     .hero { padding:110px 20px 60px; }
     .work-section, .about-section, .journey-section, .skills-section { padding-left:20px; padding-right:20px; }
-    .laptop-stage { width:100%; }
     .skills-grid { grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:12px; }
     .skill-card { padding:18px 10px 14px; }
     .skill-icon-wrap { width:44px; height:44px; font-size:12px; }
