@@ -11,7 +11,6 @@
 </head>
 <body>
 
-<!-- BACKGROUND -->
 <div class="background">
     <div class="bg-vignette"></div>
     <div class="bg-glow-left"></div>
@@ -19,7 +18,6 @@
     <div class="bg-noise"></div>
 </div>
 
-<!-- NAVBAR -->
 <header id="navbar">
     <nav>
         <a href="#" class="logo">AKSHAT</a>
@@ -33,7 +31,6 @@
     </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-content">
         <p class="greet reveal">HELLO, I'M</p>
@@ -50,7 +47,6 @@
     </div>
 </section>
 
-<!-- FEATURED WORK -->
 <section id="work" class="work-section">
     <div class="work-container">
         <div class="work-label animate-init">
@@ -61,14 +57,15 @@
         <h2 class="work-heading animate-init">AI & Multimedia Production</h2>
         <p class="work-subheading animate-init">An overview of high-impact community contests, promotional video campaigns, and cinematic keyart assets scaled through advanced generative AI pipelines.</p>
 
-        <!-- Premium Horizontal/Accordion Stage Container -->
         <div class="accordion-stage animate-init" id="accordionStage">
             
-            <!-- Card 1: Pixel Play Showcase -->
             <div class="work-card active" data-index="0">
-                <div class="card-bg-wrap">
-                    <video autoplay loop muted playsinline preload="auto" class="card-bg-img" id="showcaseVideo" poster="./assets/work/work1.jpg">
+                <div class="card-bg-wrap dynamic-slideshow">
+                    <video autoplay loop muted playsinline preload="auto" class="card-bg-img active-slide" id="showcaseVideo">
                         <source src="./assets/work/pixel-play.mp4" type="video/mp4">
+                    </video>
+                    <video loop muted playsinline preload="auto" class="card-bg-img">
+                        <source src="./assets/work/pixel-play-variant2.mp4" type="video/mp4">
                     </video>
                     <div class="card-overlay"></div>
                 </div>
@@ -81,14 +78,15 @@
                         <span class="tag ai-engine">Higgsfield AI</span>
                         <span class="tag">Video Editing</span>
                     </div>
-                    <a href="#" class="card-cta">Watch Video Case Study <span class="cta-arr">→</span></a>
+                    <button class="card-cta open-modal-btn" data-project="pixel-play">Watch Video Case Study <span class="cta-arr">→</span></button>
                 </div>
             </div>
 
-            <!-- Card 2: Pocket FM UGC Scales -->
             <div class="work-card" data-index="1">
-                <div class="card-bg-wrap">
-                    <div class="card-bg-img" style="background-image: url('assets/work/work2.jpg');"></div>
+                <div class="card-bg-wrap dynamic-slideshow">
+                    <div class="card-bg-img active-slide" style="background-image: url('assets/work/work2.jpg');"></div>
+                    <div class="card-bg-img" style="background-image: url('assets/work/work2-contest2.jpg');"></div>
+                    <div class="card-bg-img" style="background-image: url('assets/work/work2-contest3.jpg');"></div>
                     <div class="card-overlay"></div>
                 </div>
                 <div class="card-content">
@@ -100,11 +98,10 @@
                         <span class="tag ai-engine">ChatGPT AI</span>
                         <span class="tag">Workflow Automation</span>
                     </div>
-                    <a href="#" class="card-cta">View Asset Metrics <span class="cta-arr">→</span></a>
+                    <button class="card-cta open-modal-btn" data-project="pocket-fm">View Asset Metrics <span class="cta-arr">→</span></button>
                 </div>
             </div>
 
-            <!-- Card 3: Brand Keyart: Chernobyl -->
             <div class="work-card" data-index="2">
                 <div class="card-bg-wrap">
                     <div class="card-bg-img" style="background-image: url('assets/work/work3.jpg');"></div>
@@ -119,11 +116,10 @@
                         <span class="tag">Color Grading</span>
                         <span class="tag">Visual Storytelling</span>
                     </div>
-                    <a href="#" class="card-cta">View Design Details <span class="cta-arr">→</span></a>
+                    <button class="card-cta open-modal-btn" data-project="chernobyl">View Design Details <span class="cta-arr">→</span></button>
                 </div>
             </div>
 
-            <!-- Card 4: Community Contests Strategy -->
             <div class="work-card" data-index="3">
                 <div class="card-bg-wrap">
                     <div class="card-bg-img" style="background-image: url('assets/work/work4.jpg');"></div>
@@ -138,11 +134,10 @@
                         <span class="tag ai-engine">AI Workflows</span>
                         <span class="tag">Brand Identity</span>
                     </div>
-                    <a href="#" class="card-cta">View Campaign Showcase <span class="cta-arr">→</span></a>
+                    <button class="card-cta open-modal-btn" data-project="contests">View Campaign Showcase <span class="cta-arr">→</span></button>
                 </div>
             </div>
 
-            <!-- Card 5: Media Campaign: Stranger Things -->
             <div class="work-card" data-index="4">
                 <div class="card-bg-wrap">
                     <div class="card-bg-img" style="background-image: url('assets/work/work5.jpg');"></div>
@@ -157,20 +152,35 @@
                         <span class="tag">Premiere Pro</span>
                         <span class="tag">VFX Motion Design</span>
                     </div>
-                    <a href="#" class="card-cta">Watch Motion Reel <span class="cta-arr">→</span></a>
+                    <button class="card-cta open-modal-btn" data-project="stranger-things">Watch Motion Reel <span class="cta-arr">→</span></button>
                 </div>
             </div>
 
         </div>
 
-        <!-- Global Indicator Tracking Active Slider Status -->
         <div class="work-indicator-track">
             <div class="work-indicator-progress" id="workIndicatorProgress"></div>
         </div>
     </div>
 </section>
 
-<!-- ABOUT -->
+<div class="premium-modal-overlay" id="premiumProjectModal">
+    <div class="modal-window-container">
+        <button class="modal-close-trigger" id="modalCloseBtn">&times; Close</button>
+        <div class="modal-grid-layout">
+            <div class="modal-media-viewport">
+                <div id="modalMediaAnchor"></div>
+            </div>
+            <div class="modal-details-sidebar">
+                <p class="modal-sidebar-meta" id="modalMetaField">Production Breakdown</p>
+                <h3 class="modal-sidebar-title" id="modalTitleField">Project Title</h3>
+                <p class="modal-sidebar-desc" id="modalDescField">Detailed case study timeline analytics...</p>
+                <div class="modal-sidebar-tags" id="modalTagsField"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section id="about" class="about-section">
     <p class="eyebrow reveal"><span class="dot"></span> In a Nutshell</p>
     <div class="about-grid reveal">
@@ -196,7 +206,6 @@
     </div>
 </section>
 
-<!-- JOURNEY -->
 <section id="journey" class="journey-section">
     <p class="eyebrow reveal"><span class="dot"></span> Professional Journey</p>
     <div class="timeline">
@@ -248,7 +257,6 @@
     </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills" class="skills-section">
     <p class="eyebrow reveal"><span class="dot"></span> My Toolkit</p>
     <div class="skills-grid reveal">
@@ -320,7 +328,6 @@
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer id="contact">
     <p class="footer-cta">Let's create something <span>unforgettable.</span></p>
     <a href="mailto:Sharmaakshat756@gmail.com" class="btn-primary">Say Hello <span class="arrow">→</span></a>
