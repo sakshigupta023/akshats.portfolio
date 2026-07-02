@@ -72,15 +72,29 @@ function updateProgressIndicator(activeIndex) {
 updateProgressIndicator(0);
 
 /**
- * Desktop Accordion Hover State Listeners
+ * Desktop Accordion Hover State Listeners with Force-Play Mechanics
  */
 workCards.forEach((card, index) => {
     card.addEventListener('mouseenter', () => {
         if (window.innerWidth <= 768) return; // Ignore hover actions inside mobile viewport matrices
         
-        workCards.forEach(c => c.classList.remove('active'));
+        workCards.forEach(c => {
+            c.classList.remove('active');
+            // Pause any out-of-focus background media loops to preserve resources
+            const inactiveVideo = c.querySelector('video');
+            if (inactiveVideo) {
+                inactiveVideo.pause();
+            }
+        });
+
         card.classList.add('active');
         updateProgressIndicator(index);
+
+        // Force initialize playback sequences on targeted active media tags immediately
+        const activeVideo = card.querySelector('video');
+        if (activeVideo) {
+            activeVideo.play().catch(err => console.log("Autoplay blocked:", err));
+        }
     });
 });
 
