@@ -187,7 +187,6 @@ nav ul a:hover::after { width:100%; }
     flex-wrap: wrap;
 }
 
-/* Shared Buttons */
 .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -317,22 +316,10 @@ nav ul a:hover::after { width:100%; }
     will-change: transform, opacity, filter;
 }
 
-.work-section .work-label.animate-init {
-    transform: translateY(30px);
-}
-
-.work-section .work-heading.animate-init {
-    transform: translateY(60px);
-}
-
-.work-section .work-subheading.animate-init {
-    transform: translateY(30px);
-    filter: blur(10px);
-}
-
-.work-section .accordion-stage.animate-init {
-    transform: translateX(120px) scale(0.95);
-}
+.work-section .work-label.animate-init { transform: translateY(30px); }
+.work-section .work-heading.animate-init { transform: translateY(60px); }
+.work-section .work-subheading.animate-init { transform: translateY(30px); filter: blur(10px); }
+.work-section .accordion-stage.animate-init { transform: translateX(120px) scale(0.95); }
 
 /* Activated States Powered Fluidly via JS IntersectionObserver */
 .work-section .animate-active {
@@ -387,13 +374,8 @@ nav ul a:hover::after { width:100%; }
 }
 
 /* Inactive Card Ambient Dim Systems */
-.work-card:not(.active) {
-    filter: brightness(0.65) saturate(0.8);
-}
-.work-card:not(.active):hover {
-    filter: brightness(0.85) saturate(1);
-    border-color: rgba(255, 255, 255, 0.12);
-}
+.work-card:not(.active) { filter: brightness(0.65) saturate(0.8); }
+.work-card:not(.active):hover { filter: brightness(0.85) saturate(1); border-color: rgba(255, 255, 255, 0.12); }
 
 /* Card Background Media Containers & Parallax Anchors */
 .card-bg-wrap {
@@ -417,23 +399,17 @@ nav ul a:hover::after { width:100%; }
 }
 
 /* Active Image Micro-zoom Allocation */
-.work-card.active .card-bg-img {
-    filter: scale(1.08);
-}
+.work-card.active .card-bg-img { filter: scale(1.08); }
 
-/* Loopable HTML5 Preview Video Support Configurations */
-.card-bg-wrap video {
+/* High-Performance Video Layout Alignment Overrides */
+video.card-bg-img {
     position: absolute;
     top: 50%;
     left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Magic property acting exactly like background-size: cover */
     transform: translate(-50%, -50%) scale(1.06) translate(var(--move-x, 0px), var(--move-y, 0px));
-    object-fit: cover;
-    will-change: transform;
-    transition: transform 0.12s linear;
 }
 
 /* Dark Linear Vignette Masks to Ensure Contrast Behind Typography */
@@ -447,7 +423,7 @@ nav ul a:hover::after { width:100%; }
         rgba(7, 3, 10, 0.3) 100%);
     will-change: opacity;
     transition: opacity 0.8s ease;
-    z-index: 2;
+    z-index: 2; /* Sandwiched strictly above media assets */
 }
 
 .work-card:not(.active) .card-overlay {
@@ -464,9 +440,7 @@ nav ul a:hover::after { width:100%; }
     left: 0;
     width: 100%;
     padding: 44px;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
+    z-index: 3; /* Placed perfectly on top layer matrices */
     pointer-events: none;
 }
 
@@ -569,10 +543,7 @@ nav ul a:hover::after { width:100%; }
                 background-color 0.3s ease;
 }
 
-.card-cta:hover {
-    background: rgba(231, 76, 60, 1);
-}
-
+.card-cta:hover { background: rgba(231, 76, 60, 1); }
 .cta-arr { transition: transform 0.3s ease; }
 .card-cta:hover .cta-arr { transform: translateX(5px); }
 
@@ -862,7 +833,6 @@ a.contact-item:hover { color:#e74c3c; }
 }
 
 @media (max-width:768px) {
-    /* Transform layout into clean horizontal swipe-cards for small touch screens */
     .accordion-stage {
         display: flex;
         flex-direction: row;
@@ -884,24 +854,11 @@ a.contact-item:hover { color:#e74c3c; }
         border-radius: 20px;
     }
 
-    .work-card:not(.active) {
-        filter: brightness(0.85);
-    }
+    .work-card:not(.active) { filter: brightness(0.85); }
+    .work-card:not(.active) .card-title { transform: none !important; position: static !important; }
 
-    .work-card:not(.active) .card-title {
-        transform: none !important;
-        position: static !important;
-    }
-
-    .card-content {
-        pointer-events: auto;
-        padding: 32px;
-    }
-
-    .card-meta, .card-description, .card-tags, .card-cta {
-        opacity: 1 !important;
-        transform: none !important;
-    }
+    .card-content { pointer-events: auto; padding: 32px; }
+    .card-meta, .card-description, .card-tags, .card-cta { opacity: 1 !important; transform: none !important; }
 }
 
 @media (max-width:1024px) {
