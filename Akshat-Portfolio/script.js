@@ -1,5 +1,5 @@
 /* ============================================================
-   NAVBAR CONTROL
+   NAVBAR EFFECT
 ============================================================ */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -8,7 +8,7 @@ window.addEventListener('scroll', () => {
 
 
 /* ============================================================
-   SCROLL REVEAL (Hero, About, Journey, Toolkit Sections)
+   SCROLL REVEAL MONITORING
 ============================================================ */
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -22,7 +22,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
 
 /* ============================================================
-   HERO ENTRANCE CORRELATION
+   HERO ENTRANCE COORDINATION
 ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.hero .reveal').forEach((el, i) => {
@@ -32,18 +32,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 /* ============================================================
-   PREMIUM FEATURED WORK DESIGN ARCHITECTURE
+   PREMIUM FEATURED WORK DESIGN INTERACTIVES
 ============================================================ */
 const workSection = document.getElementById('work');
 const accordionStage = document.getElementById('accordionStage');
 const workCards = document.querySelectorAll('.work-card');
 const indicatorProgress = document.getElementById('workIndicatorProgress');
 
-// Initialize Global Stagger Entrance Matrix upon Scroll Viewport Crossings
+// Initialize Intersection Observers to trigger staggered viewport entrances
 const workSectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // Trigger sequenced staggered animation transitions built cleanly via our specific utility sets
             workSection.querySelectorAll('.animate-init').forEach(el => {
                 el.classList.add('animate-active');
             });
@@ -57,8 +56,8 @@ if (workSection) {
 }
 
 /**
- * Sync Tracking Indicator Logic
- * Dynamically resizes tracking meter states depending on current selection context coordinates
+ * Sync Tracking Indicator 
+ * Controls status updates on the horizontal tracking track
  */
 function updateProgressIndicator(activeIndex) {
     if (!indicatorProgress || window.innerWidth <= 768) return;
@@ -69,16 +68,15 @@ function updateProgressIndicator(activeIndex) {
     indicatorProgress.style.transform = `translateX(${activeIndex * 100}%)`;
 }
 
-// Setup Active Status Indicator on Boot up
+// Initial Call setup on boot
 updateProgressIndicator(0);
 
 /**
- * Expand/Collapse Transition Listeners
- * Tracks interaction vectors over the main desktop accordion layers without layout jumps
+ * Desktop Accordion Hover State Listeners
  */
 workCards.forEach((card, index) => {
     card.addEventListener('mouseenter', () => {
-        if (window.innerWidth <= 768) return; // Prevent interference with mobile swipe interactions
+        if (window.innerWidth <= 768) return; // Ignore hover actions inside mobile viewport matrices
         
         workCards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
@@ -87,47 +85,47 @@ workCards.forEach((card, index) => {
 });
 
 /**
- * High-Performance Parallax Loop Logic
- * Managed seamlessly inside requestAnimationFrame ticks to maintain a locked 60 FPS
+ * Hardware Accelerated Parallax Animation Engine Loops
+ * Feeds custom variables into will-change target boundaries via requestAnimationFrame loops
  */
 let targetMouseX = 0;
 let targetMouseY = 0;
 let currentMouseX = 0;
 let currentMouseY = 0;
 
-// Lower values generate heavier, organic lag responses for luxury visual weights
+// Lower numbers generate heavier cinematic dampening weight properties
 const interpolationFactor = 0.08; 
 
 window.addEventListener('mousemove', (e) => {
-    // Standardize cursor positioning fields relative to viewport center coordinates
+    // Center point tracking layout equations
     targetMouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
     targetMouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
 }, { passive: true });
 
 function processParallaxLoop() {
-    // Apply Linear Interpolation (LERP) variables safely
+    // Linear Interpolation equations
     currentMouseX += (targetMouseX - currentMouseX) * interpolationFactor;
     currentMouseY += (targetMouseY - currentMouseY) * interpolationFactor;
 
-    // Calculate structural pixel offsets (Max 25px translation threshold mappings)
-    const pxOffsetValueX = currentMouseX * 25;
-    const pxOffsetValueY = currentMouseY * 25;
+    // Constrain relative pixel offset output translation ceilings
+    const pxOffsetValueX = currentMouseX * 28;
+    const pxOffsetValueY = currentMouseY * 28;
 
-    // Direct hardware-accelerated property updates exclusively on the active graphic element
-    const activeCardImage = document.querySelector('.work-card.active .card-bg-img');
-    if (activeCardImage && window.innerWidth > 768) {
-        activeCardImage.style.setProperty('--move-x', `${pxOffsetValueX}px`);
-        activeCardImage.style.setProperty('--move-y', `${pxOffsetValueY}px`);
+    // Apply translations exclusively to active visual items (images or videos)
+    const activeMediaElement = document.querySelector('.work-card.active .card-bg-wrap > *');
+    if (activeMediaElement && window.innerWidth > 768) {
+        activeMediaElement.style.setProperty('--move-x', `${pxOffsetValueX}px`);
+        activeMediaElement.style.setProperty('--move-y', `${pxOffsetValueY}px`);
     }
 
     requestAnimationFrame(processParallaxLoop);
 }
 
-// Start tracking calculations
+// Execute animation processing loop
 requestAnimationFrame(processParallaxLoop);
 
 /**
- * Mobile Mobile Snap Scroll Synchronization Listener
+ * Mobile Touch-Swipe Tracking Integrations
  */
 if (accordionStage) {
     accordionStage.addEventListener('scroll', () => {
@@ -136,7 +134,7 @@ if (accordionStage) {
         const stageWidth = accordionStage.offsetWidth;
         const currentScrollPosition = accordionStage.scrollLeft;
         
-        // Quantize indices based on horizontal location ranges
+        // Calculate index values based on horizontal location ranges
         const estimatedIndex = Math.round(currentScrollPosition / (stageWidth * 0.85));
         
         if (workCards[estimatedIndex] && !workCards[estimatedIndex].classList.contains('active')) {
