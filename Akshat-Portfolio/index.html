@@ -11,7 +11,6 @@
 </head>
 <body>
 
-<!-- BACKGROUND -->
 <div class="background">
     <div class="bg-vignette"></div>
     <div class="bg-glow-left"></div>
@@ -19,7 +18,6 @@
     <div class="bg-noise"></div>
 </div>
 
-<!-- NAVBAR -->
 <header id="navbar">
     <nav>
         <a href="#" class="logo">AKSHAT</a>
@@ -33,7 +31,6 @@
     </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-content">
         <p class="greet reveal">HELLO, I'M</p>
@@ -50,47 +47,116 @@
     </div>
 </section>
 
-<!-- FEATURED WORK -->
 <section id="work" class="work-section">
+    <div class="work-container">
+        <div class="work-label animate-init">
+            <span class="dot-pulse"></span>
+            <span class="work-label-text">Featured Work</span>
+        </div>
+        
+        <h2 class="work-heading animate-init">Cinematic Creations</h2>
+        <p class="work-subheading animate-init">Exploring narrative worlds through elevated creative direction, keyart design, and atmospheric digital storytelling frameworks.</p>
 
-    <div class="work-label reveal">
-        <span class="dot-pulse"></span>
-        <span class="work-label-text">Featured Work</span>
-    </div>
-
-    <!-- Netflix-style card stage — no frame, just the image -->
-    <div class="card-stage reveal" id="laptopStage">
-
-        <!-- Thumbnail strip — the "resting" small card -->
-        <div class="card-thumb" id="cardThumb">
-            <div class="screen-slides" id="screenSlides">
-                <div class="screen-slide active" data-src="assets/work/work1.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work2.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work3.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work4.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work5.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work6.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work7.jpg"></div>
-                <div class="screen-slide" data-src="assets/work/work8.jpg"></div>
+        <div class="accordion-stage animate-init" id="accordionStage">
+            
+            <div class="work-card active" data-index="0">
+                <div class="card-bg-wrap">
+                    <div class="card-bg-img" style="background-image: url('assets/work/work1.jpg');"></div>
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">Season 1 &middot; 2019 &middot; Drama</div>
+                    <h3 class="card-title">Chernobyl</h3>
+                    <p class="card-description">An atmospheric keyart exploration detailing historical weight through high-fidelity texture design and muted, apocalyptic color spaces.</p>
+                    <div class="card-tags">
+                        <span class="tag">Keyart</span>
+                        <span class="tag">Color Grading</span>
+                        <span class="tag">Matte Painting</span>
+                    </div>
+                    <a href="#" class="card-cta">View Case Study <span class="cta-arr">→</span></a>
+                </div>
             </div>
+
+            <div class="work-card" data-index="1">
+                <div class="card-bg-wrap">
+                    <div class="card-bg-img" style="background-image: url('assets/work/work2.jpg');"></div>
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">Season 2 &middot; 2019 &middot; Action</div>
+                    <h3 class="card-title">Knight Fall</h3>
+                    <p class="card-description">Cinematic keyart asset pipelines composed for gritty historical drama narratives, emphasizing high-contrast rim lighting layouts.</p>
+                    <div class="card-tags">
+                        <span class="tag">Composition</span>
+                        <span class="tag">Lighting</span>
+                        <span class="tag">AI Generation</span>
+                    </div>
+                    <a href="#" class="card-cta">View Case Study <span class="cta-arr">→</span></a>
+                </div>
+            </div>
+
+            <div class="work-card" data-index="2">
+                <div class="card-bg-wrap">
+                    <div class="card-bg-img" style="background-image: url('assets/work/work3.jpg');"></div>
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">Season 4 &middot; 2022 &middot; Fantasy</div>
+                    <h3 class="card-title">Stranger Things</h3>
+                    <p class="card-description">Retro-vintage design asset execution balancing high-grain film textures with neon synthwave lighting designs.</p>
+                    <div class="card-tags">
+                        <span class="tag">Creative Direction</span>
+                        <span class="tag">Retro Film</span>
+                        <span class="tag">VFX</span>
+                    </div>
+                    <a href="#" class="card-cta">View Case Study <span class="cta-arr">→</span></a>
+                </div>
+            </div>
+
+            <div class="work-card" data-index="3">
+                <div class="card-bg-wrap">
+                    <div class="card-bg-img" style="background-image: url('assets/work/work4.jpg');"></div>
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">Season 3 &middot; 2020 &middot; Sci-Fi</div>
+                    <h3 class="card-title">Dark</h3>
+                    <p class="card-description">Symmetric layout systems and complex visual puzzles built to mirror non-linear temporal storytelling elements.</p>
+                    <div class="card-tags">
+                        <span class="tag">Symmetry</span>
+                        <span class="tag">Branding</span>
+                        <span class="tag">Typography</span>
+                    </div>
+                    <a href="#" class="card-cta">View Case Study <span class="cta-arr">→</span></a>
+                </div>
+            </div>
+
+            <div class="work-card" data-index="4">
+                <div class="card-bg-wrap">
+                    <div class="card-bg-img" style="background-image: url('assets/work/work5.jpg');"></div>
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-meta">Season 6 &middot; 2022 &middot; Crime</div>
+                    <h3 class="card-title">Peaky Blinders</h3>
+                    <p class="card-description">High-end typographic styling intersecting smoky ambient design fields to encapsulate period character identity patterns.</p>
+                    <div class="card-tags">
+                        <span class="tag">Keyart</span>
+                        <span class="tag">Retouching</span>
+                        <span class="tag">Layout</span>
+                    </div>
+                    <a href="#" class="card-cta">View Case Study <span class="cta-arr">→</span></a>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Popout card — scales up out of the thumb, holds, scales back -->
-        <div class="popout-card" id="popoutCard">
-            <img class="popout-img" id="popoutImg" src="" alt="">
-            <div class="popout-glow" id="popoutGlow"></div>
+        <div class="work-indicator-track">
+            <div class="work-indicator-progress" id="workIndicatorProgress"></div>
         </div>
-
     </div>
-
-    <!-- Progress bar -->
-    <div class="slide-progress" id="slideProgress">
-        <div class="slide-progress-bar" id="slideProgressBar"></div>
-    </div>
-
 </section>
 
-<!-- ABOUT -->
 <section id="about" class="about-section">
     <p class="eyebrow reveal"><span class="dot"></span> In a Nutshell</p>
     <div class="about-grid reveal">
@@ -116,7 +182,6 @@
     </div>
 </section>
 
-<!-- JOURNEY -->
 <section id="journey" class="journey-section">
     <p class="eyebrow reveal"><span class="dot"></span> Professional Journey</p>
     <div class="timeline">
@@ -168,7 +233,6 @@
     </div>
 </section>
 
-<!-- SKILLS -->
 <section id="skills" class="skills-section">
     <p class="eyebrow reveal"><span class="dot"></span> My Toolkit</p>
     <div class="skills-grid reveal">
@@ -240,7 +304,6 @@
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer id="contact">
     <p class="footer-cta">Let's create something <span>unforgettable.</span></p>
     <a href="mailto:Sharmaakshat756@gmail.com" class="btn-primary">Say Hello <span class="arrow">→</span></a>
