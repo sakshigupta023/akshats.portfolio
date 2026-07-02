@@ -1,5 +1,5 @@
 /* ============================================================
-   NAVBAR
+   NAVBAR CONTROL
 ============================================================ */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -8,7 +8,7 @@ window.addEventListener('scroll', () => {
 
 
 /* ============================================================
-   SCROLL REVEAL
+   SCROLL REVEAL (Hero, About, Journey, Toolkit Sections)
 ============================================================ */
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -22,7 +22,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
 
 /* ============================================================
-   HERO ENTRANCE
+   HERO ENTRANCE CORRELATION
 ============================================================ */
 window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.hero .reveal').forEach((el, i) => {
@@ -32,93 +32,116 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 /* ============================================================
-   NETFLIX CARD POP-OUT SLIDESHOW
-
-   Flow per slide:
-     1. Load image into popout card (hidden, scale(1), opacity 0)
-     2. Set bg in thumb slot
-     3. POP OUT  →  scale(1.32) translateY(-6%), opacity 1   [0.5s spring]
-     4. HOLD 2.5s  (user sees it large)
-     5. SNAP IN  →  scale(1), opacity 0                      [0.4s sharp]
-     6. Short pause, then next slide
+   PREMIUM FEATURED WORK DESIGN ARCHITECTURE
 ============================================================ */
+const workSection = document.getElementById('work');
+const accordionStage = document.getElementById('accordionStage');
+const workCards = document.querySelectorAll('.work-card');
+const indicatorProgress = document.getElementById('workIndicatorProgress');
 
-const slides       = document.querySelectorAll('.screen-slide');
-const popoutCard   = document.getElementById('popoutCard');
-const popoutImg    = document.getElementById('popoutImg');
-const progressBar  = document.getElementById('slideProgressBar');
-
-const T_OUT   = 500;   // pop-out spring
-const T_HOLD  = 2500;  // hold time
-const T_IN    = 400;   // snap-in
-const T_PAUSE = 350;   // gap before next
-
-let current = 0;
-let started = false;
-
-// Pre-load all slide backgrounds immediately
-slides.forEach(slide => {
-    if (slide.dataset.src) {
-        slide.style.backgroundImage = `url('${slide.dataset.src}')`;
-    }
-});
-
-// Show first slide thumb
-slides[0].classList.add('active');
-
-function runSlide(idx) {
-    const slide = slides[idx];
-    const src   = slide.dataset.src || '';
-
-    // — Step 1: switch thumb (crossfade) —
-    slides.forEach(s => s.classList.remove('active'));
-    slide.classList.add('active');
-
-    // — Step 2: load image into popout (while invisible) —
-    popoutImg.src = src;
-
-    // Reset: no transition, invisible, same size as thumb
-    popoutCard.className = 'popout-card';
-
-    // Reset progress bar instantly
-    progressBar.style.transition = 'none';
-    progressBar.style.width = '0%';
-    void progressBar.offsetWidth;
-
-    // — Step 3: POP OUT (next frame so reset is applied) —
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-        popoutCard.classList.add('popping-out');
-
-        // Progress bar animates over hold period
-        setTimeout(() => {
-            progressBar.style.transition = `width ${T_HOLD}ms linear`;
-            progressBar.style.width = '100%';
-        }, T_OUT);
-    }));
-
-    // — Step 4 → 5: after hold, SNAP IN —
-    setTimeout(() => {
-        popoutCard.classList.remove('popping-out');
-        popoutCard.classList.add('snapping-in');
-    }, T_OUT + T_HOLD);
-
-    // — Step 6: next slide —
-    setTimeout(() => {
-        current = (idx + 1) % slides.length;
-        runSlide(current);
-    }, T_OUT + T_HOLD + T_IN + T_PAUSE);
-}
-
-// Start only when the card stage scrolls into view
-const stageEl = document.getElementById('laptopStage');
-const startObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting && !started) {
-            started = true;
-            setTimeout(() => runSlide(0), 500);
-            startObs.disconnect();
+// Initialize Global Stagger Entrance Matrix upon Scroll Viewport Crossings
+const workSectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Trigger sequenced staggered animation transitions built cleanly via our specific utility sets
+            workSection.querySelectorAll('.animate-init').forEach(el => {
+                el.classList.add('animate-active');
+            });
+            workSectionObserver.unobserve(entry.target);
         }
     });
-}, { threshold: 0.35 });
+}, { threshold: 0.15 });
 
-if (stageEl) startObs.observe(stageEl);
+if (workSection) {
+    workSectionObserver.observe(workSection);
+}
+
+/**
+ * Sync Tracking Indicator Logic
+ * Dynamically resizes tracking meter states depending on current selection context coordinates
+ */
+function updateProgressIndicator(activeIndex) {
+    if (!indicatorProgress || window.innerWidth <= 768) return;
+    const totalCards = workCards.length;
+    const segmentsWidth = 100 / totalCards;
+    
+    indicatorProgress.style.width = `${segmentsWidth}%`;
+    indicatorProgress.style.transform = `translateX(${activeIndex * 100}%)`;
+}
+
+// Setup Active Status Indicator on Boot up
+updateProgressIndicator(0);
+
+/**
+ * Expand/Collapse Transition Listeners
+ * Tracks interaction vectors over the main desktop accordion layers without layout jumps
+ */
+workCards.forEach((card, index) => {
+    card.addEventListener('mouseenter', () => {
+        if (window.innerWidth <= 768) return; // Prevent interference with mobile swipe interactions
+        
+        workCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        updateProgressIndicator(index);
+    });
+});
+
+/**
+ * High-Performance Parallax Loop Logic
+ * Managed seamlessly inside requestAnimationFrame ticks to maintain a locked 60 FPS
+ */
+let targetMouseX = 0;
+let targetMouseY = 0;
+let currentMouseX = 0;
+let currentMouseY = 0;
+
+// Lower values generate heavier, organic lag responses for luxury visual weights
+const interpolationFactor = 0.08; 
+
+window.addEventListener('mousemove', (e) => {
+    // Standardize cursor positioning fields relative to viewport center coordinates
+    targetMouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+    targetMouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+}, { passive: true });
+
+function processParallaxLoop() {
+    // Apply Linear Interpolation (LERP) variables safely
+    currentMouseX += (targetMouseX - currentMouseX) * interpolationFactor;
+    currentMouseY += (targetMouseY - currentMouseY) * interpolationFactor;
+
+    // Calculate structural pixel offsets (Max 25px translation threshold mappings)
+    const pxOffsetValueX = currentMouseX * 25;
+    const pxOffsetValueY = currentMouseY * 25;
+
+    // Direct hardware-accelerated property updates exclusively on the active graphic element
+    const activeCardImage = document.querySelector('.work-card.active .card-bg-img');
+    if (activeCardImage && window.innerWidth > 768) {
+        activeCardImage.style.setProperty('--move-x', `${pxOffsetValueX}px`);
+        activeCardImage.style.setProperty('--move-y', `${pxOffsetValueY}px`);
+    }
+
+    requestAnimationFrame(processParallaxLoop);
+}
+
+// Start tracking calculations
+requestAnimationFrame(processParallaxLoop);
+
+/**
+ * Mobile Mobile Snap Scroll Synchronization Listener
+ */
+if (accordionStage) {
+    accordionStage.addEventListener('scroll', () => {
+        if (window.innerWidth > 768) return;
+        
+        const stageWidth = accordionStage.offsetWidth;
+        const currentScrollPosition = accordionStage.scrollLeft;
+        
+        // Quantize indices based on horizontal location ranges
+        const estimatedIndex = Math.round(currentScrollPosition / (stageWidth * 0.85));
+        
+        if (workCards[estimatedIndex] && !workCards[estimatedIndex].classList.contains('active')) {
+            workCards.forEach(c => c.classList.remove('active'));
+            workCards[estimatedIndex].classList.add('active');
+        }
+    }, { passive: true });
+}
