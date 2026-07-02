@@ -1,57 +1,128 @@
+Skip to content
+sakshigupta023
+akshats.portfolio
+Repository navigation
+Code
+Issues
+Pull requests
+Agents
+Actions
+Projects
+Security and quality
+Insights
+Settings
+Files
+Go to file
+t
+T
+Akshat-Portfolio
+assets
+README.md
+index.html
+script.js
+style.css
+akshats.portfolio/Akshat-Portfolio
+/
+script.js
+in
+main
+
+Edit
+
+Preview
+Indent mode
+
+Spaces
+Indent size
+
+2
+Line wrap mode
+
+No wrap
+Editing script.js file contents
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
 /* ============================================================
-   NAVBAR EFFECT
-============================================================ */
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-
-
-/* ============================================================
-   SCROLL REVEAL MONITORING
-============================================================ */
-const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add('visible'), i * 80);
-            revealObs.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
-
-/* ============================================================
-   HERO ENTRANCE COORDINATION
-============================================================ */
-window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), 80 + i * 110);
-    });
-});
-
-
-/* ============================================================
-   PREMIUM FEATURED WORK DESIGN INTERACTIVES
-============================================================ */
-const workSection = document.getElementById('work');
-const accordionStage = document.getElementById('accordionStage');
-const workCards = document.querySelectorAll('.work-card');
-const indicatorProgress = document.getElementById('workIndicatorProgress');
-
-// Initialize Intersection Observers to trigger staggered viewport entrances
-const workSectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            workSection.querySelectorAll('.animate-init').forEach(el => {
-                el.classList.add('animate-active');
-            });
-            workSectionObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.15 });
-
-if (workSection) {
     workSectionObserver.observe(workSection);
 }
 
@@ -134,26 +205,4 @@ function processParallaxLoop() {
 
     requestAnimationFrame(processParallaxLoop);
 }
-
-// Execute animation processing loop
-requestAnimationFrame(processParallaxLoop);
-
-/**
- * Mobile Touch-Swipe Tracking Integrations
- */
-if (accordionStage) {
-    accordionStage.addEventListener('scroll', () => {
-        if (window.innerWidth > 768) return;
-        
-        const stageWidth = accordionStage.offsetWidth;
-        const currentScrollPosition = accordionStage.scrollLeft;
-        
-        // Calculate index values based on horizontal location ranges
-        const estimatedIndex = Math.round(currentScrollPosition / (stageWidth * 0.85));
-        
-        if (workCards[estimatedIndex] && !workCards[estimatedIndex].classList.contains('active')) {
-            workCards.forEach(c => c.classList.remove('active'));
-            workCards[estimatedIndex].classList.add('active');
-        }
-    }, { passive: true });
-}
+Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
