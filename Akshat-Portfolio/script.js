@@ -71,39 +71,35 @@ const modalDescField = document.getElementById('modalDescField');
 const modalTagsField = document.getElementById('modalTagsField');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-document.querySelectorAll('.open-modal-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const projectId = btn.getAttribute('data-project');
-        const data = projectDataHub[projectId];
-        if (!data) return;
+function openCinematicModal(projectId) {
+    const data = projectDataHub[projectId];
+    if (!data) return;
 
-        modalMetaField.innerHTML = data.meta;
-        modalTitleField.innerText = data.title;
-        modalDescField.innerText = data.desc;
-        
-        modalTagsField.innerHTML = '';
-        data.tags.forEach(t => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.innerText = t;
-            modalTagsField.appendChild(span);
-        });
-
-        if (data.videoSrc) {
-            modalMediaAnchor.innerHTML = `<video autoplay loop controls playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${data.videoSrc}" type="video/mp4"></video>`;
-        } else {
-            modalMediaAnchor.innerHTML = `<img src="${data.imgSrc}" style="width:100%; height:100%; object-fit:cover;" alt="Showcase">`;
-        }
-
-        modalOverlay.classList.add('modal-visible');
+    modalMetaField.innerHTML = data.meta;
+    modalTitleField.innerText = data.title;
+    modalDescField.innerText = data.desc;
+    
+    modalTagsField.innerHTML = '';
+    data.tags.forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'tag';
+        span.innerText = t;
+        modalTagsField.appendChild(span);
     });
-});
+
+    if (data.videoSrc) {
+        modalMediaAnchor.innerHTML = `<video autoplay loop controls playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${data.videoSrc}" type="video/mp4"></video>`;
+    } else {
+        modalMediaAnchor.innerHTML = `<img src="${data.imgSrc}" style="width:100%; height:100%; object-fit:cover;" alt="Showcase">`;
+    }
+
+    modalOverlay.classList.add('modal-visible');
+}
 
 if (modalCloseBtn) {
     modalCloseBtn.addEventListener('click', () => {
         modalOverlay.classList.remove('modal-visible');
-        modalMediaAnchor.innerHTML = ''; // Instantly kill audio stream
+        modalMediaAnchor.innerHTML = ''; 
     });
 }
 modalOverlay.addEventListener('click', (e) => {
@@ -165,7 +161,6 @@ function initializeCardSlideshowSequence(card) {
     const intervalId = setInterval(() => {
         slides[activeSlideIndex].classList.remove('active-slide');
         
-        // Handle native pause commands over video slide segments
         if (slides[activeSlideIndex].tagName === 'VIDEO') {
             slides[activeSlideIndex].pause();
         }
@@ -173,12 +168,11 @@ function initializeCardSlideshowSequence(card) {
         activeSlideIndex = (activeSlideIndex + 1) % slides.length;
         slides[activeSlideIndex].classList.add('active-slide');
         
-        // Handle play evaluations on targeted video slides
         if (slides[activeSlideIndex].tagName === 'VIDEO') {
             slides[activeSlideIndex].muted = true;
             slides[activeSlideIndex].play().catch(e => console.log(e));
         }
-    }, 2800); // Transitions to next clip or graphic every 2.8 seconds smoothly
+    }, 2800); 
     
     activeSlideshowIntervals.push({ card: card, interval: intervalId });
 }
@@ -188,7 +182,6 @@ function terminateCardSlideshowSequence(card) {
         if (item.card === card) {
             clearInterval(item.interval);
             
-            // Re-set display stack state to first element anchor
             const slides = card.querySelectorAll('.card-bg-img');
             slides.forEach((s, idx) => {
                 if (idx === 0) {
@@ -205,13 +198,13 @@ function terminateCardSlideshowSequence(card) {
     });
 }
 
-// Setup Active Card Initial Slideshow Run
 if(workCards[0]) initializeCardSlideshowSequence(workCards[0]);
 
 /**
- * Desktop Accordion Hover Listening Channels
+ * Desktop Accordion Hover Channels & Whole-Card Click Interceptions
  */
 workCards.forEach((card, index) => {
+    // Hover event tracking for fluid desktop layout shifts
     card.addEventListener('mouseenter', () => {
         if (window.innerWidth <= 768) return; 
         
@@ -226,12 +219,20 @@ workCards.forEach((card, index) => {
         updateProgressIndicator(index);
         initializeCardSlideshowSequence(card);
 
-        // Force initialize playback sequences on targeted active media tags immediately
         const activeVideo = card.querySelector('.active-slide');
         if (activeVideo && activeVideo.tagName === 'VIDEO') {
             activeVideo.muted = true;
             activeVideo.play().catch(err => console.log("Autoplay blocked on hover:", err));
         }
+    });
+
+    // Whole-Card Click Handler: Trigger modal window popup natively on click or touch tap vectors
+    card.addEventListener('click', () => {
+        // Desktop verification rule: click only activates if the card is already expanded/active
+        if (window.innerWidth > 768 && !card.classList.contains('active')) return;
+        
+        const projectId = card.getAttribute('data-project');
+        openCinematicModal(projectId);
     });
 });
 
@@ -253,7 +254,6 @@ function processParallaxLoop() {
     const pxOffsetValueX = currentMouseX * 28;
     const pxOffsetValueY = currentMouseY * 28;
 
-    // Apply parallax matrix shift properties directly onto the targeted slide element layer
     const activeMediaElement = document.querySelector('.work-card.active .card-bg-wrap .active-slide');
     if (activeMediaElement && window.innerWidth > 768) {
         activeMediaElement.style.setProperty('--move-x', `${pxOffsetValueX}px`);
