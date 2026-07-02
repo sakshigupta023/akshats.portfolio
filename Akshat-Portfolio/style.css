@@ -291,7 +291,6 @@ nav ul a:hover::after { width:100%; }
     100% { box-shadow: 0 0 0 0   rgba(231,76,60,0);   }
 }
 
-/* Section Title & Framing Headers */
 .work-heading {
     font-size: clamp(2.5rem, 4vw, 4.2rem);
     font-weight: 800;
@@ -352,7 +351,7 @@ nav ul a:hover::after { width:100%; }
     flex-shrink: 1;
     border-radius: 24px;
     overflow: hidden;
-    cursor: pointer;
+    cursor: pointer; /* Click layer indicator */
     background: #0f0a15;
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
@@ -366,7 +365,6 @@ nav ul a:hover::after { width:100%; }
 .work-card.active {
     flex-basis: 52%;
     flex-grow: 6;
-    cursor: default;
     border-color: rgba(231, 76, 60, 0.4);
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.85), 
                 0 0 60px rgba(231, 76, 60, 0.18);
@@ -391,21 +389,18 @@ nav ul a:hover::after { width:100%; }
     inset: -30px; 
     background-size: cover;
     background-position: center;
-    opacity: 0; /* Default invisible, toggled smoothly by sequential loop system */
+    opacity: 0; 
     will-change: transform, opacity;
     transform: scale(1.06) translate(var(--move-x, 0px), var(--move-y, 0px));
     transition: transform 0.12s linear, opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
 }
 
-/* Force show active layer sequence stack values */
 .card-bg-img.active-slide {
     opacity: 1 !important;
 }
 
-/* Active Image Micro-zoom Allocation */
 .work-card.active .card-bg-img { filter: scale(1.08); }
 
-/* High-Performance Video Cover Overrides */
 video.card-bg-img {
     width: 100%;
     height: 100%;
@@ -519,36 +514,40 @@ video.card-bg-img {
     color: #ff7666;
 }
 
-.card-cta {
+/* Luxury Minimal Case Study View Hint Indicator */
+.card-hint {
     align-self: flex-start;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin-top: 32px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    color: #fff;
-    background: rgba(231, 76, 60, 0.9);
-    padding: 12px 24px;
-    border-radius: 100px;
-    pointer-events: auto;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 4px;
     opacity: 0;
     transform: translateY(30px);
-    will-change: transform, opacity, background-color;
+    will-change: transform, opacity, color, border-color;
     transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
                 transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                background-color 0.3s ease;
+                color 0.3s ease, border-color 0.3s ease;
 }
 
-.card-cta:hover { background: rgba(231, 76, 60, 1); }
-.cta-arr { transition: transform 0.3s ease; }
-.card-cta:hover .cta-arr { transform: translateX(5px); }
+.work-card.active:hover .card-hint {
+    color: #e74c3c;
+    border-color: rgba(231, 76, 60, 0.5);
+}
+
+.hint-arr { transition: transform 0.3s ease; }
+.work-card.active:hover .hint-arr { transform: translateX(4px); }
 
 .work-card.active .card-meta { opacity: 1; transform: translateY(0); transition-delay: 0.18s; }
 .work-card.active .card-title { transform: translateY(0); }
 .work-card.active .card-description { opacity: 1; transform: translateY(0); transition-delay: 0.26s; }
 .work-card.active .card-tags { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
-.work-card.active .card-cta { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+.work-card.active .card-hint { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
 
 /* ---- GLOBAL TRACK COMPONENT INDICATOR ---- */
 .work-indicator-track {
