@@ -696,7 +696,7 @@ video.card-bg-img {
    JOURNEY
 ============================================================ */
 .journey-section { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 40px 32px 100px; }
-.timeline { position: relative; margin-top: 36px; padding-left: 28px; border-left: 1px solid rgba(255,255,255,0.09); }
+.timeline { position: relative; margin-top: 36px; padding-left: 28px; border-left: 1px solid rgba(255, 255, 255, 0.09); }
 .timeline-item { position:relative; padding-bottom:40px; }
 .timeline-item:last-child { padding-bottom:0; }
 .timeline-dot { position: absolute; left: -33px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: #333; border: 2px solid #07030a; }
