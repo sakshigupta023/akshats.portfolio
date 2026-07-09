@@ -2,11 +2,9 @@
    NAVBAR & SCROLL EFFECT
 ============================================================ */
 const navbar = document.getElementById('navbar');
-if (navbar) {
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
-}
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
 
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -75,28 +73,24 @@ const modalCloseBtn = document.getElementById('modalCloseBtn');
 
 function openCinematicModal(projectId) {
     const data = projectDataHub[projectId];
-    if (!data || !modalOverlay) return;
+    if (!data) return;
 
-    if (modalMetaField) modalMetaField.innerHTML = data.meta;
-    if (modalTitleField) modalTitleField.innerText = data.title;
-    if (modalDescField) modalDescField.innerText = data.desc;
+    modalMetaField.innerHTML = data.meta;
+    modalTitleField.innerText = data.title;
+    modalDescField.innerText = data.desc;
     
-    if (modalTagsField) {
-        modalTagsField.innerHTML = '';
-        data.tags.forEach(t => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.innerText = t;
-            modalTagsField.appendChild(span);
-        });
-    }
+    modalTagsField.innerHTML = '';
+    data.tags.forEach(t => {
+        const span = document.createElement('span');
+        span.className = 'tag';
+        span.innerText = t;
+        modalTagsField.appendChild(span);
+    });
 
-    if (modalMediaAnchor) {
-        if (data.videoSrc) {
-            modalMediaAnchor.innerHTML = `<video autoplay loop controls playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${data.videoSrc}" type="video/mp4"></video>`;
-        } else {
-            modalMediaAnchor.innerHTML = `<img src="${data.imgSrc}" style="width:100%; height:100%; object-fit:cover;" alt="Showcase">`;
-        }
+    if (data.videoSrc) {
+        modalMediaAnchor.innerHTML = `<video autoplay loop controls playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${data.videoSrc}" type="video/mp4"></video>`;
+    } else {
+        modalMediaAnchor.innerHTML = `<img src="${data.imgSrc}" style="width:100%; height:100%; object-fit:cover;" alt="Showcase">`;
     }
 
     modalOverlay.classList.add('modal-visible');
@@ -104,18 +98,16 @@ function openCinematicModal(projectId) {
 
 if (modalCloseBtn) {
     modalCloseBtn.addEventListener('click', () => {
-        if (modalOverlay) modalOverlay.classList.remove('modal-visible');
-        if (modalMediaAnchor) modalMediaAnchor.innerHTML = ''; 
+        modalOverlay.classList.remove('modal-visible');
+        modalMediaAnchor.innerHTML = ''; 
     });
 }
-if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            modalOverlay.classList.remove('modal-visible');
-            if (modalMediaAnchor) modalMediaAnchor.innerHTML = '';
-        }
-    });
-}
+modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) {
+        modalOverlay.classList.remove('modal-visible');
+        modalMediaAnchor.innerHTML = '';
+    }
+});
 
 /* ============================================================
    PREMIUM FEATURED WORK DESIGN INTERACTIVES & MULTI-SLIDESHOW
@@ -128,11 +120,9 @@ const indicatorProgress = document.getElementById('workIndicatorProgress');
 const workSectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting || document.readyState === 'complete') {
-            if (workSection) {
-                workSection.querySelectorAll('.animate-init').forEach(el => {
-                    el.classList.add('animate-active');
-                });
-            }
+            workSection.querySelectorAll('.animate-init').forEach(el => {
+                el.classList.add('animate-active');
+            });
             workSectionObserver.unobserve(entry.target);
         }
     });
@@ -160,45 +150,38 @@ updateProgressIndicator(0);
 let activeSlideshowIntervals = [];
 
 function initializeCardSlideshowSequence(card) {
-    try {
-        const wrap = card.querySelector('.dynamic-slideshow');
-        if (!wrap) return;
+    const wrap = card.querySelector('.dynamic-slideshow');
+    if (!wrap) return;
+    
+    const slides = wrap.querySelectorAll('.card-bg-img');
+    if (slides.length <= 1) return;
+    
+    let activeSlideIndex = 0;
+    
+    const intervalId = setInterval(() => {
+        slides[activeSlideIndex].classList.remove('active-slide');
         
-        const slides = wrap.querySelectorAll('.card-bg-img');
-        if (slides.length <= 1) return;
+        if (slides[activeSlideIndex].tagName === 'VIDEO') {
+            slides[activeSlideIndex].pause();
+        }
         
-        let activeSlideIndex = 0;
+        activeSlideIndex = (activeSlideIndex + 1) % slides.length;
+        slides[activeSlideIndex].classList.add('active-slide');
         
-        const intervalId = setInterval(() => {
-            if (!card.classList.contains('active')) {
-                clearInterval(intervalId);
-                return;
-            }
-            
-            slides[activeSlideIndex].classList.remove('active-slide');
-            if (slides[activeSlideIndex].tagName === 'VIDEO') {
-                slides[activeSlideIndex].pause();
-            }
-            
-            activeSlideIndex = (activeSlideIndex + 1) % slides.length;
-            slides[activeSlideIndex].classList.add('active-slide');
-            
-            if (slides[activeSlideIndex].tagName === 'VIDEO') {
-                slides[activeSlideIndex].muted = true;
-                slides[activeSlideIndex].play().catch(e => console.log("Slideshow video play blocked:", e));
-            }
-        }, 2800); 
-        
-        activeSlideshowIntervals.push({ card: card, interval: intervalId });
-    } catch (err) {
-        console.log("Slideshow system bypassed setup:", err);
-    }
+        if (slides[activeSlideIndex].tagName === 'VIDEO') {
+            slides[activeSlideIndex].muted = true;
+            slides[activeSlideIndex].play().catch(e => console.log(e));
+        }
+    }, 2800); 
+    
+    activeSlideshowIntervals.push({ card: card, interval: intervalId });
 }
 
 function terminateCardSlideshowSequence(card) {
     activeSlideshowIntervals = activeSlideshowIntervals.filter(item => {
         if (item.card === card) {
             clearInterval(item.interval);
+            
             const slides = card.querySelectorAll('.card-bg-img');
             slides.forEach((s, idx) => {
                 if (idx === 0) {
@@ -221,6 +204,7 @@ if(workCards[0]) initializeCardSlideshowSequence(workCards[0]);
  * Desktop Accordion Hover Channels & Whole-Card Click Interceptions
  */
 workCards.forEach((card, index) => {
+    // Hover event tracking for fluid desktop layout shifts
     card.addEventListener('mouseenter', () => {
         if (window.innerWidth <= 768) return; 
         
@@ -242,16 +226,19 @@ workCards.forEach((card, index) => {
         }
     });
 
+    // Whole-Card Click Handler: Trigger modal window popup natively on click or touch tap vectors
     card.addEventListener('click', () => {
+        // Desktop verification rule: click only activates if the card is already expanded/active
         if (window.innerWidth > 768 && !card.classList.contains('active')) return;
+        
         const projectId = card.getAttribute('data-project');
-        if (projectId) openCinematicModal(projectId);
+        openCinematicModal(projectId);
     });
 });
 
-/* ============================================================
-   HARDWARE ACCELERATED PARALLAX ENGINE
-============================================================ */
+/**
+ * Hardware Accelerated Parallax Animation Engine Loops
+ */
 let targetMouseX = 0; let targetMouseY = 0; let currentMouseX = 0; let currentMouseY = 0;
 const interpolationFactor = 0.08; 
 
