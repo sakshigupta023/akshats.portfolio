@@ -76,7 +76,197 @@ function revealHeroAndNav() {
     }
 }
 
+/* =========================================================
+   HERO CURSOR DISTORTION
+   Letters compress/stretch toward cursor
+   ========================================================= */
 
+const cinematicHero =
+    document.querySelector('.hero');
+
+const cinematicName =
+    document.getElementById('heroName');
+
+const heroSmoke =
+    document.querySelector('.hero-smoke');
+
+
+if (
+    cinematicHero &&
+    cinematicName &&
+    !prefersReducedMotion
+) {
+
+    const chars =
+        cinematicName.querySelectorAll('.kchar');
+
+
+    cinematicHero.addEventListener(
+        'mousemove',
+        (e) => {
+
+            const rect =
+                cinematicName.getBoundingClientRect();
+
+
+            const mouseX =
+                e.clientX;
+
+            const mouseY =
+                e.clientY;
+
+
+            chars.forEach(
+                (char) => {
+
+                    const charRect =
+                        char.getBoundingClientRect();
+
+
+                    const charX =
+                        charRect.left +
+                        charRect.width / 2;
+
+
+                    const charY =
+                        charRect.top +
+                        charRect.height / 2;
+
+
+                    const distanceX =
+                        mouseX - charX;
+
+
+                    const distanceY =
+                        mouseY - charY;
+
+
+                    const distance =
+                        Math.sqrt(
+                            distanceX * distanceX +
+                            distanceY * distanceY
+                        );
+
+
+                    const influence =
+                        Math.max(
+                            0,
+                            1 -
+                            distance / 500
+                        );
+
+
+                    if (influence <= 0) {
+
+                        char.style.transform =
+                            'translate3d(0,0,0) scaleX(1)';
+
+                        return;
+
+                    }
+
+
+                    /*
+                       Cursor ke paas:
+                       horizontal stretch/compress
+                    */
+
+                    const direction =
+                        distanceX >= 0
+                            ? 1
+                            : -1;
+
+
+                    const stretch =
+                        1 +
+                        influence * 0.55;
+
+
+                    const squeeze =
+                        1 -
+                        influence * 0.20;
+
+
+                    const moveX =
+                        direction *
+                        influence *
+                        18;
+
+
+                    const moveY =
+                        -influence *
+                        Math.abs(distanceY) *
+                        0.025;
+
+
+                    char.style.transform =
+                        `
+                        translate3d(
+                            ${moveX}px,
+                            ${moveY}px,
+                            0
+                        )
+                        scaleX(
+                            ${distance < 180
+                                ? stretch
+                                : squeeze}
+                        )
+                        `;
+
+                }
+            );
+
+
+            /* Smoke follows cursor */
+
+            if (heroSmoke) {
+
+                heroSmoke.style.left =
+                    `${e.clientX}px`;
+
+                heroSmoke.style.top =
+                    `${e.clientY}px`;
+
+            }
+
+
+            cinematicName.classList.add(
+                'cursor-active'
+            );
+
+        }
+    );
+
+
+    cinematicHero.addEventListener(
+        'mouseleave',
+        () => {
+
+            chars.forEach(
+                char => {
+
+                    char.style.transform =
+                        'translate3d(0,0,0) scaleX(1)';
+
+                }
+            );
+
+
+            cinematicName.classList.remove(
+                'cursor-active'
+            );
+
+            if (heroSmoke) {
+
+                heroSmoke.style.opacity =
+                    '0';
+
+            }
+
+        }
+    );
+
+}
 /* ---------- PRELOADER FINISH ---------- */
 
 function finishPreloader() {
