@@ -1274,3 +1274,337 @@ footer.footer-active .footer-end-mark { opacity: 1; }
     .work-tape-track { animation: none; transform: translateX(0); }
     .hero h1 { animation: none; }
 }
+/* =========================================================
+   CINEMATIC HERO NAME
+   ========================================================= */
+
+.hero {
+    position: relative;
+    min-height: 100svh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 120px 30px 80px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 1500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* -----------------------------------------
+   MAIN NAME
+   ----------------------------------------- */
+
+#heroName {
+    position: relative;
+
+    width: 100%;
+
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(5rem, 13vw, 14rem);
+
+    font-weight: 800;
+    line-height: 0.78;
+
+    letter-spacing: -0.085em;
+
+    text-align: center;
+
+    margin: 0;
+
+    color: #d5d5d8;
+
+    cursor: default;
+
+    user-select: none;
+
+    transform-origin: center;
+
+    will-change: transform, filter;
+
+    transition:
+        transform 0.18s cubic-bezier(.2,.8,.2,1),
+        filter 0.35s ease;
+}
+
+
+/* Porsche-style graphite gradient */
+
+#heroName .kchar-inner {
+
+    display: inline-block;
+
+    color: transparent;
+
+    background:
+        linear-gradient(
+            115deg,
+            #777980 0%,
+            #eeeeef 22%,
+            #bfc0c5 42%,
+            #66686e 62%,
+            #e8e8ea 82%,
+            #85868c 100%
+        );
+
+    background-size: 220% 100%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    opacity: 0;
+
+    transform:
+        scaleX(0.035)
+        translateY(8px);
+
+    transform-origin: center;
+
+    filter:
+        blur(14px);
+
+    transition:
+        transform 1s cubic-bezier(.16,1,.3,1),
+        opacity 0.7s ease,
+        filter 0.9s cubic-bezier(.16,1,.3,1);
+
+}
+
+
+/* Final reveal */
+
+#heroName.kinetic-active .kchar-inner {
+
+    opacity: 1;
+
+    transform:
+        scaleX(1)
+        translateY(0);
+
+    filter:
+        blur(0);
+
+}
+
+
+/* Different gradient position per character */
+
+#heroName .kchar:nth-child(3n) .kchar-inner {
+    background-position: 20% center;
+}
+
+#heroName .kchar:nth-child(3n + 1) .kchar-inner {
+    background-position: 55% center;
+}
+
+#heroName .kchar:nth-child(3n + 2) .kchar-inner {
+    background-position: 90% center;
+}
+
+
+/* -----------------------------------------
+   CURSOR DISTORTION
+   ----------------------------------------- */
+
+#heroName.cursor-active {
+    filter:
+        blur(0.4px)
+        contrast(1.08);
+}
+
+
+/* Individual letters react to cursor */
+
+#heroName .kchar {
+
+    display: inline-block;
+
+    position: relative;
+
+    transform-origin: center;
+
+    transition:
+        transform 0.25s cubic-bezier(.2,.8,.2,1);
+
+}
+
+
+/* -----------------------------------------
+   SMOKE / ATMOSPHERIC EFFECT
+   ----------------------------------------- */
+
+.hero-smoke {
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(190,190,200,0.10) 0%,
+            rgba(120,120,130,0.055) 28%,
+            rgba(90,90,100,0.025) 48%,
+            transparent 72%
+        );
+
+    filter: blur(35px);
+
+    mix-blend-mode: screen;
+
+    transition:
+        opacity 0.5s ease;
+
+}
+
+
+/* Smoke becomes visible while moving cursor */
+
+.hero:hover .hero-smoke {
+
+    opacity: 1;
+
+}
+
+
+/* -----------------------------------------
+   ROLE
+   ----------------------------------------- */
+
+.hero .role {
+
+    margin-top: 42px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.38em;
+
+    color: #c7c7cb;
+
+    text-transform: uppercase;
+
+}
+
+
+/* -----------------------------------------
+   INTRO
+   ----------------------------------------- */
+
+.hero .intro {
+
+    margin-top: 18px;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    color: #777980;
+
+    max-width: 420px;
+
+}
+
+
+/* -----------------------------------------
+   RESPONSIVE
+   ----------------------------------------- */
+
+@media (max-width: 1200px) {
+
+    #heroName {
+        font-size: clamp(4.5rem, 12vw, 10rem);
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .hero {
+        padding:
+            110px 20px 70px;
+    }
+
+    #heroName {
+
+        font-size:
+            clamp(
+                3.5rem,
+                15vw,
+                7rem
+            );
+
+        line-height: 0.82;
+
+        letter-spacing: -0.075em;
+
+    }
+
+    .hero .role {
+
+        font-size: 9px;
+
+        letter-spacing:
+            0.25em;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    #heroName {
+
+        font-size:
+            clamp(
+                2.8rem,
+                16vw,
+                5.5rem
+            );
+
+    }
+
+    .hero .intro {
+
+        font-size: 12px;
+
+        max-width: 310px;
+
+    }
+
+    .hero-smoke {
+
+        width: 280px;
+        height: 280px;
+
+    }
+
+}
