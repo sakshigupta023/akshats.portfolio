@@ -116,11 +116,26 @@ img { display: block; max-width: 100%; }
     background-size: 200px 200px;
 }
 
+.preloader-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 640px;
+    height: 640px;
+    max-width: 90vw;
+    max-height: 90vw;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(231, 76, 60, 0.22), rgba(231, 76, 60, 0.06) 45%, transparent 72%);
+    filter: blur(20px);
+    z-index: 1;
+}
+
 .preloader-count {
     position: relative;
     z-index: 2;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     font-family: 'Syne', sans-serif;
     font-weight: 800;
     color: #fff;
@@ -130,16 +145,17 @@ img { display: block; max-width: 100%; }
 }
 
 #preloaderNumber {
-    font-size: clamp(4rem, 14vw, 10rem);
-    letter-spacing: -0.03em;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
 }
 
 .preloader-percent {
-    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+    align-self: flex-start;
+    font-size: clamp(1rem, 1.8vw, 1.4rem);
     font-weight: 600;
     color: #e74c3c;
-    margin-top: 10px;
+    margin-top: 0.35em;
     margin-left: 4px;
 }
 
@@ -301,6 +317,30 @@ nav ul a:hover::after { width: 100%; }
     line-height: 0.86;
     letter-spacing: -0.03em;
     color: #fff;
+}
+
+/* Kinetic letter-reveal: each character starts as a thin vertical
+   stroke (scaleX near 0, blurred) and expands horizontally into
+   its full form, staggered left to right. */
+.kinetic-name .kchar {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+}
+.kinetic-name .kchar-inner {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(16px);
+    transform: scaleX(0.04);
+    transform-origin: left center;
+    transition: opacity 0.7s cubic-bezier(0.19,1,0.22,1),
+                filter 0.75s cubic-bezier(0.19,1,0.22,1),
+                transform 0.85s cubic-bezier(0.19,1,0.22,1);
+}
+.kinetic-name.kinetic-active .kchar-inner {
+    opacity: 1;
+    filter: blur(0);
+    transform: scaleX(1);
 }
 
 .hero .role {
@@ -487,8 +527,8 @@ nav ul a:hover::after { width: 100%; }
 .work-card {
     position: relative;
     height: 100%;
-    flex-basis: 12%;
-    flex-grow: 1;
+    flex-basis: 6%;
+    flex-grow: 0.6;
     flex-shrink: 1;
     border-radius: 24px;
     overflow: hidden;
@@ -496,18 +536,21 @@ nav ul a:hover::after { width: 100%; }
     background: #0d0d0d;
     border: 1px solid rgba(255,255,255,0.05);
     box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-    will-change: flex-basis, flex-grow, border-color, box-shadow;
-    transition: flex-basis 0.85s cubic-bezier(0.16,1,0.3,1),
-                flex-grow 0.85s cubic-bezier(0.16,1,0.3,1),
+    transform: scale(0.97);
+    will-change: flex-basis, flex-grow, border-color, box-shadow, transform;
+    transition: flex-basis 1s cubic-bezier(0.16,1,0.3,1),
+                flex-grow 1s cubic-bezier(0.16,1,0.3,1),
+                transform 1s cubic-bezier(0.16,1,0.3,1),
                 border-color 0.4s ease,
                 box-shadow 0.6s ease,
-                filter 0.5s ease;
-    filter: brightness(0.65) saturate(0.85);
+                filter 0.6s ease;
+    filter: brightness(0.5) saturate(0.8);
 }
 
 .work-card.active {
-    flex-basis: 52%;
-    flex-grow: 6;
+    flex-basis: 68%;
+    flex-grow: 12;
+    transform: scale(1);
     border-color: rgba(231,76,60,0.4);
     box-shadow: 0 40px 100px rgba(0,0,0,0.85), 0 0 60px rgba(231,76,60,0.18);
     filter: brightness(1) saturate(1);
