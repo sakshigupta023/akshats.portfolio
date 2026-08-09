@@ -19,7 +19,44 @@ function revealHeroAndNav() {
     document.querySelectorAll('.hero .reveal').forEach((el, i) => {
         setTimeout(() => el.classList.add('visible'), 120 + i * 150);
     });
+
+    // Kinetic letter-by-letter reveal of the hero name
+    if (heroNameEl) {
+        setTimeout(() => heroNameEl.classList.add('kinetic-active'), 220);
+    }
 }
+
+/* ============================================================
+   HERO — KINETIC LETTER REVEAL FOR THE NAME
+   Each character starts as a thin vertical stroke (scaleX ~0,
+   blurred, transparent) and expands horizontally into full form,
+   staggered left to right. Built once on load so the reveal is
+   ready the instant the preloader hands off.
+   ============================================================ */
+const heroNameEl = document.getElementById('heroName');
+
+function buildKineticName(el) {
+    const lines = el.innerHTML.split(/<br\s*\/?>/i);
+    el.innerHTML = '';
+    lines.forEach((line, li) => {
+        if (li > 0) el.appendChild(document.createElement('br'));
+        line.split('').forEach(ch => {
+            const outer = document.createElement('span');
+            outer.className = 'kchar';
+            const inner = document.createElement('span');
+            inner.className = 'kchar-inner';
+            inner.textContent = ch === ' ' ? '\u00A0' : ch;
+            outer.appendChild(inner);
+            el.appendChild(outer);
+        });
+    });
+
+    el.querySelectorAll('.kchar-inner').forEach((span, i) => {
+        span.style.transitionDelay = `${i * 35}ms`;
+    });
+}
+
+if (heroNameEl) buildKineticName(heroNameEl);
 
 function finishPreloader() {
     if (loaderDone) return;
