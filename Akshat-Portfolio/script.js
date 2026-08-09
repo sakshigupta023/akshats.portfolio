@@ -4,52 +4,79 @@
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ============================================================
-   CINEMATIC INTRO SEQUENCE
+   NUMBER PRELOADER (0 → 100 → cinematic reveal)
    ============================================================ */
-const introOverlay = document.getElementById('introOverlay');
+const preloader = document.getElementById('preloader');
+const preloaderNumberEl = document.getElementById('preloaderNumber');
 const body = document.body;
-let introFinished = false;
+let loaderDone = false;
 
-function finishIntro() {
-    if (introFinished) return;
-    introFinished = true;
+function revealHeroAndNav() {
+    body.classList.remove('preloader-active');
+    body.classList.add('preloader-complete');
 
-    introOverlay.classList.add('stage-exit');
-    body.classList.remove('intro-active');
-    body.classList.add('intro-complete');
-
-    // Reveal hero content in a staged cinematic sequence
+    // Staggered cinematic entrance for the typography-only hero
     document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-        setTimeout(() => el.classList.add('visible'), 150 + i * 130);
+        setTimeout(() => el.classList.add('visible'), 120 + i * 150);
     });
-
-    setTimeout(() => {
-        introOverlay.classList.add('intro-hidden');
-    }, 950);
 }
 
-function runIntro() {
+function finishPreloader() {
+    if (loaderDone) return;
+    loaderDone = true;
+
+    preloader.classList.add('preloader-complete'); // number scales up / blurs / fades
+
+    setTimeout(() => {
+        preloader.classList.add('preloader-exit'); // black screen opens onto the site
+        revealHeroAndNav();
+    }, 280);
+
+    setTimeout(() => {
+        preloader.classList.add('preloader-hidden');
+    }, 1250);
+}
+
+function runPreloader() {
     if (prefersReducedMotion) {
-        // Skip the cinematic build-up entirely, still show identity briefly.
-        introOverlay.classList.add('stage-text', 'stage-glow');
-        setTimeout(finishIntro, 400);
+        preloaderNumberEl.textContent = '100';
+        finishPreloader();
         return;
     }
 
-    body.classList.add('intro-active');
+    body.classList.add('preloader-active');
 
-    requestAnimationFrame(() => {
-        setTimeout(() => introOverlay.classList.add('stage-text'), 200);
-        setTimeout(() => introOverlay.classList.add('stage-glow'), 900);
-    });
+    const duration = 3200; // 2.5–4s cinematic count
+    const startTime = performance.now();
+    let skipRequested = false;
+    let displayed = -1;
 
-    // Auto-advance if the person doesn't interact
-    const autoAdvance = setTimeout(finishIntro, 4200);
+    function tick(now) {
+        const effectiveDuration = skipRequested ? 450 : duration;
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / effectiveDuration, 1);
+        const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic — fast start, gentle settle
+        const value = Math.floor(eased * 100);
 
+        if (value !== displayed) {
+            displayed = value;
+            preloaderNumberEl.textContent = value;
+        }
+
+        if (t < 1) {
+            requestAnimationFrame(tick);
+        } else {
+            preloaderNumberEl.textContent = '100';
+            setTimeout(finishPreloader, 220); // brief hold on 100 before transition
+        }
+    }
+    requestAnimationFrame(tick);
+
+    // Let the user speed the loader up (not skip instantly) if they interact
     const skip = () => {
-        clearTimeout(autoAdvance);
-        finishIntro();
-        introOverlay.removeEventListener('click', skip);
+        if (loaderDone) return;
+        skipRequested = true;
+        preloader.removeEventListener('click', skip);
         window.removeEventListener('wheel', skip);
         window.removeEventListener('touchstart', skip);
         window.removeEventListener('keydown', keySkip);
@@ -58,13 +85,13 @@ function runIntro() {
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') skip();
     };
 
-    introOverlay.addEventListener('click', skip);
+    preloader.addEventListener('click', skip);
     window.addEventListener('wheel', skip, { passive: true, once: true });
     window.addEventListener('touchstart', skip, { passive: true, once: true });
     window.addEventListener('keydown', keySkip);
 }
 
-runIntro();
+runPreloader();
 
 /* ============================================================
    NAVBAR & SCROLL EFFECT
@@ -438,12 +465,6 @@ function processParallaxLoop() {
     if (activeMediaElement && window.innerWidth > 768) {
         activeMediaElement.style.setProperty('--move-x', `${pxOffsetValueX}px`);
         activeMediaElement.style.setProperty('--move-y', `${pxOffsetValueY}px`);
-    }
-
-    // Subtle hero image parallax
-    const heroImg = document.querySelector('.hero-image img');
-    if (heroImg && window.innerWidth > 1024) {
-        heroImg.style.transform = `translate(${currentMouseX * 12}px, ${currentMouseY * 12}px)`;
     }
 
     requestAnimationFrame(processParallaxLoop);
