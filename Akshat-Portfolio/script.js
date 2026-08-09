@@ -1,1882 +1,445 @@
 /* ============================================================
-   AKSHAT PORTFOLIO — FINAL CLEAN REPLACEMENT
+   AKSHAT SHARMA PORTFOLIO
+   COMPLETE SCRIPT
    ============================================================ */
 
-(() => {
-    'use strict';
 
-    /* =========================================================
-       BASIC SETUP
-       ========================================================= */
+/* ============================================================
+   REDUCED MOTION CHECK
+   ============================================================ */
 
-    const prefersReducedMotion =
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const body = document.body;
-
-    const preloader =
-        document.getElementById('preloader');
-
-    const preloaderNumber =
-        document.getElementById('preloaderNumber');
-
-    const hero =
-        document.querySelector('.hero');
-
-    const heroName =
-        document.getElementById('heroName');
-
-    const navbar =
-        document.getElementById('navbar');
-
-    let loaderFinished = false;
+const prefersReducedMotion =
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
-    /* =========================================================
-       LOAD FONT
-       ========================================================= */
+/* ============================================================
+   GLOBAL ELEMENTS
+   ============================================================ */
 
-    function loadFont() {
+const body = document.body;
 
-        if (
-            document.querySelector(
-                'link[data-akshat-font]'
-            )
-        ) return;
+const heroNameEl =
+    document.getElementById('heroName');
 
-        const font =
-            document.createElement('link');
+const preloader =
+    document.getElementById('preloader');
 
-        font.rel = 'stylesheet';
+const preloaderNumberEl =
+    document.getElementById('preloaderNumber');
 
-        font.href =
-            'https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap';
+let loaderDone = false;
 
-        font.dataset.akshatFont = 'true';
 
-        document.head.appendChild(font);
+/* ============================================================
+   HERO NAME
+   KINETIC LETTER BUILD
+   ============================================================ */
+
+function buildKineticName(el) {
+
+    if (!el) return;
+
+    /*
+       IMPORTANT:
+       We explicitly define the two words instead of reading
+       innerHTML. This prevents the previous broken rendering.
+    */
+
+    const lines = [
+        'AKSHAT',
+        'SHARMA'
+    ];
+
+    el.innerHTML = '';
+
+    lines.forEach((word, lineIndex) => {
+
+        const line = document.createElement('span');
+
+        line.className = 'name-line';
+
+        line.style.display = 'block';
+        line.style.whiteSpace = 'nowrap';
+        line.style.textAlign = 'center';
+
+        [...word].forEach((character, charIndex) => {
+
+            const outer =
+                document.createElement('span');
+
+            outer.className = 'kchar';
+
+            const inner =
+                document.createElement('span');
+
+            inner.className = 'kchar-inner';
+
+            inner.textContent = character;
+
+            /*
+               Staggered cinematic reveal.
+            */
+
+            inner.style.transitionDelay =
+                `${(lineIndex * word.length + charIndex) * 45}ms`;
+
+            outer.appendChild(inner);
+
+            line.appendChild(outer);
+        });
+
+        el.appendChild(line);
+    });
+}
+
+
+/* Build name immediately */
+
+if (heroNameEl) {
+    buildKineticName(heroNameEl);
+}
+
+
+/* ============================================================
+   PRELOADER → HERO REVEAL
+   ============================================================ */
+
+function revealHeroAndNav() {
+
+    body.classList.remove('preloader-active');
+
+    body.classList.add('preloader-complete');
+
+    /*
+       Reveal hero supporting text/buttons.
+    */
+
+    document
+        .querySelectorAll('.hero .reveal')
+        .forEach((el, index) => {
+
+            setTimeout(() => {
+                el.classList.add('visible');
+            }, 120 + index * 150);
+
+        });
+
+
+    /*
+       Start AKSHAT SHARMA kinetic animation.
+    */
+
+    if (heroNameEl) {
+
+        setTimeout(() => {
+
+            heroNameEl.classList.add(
+                'kinetic-active'
+            );
+
+        }, 220);
+
+    }
+}
+
+
+/* ============================================================
+   FINISH PRELOADER
+   ============================================================ */
+
+function finishPreloader() {
+
+    if (loaderDone) return;
+
+    loaderDone = true;
+
+    if (!preloader) {
+
+        revealHeroAndNav();
+
+        return;
     }
 
-    loadFont();
+    preloader.classList.add(
+        'preloader-complete'
+    );
 
 
-    /* =========================================================
-       HERO CLEANUP
-       ========================================================= */
+    setTimeout(() => {
 
-    function prepareHero() {
-
-        if (!hero) return;
-
-
-        /* Remove HELLO, I'M */
-
-        const greeting =
-            hero.querySelector('.greet');
-
-        if (greeting) {
-            greeting.remove();
-        }
-
-
-        /* Remove portrait/image completely */
-
-        const heroImage =
-            hero.querySelector('.hero-image');
-
-        if (heroImage) {
-            heroImage.remove();
-        }
-
-
-        /* Hide old work heading */
-
-        document
-            .querySelectorAll(
-                '.work-heading, .work-subheading'
-            )
-            .forEach(element => {
-
-                element.style.display = 'none';
-
-            });
-
-
-        /* Make sure hero name exists */
-
-        if (heroName) {
-
-            heroName.classList.add(
-                'kinetic-name'
-            );
-
-            heroName.innerHTML =
-                'AKSHAT<br>SHARMA';
-
-        }
-
-
-        /* Create smoke layer */
-
-        if (
-            !hero.querySelector(
-                '.hero-smoke'
-            )
-        ) {
-
-            const smoke =
-                document.createElement('div');
-
-            smoke.className =
-                'hero-smoke';
-
-            smoke.setAttribute(
-                'aria-hidden',
-                'true'
-            );
-
-            hero.appendChild(smoke);
-        }
-    }
-
-
-    /* =========================================================
-       COMPLETE HERO / LOADER STYLING
-       ========================================================= */
-
-    function injectStyles() {
-
-        if (
-            document.getElementById(
-                'akshat-final-styles'
-            )
-        ) return;
-
-
-        const style =
-            document.createElement('style');
-
-        style.id =
-            'akshat-final-styles';
-
-
-        style.textContent = `
-
-        /* =====================================================
-           HERO
-           ===================================================== */
-
-        .hero {
-            position: relative !important;
-            min-height: 100svh !important;
-            width: 100% !important;
-            max-width: none !important;
-            margin: 0 !important;
-
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-
-            padding:
-                120px 30px 80px !important;
-
-            overflow: hidden !important;
-
-            text-align: center !important;
-        }
-
-
-        .hero-content {
-            position: relative !important;
-            z-index: 5 !important;
-
-            width: 100% !important;
-            max-width: 1500px !important;
-
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-        }
-
-
-        /* =====================================================
-           MAIN NAME
-           ===================================================== */
-
-        #heroName {
-
-            width: 100% !important;
-            max-width: 1500px !important;
-
-            margin: 0 auto !important;
-
-            font-family:
-                'Sora',
-                'Inter',
-                sans-serif !important;
-
-            font-size:
-                clamp(
-                    4rem,
-                    10.5vw,
-                    10.5rem
-                ) !important;
-
-            font-weight:
-                800 !important;
-
-            line-height:
-                .82 !important;
-
-            letter-spacing:
-                -.075em !important;
-
-            text-align:
-                center !important;
-
-            white-space:
-                nowrap !important;
-
-            overflow:
-                visible !important;
-
-            color:
-                transparent !important;
-
-            background:
-                linear-gradient(
-                    110deg,
-                    #74757b 0%,
-                    #f3f3f5 20%,
-                    #bfc0c5 40%,
-                    #707177 58%,
-                    #e7e7e9 80%,
-                    #898a90 100%
-                ) !important;
-
-            background-size:
-                220% 100% !important;
-
-            -webkit-background-clip:
-                text !important;
-
-            background-clip:
-                text !important;
-
-            animation:
-                akshatGradient 9s
-                ease-in-out
-                infinite
-                alternate;
-
-            user-select:
-                none !important;
-
-            will-change:
-                transform,
-                filter;
-        }
-
-
-        @keyframes akshatGradient {
-
-            from {
-                background-position:
-                    0% 50%;
-            }
-
-            to {
-                background-position:
-                    100% 50%;
-            }
-
-        }
-
-
-        /* =====================================================
-           KINETIC LETTERS
-           ===================================================== */
-
-        #heroName .kchar {
-
-            display:
-                inline-block !important;
-
-            position:
-                relative !important;
-
-            width:
-                auto !important;
-
-            height:
-                auto !important;
-
-            overflow:
-                visible !important;
-
-            vertical-align:
-                baseline !important;
-
-            transform-origin:
-                center center !important;
-
-            will-change:
-                transform !important;
-
-            transition:
-                transform
-                .28s
-                cubic-bezier(
-                    .2,
-                    .8,
-                    .2,
-                    1
-                ) !important;
-        }
-
-
-        #heroName .kchar-inner {
-
-            display:
-                inline-block !important;
-
-            overflow:
-                visible !important;
-
-            white-space:
-                pre !important;
-
-            color:
-                transparent !important;
-
-            background:
-                inherit !important;
-
-            background-size:
-                220% 100% !important;
-
-            -webkit-background-clip:
-                text !important;
-
-            background-clip:
-                text !important;
-
-            opacity:
-                0 !important;
-
-            transform:
-                scaleX(.035)
-                translateY(8px) !important;
-
-            transform-origin:
-                center center !important;
-
-            filter:
-                blur(14px) !important;
-
-            transition:
-                opacity
-                .7s
-                cubic-bezier(
-                    .16,
-                    1,
-                    .3,
-                    1
-                ),
-
-                filter
-                .85s
-                cubic-bezier(
-                    .16,
-                    1,
-                    .3,
-                    1
-                ),
-
-                transform
-                .9s
-                cubic-bezier(
-                    .16,
-                    1,
-                    .3,
-                    1
-                ) !important;
-        }
-
-
-        #heroName.kinetic-active
-        .kchar-inner {
-
-            opacity:
-                1 !important;
-
-            filter:
-                blur(0) !important;
-
-            transform:
-                scaleX(1)
-                translateY(0) !important;
-        }
-
-
-        /* =====================================================
-           ROLE
-           ===================================================== */
-
-        .hero .role {
-
-            margin-top:
-                38px !important;
-
-            font-family:
-                'Sora',
-                'Inter',
-                sans-serif !important;
-
-            font-size:
-                11px !important;
-
-            font-weight:
-                600 !important;
-
-            letter-spacing:
-                .34em !important;
-
-            color:
-                #c8c8cc !important;
-
-            text-transform:
-                uppercase !important;
-        }
-
-
-        /* =====================================================
-           DESCRIPTION
-           ===================================================== */
-
-        .hero .intro {
-
-            margin-top:
-                16px !important;
-
-            max-width:
-                420px !important;
-
-            font-size:
-                14px !important;
-
-            line-height:
-                1.7 !important;
-
-            color:
-                #777980 !important;
-        }
-
-
-        .hero-btns {
-
-            margin-top:
-                34px !important;
-        }
-
-
-        /* =====================================================
-           CURSOR SMOKE
-           ===================================================== */
-
-        .hero-smoke {
-
-            position:
-                fixed;
-
-            left:
-                50vw;
-
-            top:
-                50vh;
-
-            width:
-                380px;
-
-            height:
-                380px;
-
-            transform:
-                translate(
-                    -50%,
-                    -50%
-                );
-
-            border-radius:
-                50%;
-
-            pointer-events:
-                none;
-
-            z-index:
-                2;
-
-            opacity:
-                0;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(
-                        230,
-                        230,
-                        235,
-                        .13
-                    ) 0%,
-
-                    rgba(
-                        150,
-                        150,
-                        160,
-                        .065
-                    ) 28%,
-
-                    rgba(
-                        100,
-                        100,
-                        110,
-                        .025
-                    ) 48%,
-
-                    transparent 72%
-                );
-
-            filter:
-                blur(42px);
-
-            mix-blend-mode:
-                screen;
-
-            transition:
-                opacity
-                .35s
-                ease;
-
-            will-change:
-                left,
-                top,
-                opacity;
-        }
-
-
-        /* =====================================================
-           PRELOADER NUMBER
-           ===================================================== */
-
-        .preloader-count {
-
-            position:
-                relative !important;
-
-            display:
-                flex !important;
-
-            align-items:
-                center !important;
-
-            justify-content:
-                center !important;
-        }
-
-
-        #preloaderNumber {
-
-            font-family:
-                'Sora',
-                'Inter',
-                sans-serif !important;
-
-            font-size:
-                clamp(
-                    4rem,
-                    7vw,
-                    7rem
-                ) !important;
-
-            font-weight:
-                700 !important;
-
-            letter-spacing:
-                -.055em !important;
-
-            font-variant-numeric:
-                tabular-nums !important;
-
-            min-width:
-                1.4ch !important;
-
-            text-align:
-                right !important;
-        }
-
-
-        .preloader-percent {
-
-            font-family:
-                'Inter',
-                sans-serif !important;
-
-            font-size:
-                clamp(
-                    .8rem,
-                    1vw,
-                    1rem
-                ) !important;
-
-            font-weight:
-                500 !important;
-
-            color:
-                rgba(
-                    220,
-                    220,
-                    225,
-                    .55
-                ) !important;
-
-            margin-left:
-                7px !important;
-
-            margin-top:
-                .35em !important;
-        }
-
-
-        /* =====================================================
-           SMALL NAME UNDER LOADER
-           ===================================================== */
-
-        .preloader-name {
-
-            position:
-                absolute;
-
-            left:
-                50%;
-
-            top:
-                calc(
-                    100% + 22px
-                );
-
-            transform:
-                translateX(-50%);
-
-            white-space:
-                nowrap;
-
-            font-family:
-                'Sora',
-                'Inter',
-                sans-serif;
-
-            font-size:
-                clamp(
-                    .5rem,
-                    .65vw,
-                    .68rem
-                );
-
-            font-weight:
-                600;
-
-            letter-spacing:
-                .42em;
-
-            color:
-                rgba(
-                    215,
-                    215,
-                    220,
-                    .5
-                );
-
-            text-transform:
-                uppercase;
-
-            pointer-events:
-                none;
-        }
-
-
-        .preloader-underline {
-
-            position:
-                absolute;
-
-            left:
-                50%;
-
-            top:
-                calc(
-                    100% + 11px
-                );
-
-            width:
-                clamp(
-                    70px,
-                    8vw,
-                    105px
-                );
-
-            height:
-                1px;
-
-            transform:
-                translateX(-50%);
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(
-                        220,
-                        220,
-                        225,
-                        .75
-                    ),
-                    transparent
-                );
-
-            box-shadow:
-                0 0 14px
-                rgba(
-                    210,
-                    210,
-                    220,
-                    .15
-                );
-        }
-
-
-        .preloader.preloader-complete
-        .preloader-name,
-
-        .preloader.preloader-complete
-        .preloader-underline {
-
-            opacity:
-                0;
-
-            transition:
-                opacity
-                .45s
-                ease;
-        }
-
-
-        /* =====================================================
-           TWO WORK TAPE STRIPS
-           ===================================================== */
-
-        .work-tape {
-
-            width:
-                100vw;
-
-            margin-left:
-                calc(
-                    50% - 50vw
-                );
-
-            margin-top:
-                18px;
-
-            margin-bottom:
-                18px;
-
-            overflow:
-                hidden;
-
-            padding:
-                7px 0;
-
-            mask-image:
-                linear-gradient(
-                    to right,
-                    transparent,
-                    #000 5%,
-                    #000 95%,
-                    transparent
-                );
-
-            -webkit-mask-image:
-                linear-gradient(
-                    to right,
-                    transparent,
-                    #000 5%,
-                    #000 95%,
-                    transparent
-                );
-        }
-
-
-        .work-tape-row {
-
-            overflow:
-                hidden;
-
-            border-top:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .065
-                );
-
-            border-bottom:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .065
-                );
-
-            background:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .018
-                );
-        }
-
-
-        .work-tape-row + .work-tape-row {
-
-            margin-top:
-                7px;
-        }
-
-
-        .work-tape-track {
-
-            display:
-                flex;
-
-            width:
-                max-content;
-
-            animation:
-                tapeLeft
-                34s
-                linear
-                infinite;
-
-            will-change:
-                transform;
-        }
-
-
-        .work-tape-row:nth-child(2)
-        .work-tape-track {
-
-            animation:
-                tapeRight
-                39s
-                linear
-                infinite;
-        }
-
-
-        .tape-item {
-
-            min-width:
-                300px;
-
-            height:
-                70px;
-
-            padding:
-                9px 22px 9px 14px;
-
-            display:
-                grid;
-
-            grid-template-columns:
-                24px 50px 1fr;
-
-            grid-template-rows:
-                1fr 1fr;
-
-            column-gap:
-                12px;
-
-            align-items:
-                center;
-
-            border-right:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .075
-                );
-
-            color:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .86
-                );
-        }
-
-
-        .tape-index {
-
-            grid-row:
-                1 / 3;
-
-            font-size:
-                9px;
-
-            color:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .3
-                );
-
-            letter-spacing:
-                .12em;
-        }
-
-
-        .tape-title {
-
-            font-family:
-                'Sora',
-                'Inter',
-                sans-serif;
-
-            font-size:
-                10px;
-
-            font-weight:
-                600;
-
-            letter-spacing:
-                .07em;
-
-            white-space:
-                nowrap;
-        }
-
-
-        .tape-meta {
-
-            font-size:
-                7px;
-
-            letter-spacing:
-                .16em;
-
-            color:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .3
-                );
-
-            white-space:
-                nowrap;
-        }
-
-
-        .tape-thumb,
-        .tape-shape {
-
-            grid-row:
-                1 / 3;
-
-            width:
-                50px;
-
-            height:
-                46px;
-
-            border:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .1
-                );
-
-            background-size:
-                cover;
-
-            background-position:
-                center;
-
-            background-color:
-                #111;
-
-            position:
-                relative;
-
-            overflow:
-                hidden;
-        }
-
-
-        .tape-video {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #17171b,
-                    #77747d,
-                    #151519
-                );
-        }
-
-
-        .tape-video::after {
-
-            content:
-                '▶';
-
-            position:
-                absolute;
-
-            inset:
-                0;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            font-size:
-                11px;
-
-            color:
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .7
-                );
-
-            background:
-                rgba(
-                    0,
-                    0,
-                    0,
-                    .25
-                );
-        }
-
-
-        .tape-shape {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #dadadd,
-                    #55565d
-                );
-
-            opacity:
-                .7;
-        }
-
-
-        .tape-ring {
-
-            border-radius:
-                50%;
-
-            background:
-                radial-gradient(
-                    circle,
-                    transparent 25%,
-                    #d2d2d6 27%,
-                    #696a71 47%,
-                    transparent 49%
-                );
-        }
-
-
-        .tape-grid {
-
-            background:
-                linear-gradient(
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        .15
-                    ) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(
-                        255,
-                        255,
-                        255,
-                        .15
-                    ) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    135deg,
-                    #25262b,
-                    #7c7d84
-                );
-
-            background-size:
-                11px 11px,
-                11px 11px,
-                100% 100%;
-        }
-
-
-        .tape-diamond {
-
-            transform:
-                rotate(45deg)
-                scale(.65);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #e5e5e8,
-                    #6b6c73
-                );
-        }
-
-
-        .tape-bars {
-
-            background:
-                repeating-linear-gradient(
-                    90deg,
-                    #d7d7da 0 5px,
-                    #55565c 5px 10px
-                );
-        }
-
-
-        @keyframes tapeLeft {
-
-            from {
-                transform:
-                    translateX(0);
-            }
-
-            to {
-                transform:
-                    translateX(-50%);
-            }
-        }
-
-
-        @keyframes tapeRight {
-
-            from {
-                transform:
-                    translateX(-50%);
-            }
-
-            to {
-                transform:
-                    translateX(0);
-            }
-        }
-
-
-        .work-tape:hover
-        .work-tape-track {
-
-            animation-play-state:
-                paused;
-        }
-
-
-        /* =====================================================
-           RESPONSIVE
-           ===================================================== */
-
-        @media (max-width: 900px) {
-
-            #heroName {
-
-                font-size:
-                    clamp(
-                        3.3rem,
-                        11.5vw,
-                        7rem
-                    ) !important;
-
-                white-space:
-                    normal !important;
-            }
-
-            .hero-smoke {
-
-                width:
-                    280px;
-
-                height:
-                    280px;
-            }
-
-            .tape-item {
-
-                min-width:
-                    245px;
-
-                height:
-                    62px;
-            }
-        }
-
-
-        @media (max-width: 560px) {
-
-            .hero {
-
-                padding:
-                    110px
-                    18px
-                    60px !important;
-            }
-
-
-            #heroName {
-
-                font-size:
-                    clamp(
-                        2.7rem,
-                        15vw,
-                        5.5rem
-                    ) !important;
-
-                line-height:
-                    .86 !important;
-            }
-
-
-            .hero .role {
-
-                font-size:
-                    9px !important;
-
-                letter-spacing:
-                    .24em !important;
-            }
-
-
-            .hero .intro {
-
-                font-size:
-                    12px !important;
-
-                max-width:
-                    310px !important;
-            }
-
-
-            #preloaderNumber {
-
-                font-size:
-                    clamp(
-                        3.5rem,
-                        17vw,
-                        5.2rem
-                    ) !important;
-            }
-
-
-            .preloader-name {
-
-                font-size:
-                    .48rem;
-
-                letter-spacing:
-                    .32em;
-            }
-
-
-            .tape-item {
-
-                min-width:
-                    220px;
-
-                height:
-                    57px;
-
-                grid-template-columns:
-                    20px 40px 1fr;
-
-                column-gap:
-                    8px;
-            }
-
-
-            .tape-thumb,
-            .tape-shape {
-
-                width:
-                    40px;
-
-                height:
-                    38px;
-            }
-
-
-            .tape-title {
-
-                font-size:
-                    8px;
-            }
-
-
-            .tape-meta {
-
-                font-size:
-                    6px;
-            }
-        }
-
-
-        @media (prefers-reduced-motion: reduce) {
-
-            #heroName {
-
-                animation:
-                    none !important;
-            }
-
-            .hero-smoke {
-
-                display:
-                    none !important;
-            }
-
-            .work-tape-track {
-
-                animation:
-                    none !important;
-            }
-        }
-
-        `;
-
-        document.head.appendChild(style);
-    }
-
-
-    /* =========================================================
-       BUILD KINETIC NAME
-       ========================================================= */
-
-    function buildKineticName() {
-
-        if (!heroName) return;
-
-
-        const lines =
-            heroName.innerHTML
-                .replace(
-                    /<br\s*\/?>/gi,
-                    '\n'
-                )
-                .replace(
-                    /&nbsp;/g,
-                    ' '
-                )
-                .split('\n')
-                .map(
-                    line =>
-                        line
-                            .replace(
-                                /<[^>]*>/g,
-                                ''
-                            )
-                            .trim()
-                )
-                .filter(Boolean);
-
-
-        heroName.innerHTML = '';
-
-
-        lines.forEach(
-            (line, lineIndex) => {
-
-                if (lineIndex > 0) {
-
-                    heroName.appendChild(
-                        document.createElement(
-                            'br'
-                        )
-                    );
-                }
-
-
-                [...line].forEach(
-                    (character, index) => {
-
-                        const outer =
-                            document.createElement(
-                                'span'
-                            );
-
-                        outer.className =
-                            'kchar';
-
-
-                        const inner =
-                            document.createElement(
-                                'span'
-                            );
-
-                        inner.className =
-                            'kchar-inner';
-
-
-                        inner.textContent =
-                            character === ' '
-                                ? '\u00A0'
-                                : character;
-
-
-                        inner.style.transitionDelay =
-                            `
-                            ${
-                                (
-                                    lineIndex * 8 +
-                                    index
-                                ) * 38
-                            }ms
-                            `;
-
-
-                        outer.appendChild(
-                            inner
-                        );
-
-                        heroName.appendChild(
-                            outer
-                        );
-                    }
-                );
-            }
-        );
-    }
-
-
-    /* =========================================================
-       LOADER NAME
-       ========================================================= */
-
-    function setupLoaderName() {
-
-        if (!preloader) return;
-
-
-        const count =
-            preloader.querySelector(
-                '.preloader-count'
-            );
-
-        if (!count) return;
-
-
-        if (
-            !count.querySelector(
-                '.preloader-name'
-            )
-        ) {
-
-            const name =
-                document.createElement(
-                    'div'
-                );
-
-            name.className =
-                'preloader-name';
-
-            name.textContent =
-                'AKSHAT SHARMA';
-
-
-            const underline =
-                document.createElement(
-                    'span'
-                );
-
-            underline.className =
-                'preloader-underline';
-
-            underline.setAttribute(
-                'aria-hidden',
-                'true'
-            );
-
-
-            count.appendChild(
-                name
-            );
-
-            count.appendChild(
-                underline
-            );
-        }
-    }
-
-
-    /* =========================================================
-       HERO REVEAL
-       ========================================================= */
-
-    function revealHero() {
-
-        body.classList.remove(
-            'preloader-active'
+        preloader.classList.add(
+            'preloader-exit'
         );
 
-        body.classList.add(
-            'preloader-complete'
+        revealHeroAndNav();
+
+    }, 280);
+
+
+    setTimeout(() => {
+
+        preloader.classList.add(
+            'preloader-hidden'
         );
 
+    }, 1250);
+}
 
-        if (navbar) {
 
-            navbar.classList.add(
-                'hero-ready'
+/* ============================================================
+   RUN PRELOADER
+   0 → 100
+   ============================================================ */
+
+function runPreloader() {
+
+    if (!preloader || !preloaderNumberEl) {
+
+        revealHeroAndNav();
+
+        return;
+    }
+
+
+    /*
+       Accessibility:
+       reduce motion → skip animation.
+    */
+
+    if (prefersReducedMotion) {
+
+        preloaderNumberEl.textContent = '100';
+
+        finishPreloader();
+
+        return;
+    }
+
+
+    body.classList.add(
+        'preloader-active'
+    );
+
+
+    const duration = 3200;
+
+    const startTime =
+        performance.now();
+
+    let skipRequested = false;
+
+    let displayed = -1;
+
+
+    function tick(now) {
+
+        const effectiveDuration =
+            skipRequested
+                ? 450
+                : duration;
+
+
+        const elapsed =
+            now - startTime;
+
+
+        const t =
+            Math.min(
+                elapsed / effectiveDuration,
+                1
             );
+
+
+        /*
+           Smooth ease-out.
+        */
+
+        const eased =
+            1 - Math.pow(
+                1 - t,
+                3
+            );
+
+
+        const value =
+            Math.floor(
+                eased * 100
+            );
+
+
+        if (value !== displayed) {
+
+            displayed = value;
+
+            preloaderNumberEl.textContent =
+                value;
+
         }
 
 
-        const reveals =
-            hero
-                ? hero.querySelectorAll(
-                    '.role, .intro, .hero-btns'
-                )
-                : [];
+        if (t < 1) {
 
+            requestAnimationFrame(tick);
 
-        reveals.forEach(
-            (element, index) => {
+        } else {
 
-                setTimeout(
-                    () => {
+            preloaderNumberEl.textContent =
+                '100';
 
-                        element.classList.add(
-                            'visible'
-                        );
-
-                    },
-                    600 +
-                    index * 140
-                );
-            }
-        );
-
-
-        if (heroName) {
 
             setTimeout(
-                () => {
-
-                    heroName.classList.add(
-                        'kinetic-active'
-                    );
-
-                },
-                260
+                finishPreloader,
+                220
             );
         }
     }
 
 
-    /* =========================================================
-       NUMBER LOADER
-       ========================================================= */
-
-    function finishLoader() {
-
-        if (loaderFinished) return;
-
-        loaderFinished = true;
+    requestAnimationFrame(tick);
 
 
-        if (preloaderNumber) {
+    /*
+       Interaction speeds up loader.
+    */
 
-            preloaderNumber.textContent =
-                '100';
-        }
+    const skip = () => {
 
+        if (loaderDone) return;
 
-        if (preloader) {
+        skipRequested = true;
 
-            preloader.classList.add(
-                'preloader-complete'
-            );
-        }
-
-
-        setTimeout(
-            () => {
-
-                if (preloader) {
-
-                    preloader.classList.add(
-                        'preloader-exit'
-                    );
-                }
-
-
-                revealHero();
-
-            },
-            330
+        preloader.removeEventListener(
+            'click',
+            skip
         );
 
-
-        setTimeout(
-            () => {
-
-                if (preloader) {
-
-                    preloader.classList.add(
-                        'preloader-hidden'
-                    );
-                }
-
-            },
-            1350
+        window.removeEventListener(
+            'wheel',
+            skip
         );
-    }
+
+        window.removeEventListener(
+            'touchstart',
+            skip
+        );
+
+        window.removeEventListener(
+            'keydown',
+            keySkip
+        );
+    };
 
 
-    function startLoader() {
+    const keySkip = (event) => {
 
         if (
-            !preloader ||
-            !preloaderNumber
+            event.key === 'Enter' ||
+            event.key === ' ' ||
+            event.key === 'Escape'
         ) {
 
-            revealHero();
+            skip();
 
-            return;
         }
+    };
 
 
-        body.classList.add(
-            'preloader-active'
-        );
+    preloader.addEventListener(
+        'click',
+        skip
+    );
 
-
-        if (prefersReducedMotion) {
-
-            preloaderNumber.textContent =
-                '100';
-
-            finishLoader();
-
-            return;
+    window.addEventListener(
+        'wheel',
+        skip,
+        {
+            passive: true,
+            once: true
         }
+    );
 
-
-        const duration =
-            3100;
-
-        const start =
-            performance.now();
-
-        let accelerated =
-            false;
-
-        let previous =
-            -1;
-
-
-        function animate(now) {
-
-            const elapsed =
-                now - start;
-
-
-            const currentDuration =
-                accelerated
-                    ? 500
-                    : duration;
-
-
-            const progress =
-                Math.min(
-                    elapsed /
-                    currentDuration,
-                    1
-                );
-
-
-            const eased =
-                1 -
-                Math.pow(
-                    1 - progress,
-                    3
-                );
-
-
-            const value =
-                Math.min(
-                    100,
-                    Math.floor(
-                        eased * 100
-                    )
-                );
-
-
-            if (
-                value !== previous
-            ) {
-
-                previous =
-                    value;
-
-                preloaderNumber.textContent =
-                    String(value);
-            }
-
-
-            if (
-                progress < 1
-            ) {
-
-                requestAnimationFrame(
-                    animate
-                );
-
-            } else {
-
-                preloaderNumber.textContent =
-                    '100';
-
-
-                setTimeout(
-                    finishLoader,
-                    240
-                );
-            }
+    window.addEventListener(
+        'touchstart',
+        skip,
+        {
+            passive: true,
+            once: true
         }
+    );
+
+    window.addEventListener(
+        'keydown',
+        keySkip
+    );
+}
 
 
-        requestAnimationFrame(
-            animate
+/*
+   Start preloader.
+*/
+
+runPreloader();
+
+
+/* ============================================================
+   HERO NAME — CURSOR DISTORTION
+   Stretch / Compress based on cursor position
+   ============================================================ */
+
+if (
+    heroNameEl &&
+    !prefersReducedMotion &&
+    window.matchMedia('(min-width: 901px)').matches
+) {
+
+    const getLetters = () =>
+        heroNameEl.querySelectorAll(
+            '.kchar'
         );
 
 
-        const accelerate =
-            () => {
+    heroNameEl.addEventListener(
+        'mousemove',
+        (event) => {
 
-                if (
-                    loaderFinished
-                ) return;
+            const mouseX =
+                event.clientX;
 
-                accelerated =
-                    true;
-            };
-
-
-        preloader.addEventListener(
-            'click',
-            accelerate,
-            {
-                once: true
-            }
-        );
+            const mouseY =
+                event.clientY;
 
 
-        window.addEventListener(
-            'wheel',
-            accelerate,
-            {
-                passive: true,
-                once: true
-            }
-        );
+            let closestLetter = null;
+
+            let closestDistance =
+                Infinity;
 
 
-        window.addEventListener(
-            'touchstart',
-            accelerate,
-            {
-                passive: true,
-                once: true
-            }
-        );
-    }
+            /*
+               Reset states.
+            */
 
+            getLetters().forEach(
+                (letter) => {
 
-    /* =========================================================
-       HERO CURSOR EFFECT
-       ========================================================= */
+                    letter.classList.remove(
+                        'cursor-near',
+                        'cursor-far'
+                    );
 
-    function setupHeroCursor() {
-
-        if (
-            !hero ||
-            !heroName ||
-            prefersReducedMotion ||
-            window.matchMedia(
-                '(max-width: 900px)'
-            ).matches
-        ) return;
-
-
-        const chars =
-            heroName.querySelectorAll(
-                '.kchar'
+                }
             );
 
 
-        const smoke =
-            hero.querySelector(
-                '.hero-smoke'
-            );
+            /*
+               Find closest letter.
+            */
 
-
-        let mouseX =
-            window.innerWidth / 2;
-
-        let mouseY =
-            window.innerHeight / 2;
-
-        let animationFrame =
-            null;
-
-
-        function render() {
-
-            animationFrame =
-                null;
-
-
-            chars.forEach(
-                char => {
+            getLetters().forEach(
+                (letter) => {
 
                     const rect =
-                        char.getBoundingClientRect();
+                        letter.getBoundingClientRect();
 
 
                     const centerX =
@@ -1889,1523 +452,1384 @@
                         rect.height / 2;
 
 
-                    const dx =
-                        mouseX -
-                        centerX;
-
-
-                    const dy =
-                        mouseY -
-                        centerY;
-
-
                     const distance =
-                        Math.sqrt(
-                            dx * dx +
-                            dy * dy
-                        );
-
-
-                    const radius =
-                        360;
-
-
-                    let influence =
-                        1 -
-                        distance /
-                        radius;
-
-
-                    influence =
-                        Math.max(
-                            0,
-                            Math.min(
-                                1,
-                                influence
-                            )
+                        Math.hypot(
+                            mouseX - centerX,
+                            mouseY - centerY
                         );
 
 
                     if (
-                        influence <= 0
+                        distance <
+                        closestDistance
                     ) {
 
-                        char.style.transform =
-                            `
-                            translate3d(
-                                0,
-                                0,
-                                0
-                            )
-                            scaleX(1)
-                            `;
+                        closestDistance =
+                            distance;
 
-                        return;
+                        closestLetter =
+                            letter;
                     }
 
-
-                    /*
-                     * Close to cursor:
-                     * slight stretch
-                     *
-                     * Around cursor:
-                     * slight compression
-                     *
-                     * NEVER large enough
-                     * to break letters.
-                     */
-
-                    const close =
-                        distance < 150;
-
-
-                    const scale =
-                        close
-                            ? 1 +
-                              influence *
-                              0.13
-
-                            : 1 -
-                              influence *
-                              0.045;
-
-
-                    const moveX =
-                        (
-                            dx >= 0
-                                ? 1
-                                : -1
-                        ) *
-                        influence *
-                        5;
-
-
-                    const moveY =
-                        -influence *
-                        2;
-
-
-                    char.style.transform =
-                        `
-                        translate3d(
-                            ${moveX}px,
-                            ${moveY}px,
-                            0
-                        )
-                        scaleX(
-                            ${scale}
-                        )
-                        `;
                 }
             );
 
 
-            if (smoke) {
+            /*
+               Stretch closest letter.
+            */
 
-                smoke.style.left =
-                    `${mouseX}px`;
+            if (
+                closestLetter &&
+                closestDistance < 220
+            ) {
 
-                smoke.style.top =
-                    `${mouseY}px`;
-
-                smoke.style.opacity =
-                    '1';
-            }
-        }
-
-
-        hero.addEventListener(
-            'mousemove',
-            event => {
-
-                mouseX =
-                    event.clientX;
-
-                mouseY =
-                    event.clientY;
+                closestLetter.classList.add(
+                    'cursor-near'
+                );
 
 
-                if (
-                    !animationFrame
-                ) {
+                /*
+                   Compress nearby letters.
+                */
 
-                    animationFrame =
-                        requestAnimationFrame(
-                            render
-                        );
-                }
-            },
-            {
-                passive: true
-            }
-        );
+                getLetters().forEach(
+                    (letter) => {
+
+                        if (
+                            letter ===
+                            closestLetter
+                        ) {
+                            return;
+                        }
 
 
-        hero.addEventListener(
-            'mouseleave',
-            () => {
+                        const rect =
+                            letter.getBoundingClientRect();
 
-                chars.forEach(
-                    char => {
 
-                        char.style.transform =
-                            `
-                            translate3d(
-                                0,
-                                0,
-                                0
-                            )
-                            scaleX(1)
-                            `;
+                        const centerX =
+                            rect.left +
+                            rect.width / 2;
+
+
+                        const centerY =
+                            rect.top +
+                            rect.height / 2;
+
+
+                        const distance =
+                            Math.hypot(
+                                mouseX - centerX,
+                                mouseY - centerY
+                            );
+
+
+                        if (
+                            distance < 320
+                        ) {
+
+                            letter.classList.add(
+                                'cursor-far'
+                            );
+
+                        }
+
                     }
                 );
 
 
-                if (smoke) {
+                heroNameEl.classList.add(
+                    'cursor-active'
+                );
 
-                    smoke.style.opacity =
-                        '0';
-                }
+            } else {
+
+                heroNameEl.classList.remove(
+                    'cursor-active'
+                );
+
             }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    heroNameEl.addEventListener(
+        'mouseleave',
+        () => {
+
+            getLetters().forEach(
+                (letter) => {
+
+                    letter.classList.remove(
+                        'cursor-near',
+                        'cursor-far'
+                    );
+
+                }
+            );
+
+
+            heroNameEl.classList.remove(
+                'cursor-active'
+            );
+
+        }
+    );
+}
+
+
+/* ============================================================
+   HERO SMOKE — FOLLOWS CURSOR
+   ============================================================ */
+
+const heroSmoke =
+    document.querySelector(
+        '.hero-smoke'
+    );
+
+
+if (
+    heroSmoke &&
+    !prefersReducedMotion &&
+    window.matchMedia('(min-width: 901px)').matches
+) {
+
+    let smokeX = 0;
+    let smokeY = 0;
+
+    let targetSmokeX = 0;
+    let targetSmokeY = 0;
+
+
+    window.addEventListener(
+        'mousemove',
+        (event) => {
+
+            targetSmokeX =
+                event.clientX;
+
+            targetSmokeY =
+                event.clientY;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    function animateSmoke() {
+
+        smokeX +=
+            (targetSmokeX - smokeX)
+            * 0.08;
+
+
+        smokeY +=
+            (targetSmokeY - smokeY)
+            * 0.08;
+
+
+        heroSmoke.style.transform =
+            `translate3d(
+                ${smokeX}px,
+                ${smokeY}px,
+                0
+            ) translate(-50%, -50%)`;
+
+
+        requestAnimationFrame(
+            animateSmoke
         );
     }
 
 
-    /* =========================================================
-       NAVBAR
-       ========================================================= */
+    animateSmoke();
+}
 
-    function setupNavbar() {
+
+/* ============================================================
+   NAVBAR & SCROLL EFFECT
+   ============================================================ */
+
+const navbar =
+    document.getElementById(
+        'navbar'
+    );
+
+
+window.addEventListener(
+    'scroll',
+    () => {
 
         if (!navbar) return;
 
-
-        window.addEventListener(
-            'scroll',
-            () => {
-
-                navbar.classList.toggle(
-                    'scrolled',
-                    window.scrollY > 40
-                );
-
-            },
-            {
-                passive: true
-            }
+        navbar.classList.toggle(
+            'scrolled',
+            window.scrollY > 40
         );
 
+    },
+    {
+        passive: true
+    }
+);
 
-        const menuToggle =
-            document.getElementById(
-                'menuToggle'
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+
+const menuToggle =
+    document.getElementById(
+        'menuToggle'
+    );
+
+
+const mobileMenu =
+    document.getElementById(
+        'mobileMenu'
+    );
+
+
+if (
+    menuToggle &&
+    mobileMenu
+) {
+
+    menuToggle.addEventListener(
+        'click',
+        () => {
+
+            const isOpen =
+                mobileMenu.classList.toggle(
+                    'open'
+                );
+
+
+            menuToggle.classList.toggle(
+                'open',
+                isOpen
             );
 
-        const mobileMenu =
-            document.getElementById(
-                'mobileMenu'
+
+            menuToggle.setAttribute(
+                'aria-expanded',
+                isOpen
             );
 
+        }
+    );
 
-        if (
-            menuToggle &&
-            mobileMenu
-        ) {
 
-            menuToggle.addEventListener(
-                'click',
-                () => {
+    mobileMenu
+        .querySelectorAll('a')
+        .forEach(
+            (link) => {
 
-                    const open =
-                        mobileMenu.classList.toggle(
+                link.addEventListener(
+                    'click',
+                    () => {
+
+                        mobileMenu.classList.remove(
                             'open'
                         );
 
 
-                    menuToggle.classList.toggle(
-                        'open',
-                        open
-                    );
-
-
-                    menuToggle.setAttribute(
-                        'aria-expanded',
-                        String(open)
-                    );
-                }
-            );
-
-
-            mobileMenu
-                .querySelectorAll('a')
-                .forEach(
-                    link => {
-
-                        link.addEventListener(
-                            'click',
-                            () => {
-
-                                mobileMenu.classList.remove(
-                                    'open'
-                                );
-
-                                menuToggle.classList.remove(
-                                    'open'
-                                );
-
-                                menuToggle.setAttribute(
-                                    'aria-expanded',
-                                    'false'
-                                );
-                            }
+                        menuToggle.classList.remove(
+                            'open'
                         );
+
+
+                        menuToggle.setAttribute(
+                            'aria-expanded',
+                            'false'
+                        );
+
                     }
                 );
-        }
-    }
 
-
-    /* =========================================================
-       GENERAL REVEALS
-       ========================================================= */
-
-    function setupReveals() {
-
-        if (
-            !('IntersectionObserver'
-                in window)
-        ) {
-
-            document
-                .querySelectorAll(
-                    '.reveal'
-                )
-                .forEach(
-                    el =>
-                        el.classList.add(
-                            'visible'
-                        )
-                );
-
-            return;
-        }
-
-
-        const observer =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(
-                        (entry, index) => {
-
-                            if (
-                                !entry.isIntersecting
-                            ) return;
-
-
-                            setTimeout(
-                                () => {
-
-                                    entry.target.classList.add(
-                                        'visible'
-                                    );
-
-                                },
-                                index * 70
-                            );
-
-
-                            observer.unobserve(
-                                entry.target
-                            );
-                        }
-                    );
-                },
-                {
-                    threshold:
-                        0.12
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                '.reveal:not(.hero .reveal)'
-            )
-            .forEach(
-                element =>
-                    observer.observe(
-                        element
-                    )
-            );
-    }
-
-
-    /* =========================================================
-       ABOUT WORD REVEAL
-       ========================================================= */
-
-    function setupAbout() {
-
-        document
-            .querySelectorAll(
-                '[data-split]'
-            )
-            .forEach(
-                paragraph => {
-
-                    const text =
-                        paragraph
-                            .textContent
-                            .trim();
-
-
-                    paragraph.innerHTML =
-                        '';
-
-
-                    text
-                        .split(/\s+/)
-                        .forEach(
-                            word => {
-
-                                const span =
-                                    document.createElement(
-                                        'span'
-                                    );
-
-                                span.className =
-                                    'split-word';
-
-                                span.textContent =
-                                    word;
-
-                                paragraph.appendChild(
-                                    span
-                                );
-
-                                paragraph.appendChild(
-                                    document.createTextNode(
-                                        ' '
-                                    )
-                                );
-                            }
-                        );
-                }
-            );
-
-
-        if (
-            !('IntersectionObserver'
-                in window)
-        ) return;
-
-
-        const observer =
-            new IntersectionObserver(
-                entries => {
-
-                    entries.forEach(
-                        entry => {
-
-                            if (
-                                !entry.isIntersecting
-                            ) return;
-
-
-                            entry.target
-                                .querySelectorAll(
-                                    '.split-word'
-                                )
-                                .forEach(
-                                    (word, index) => {
-
-                                        setTimeout(
-                                            () => {
-
-                                                word.classList.add(
-                                                    'word-visible'
-                                                );
-
-                                            },
-                                            index * 28
-                                        );
-                                    }
-                                );
-
-
-                            observer.unobserve(
-                                entry.target
-                            );
-                        }
-                    );
-                },
-                {
-                    threshold:
-                        0.3
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                '[data-split]'
-            )
-            .forEach(
-                element =>
-                    observer.observe(
-                        element
-                    )
-            );
-    }
-
-
-    /* =========================================================
-       TIMELINE
-       ========================================================= */
-
-    function setupTimeline() {
-
-        const progress =
-            document.getElementById(
-                'timelineProgress'
-            );
-
-        const timeline =
-            document.querySelector(
-                '.timeline'
-            );
-
-
-        if (
-            !progress ||
-            !timeline
-        ) return;
-
-
-        function update() {
-
-            const rect =
-                timeline.getBoundingClientRect();
-
-
-            let value =
-                (
-                    window.innerHeight *
-                    0.85 -
-                    rect.top
-                ) /
-                rect.height;
-
-
-            value =
-                Math.max(
-                    0,
-                    Math.min(
-                        1,
-                        value
-                    )
-                );
-
-
-            progress.style.height =
-                `${value * 100}%`;
-        }
-
-
-        window.addEventListener(
-            'scroll',
-            update,
-            {
-                passive: true
             }
         );
+}
 
 
-        window.addEventListener(
-            'resize',
-            update
-        );
+/* ============================================================
+   GENERIC SCROLL REVEAL
+   ============================================================ */
 
+const revealObs =
+    new IntersectionObserver(
+        (entries) => {
 
-        update();
-    }
-
-
-    /* =========================================================
-       FOOTER
-       ========================================================= */
-
-    function setupFooter() {
-
-        const footer =
-            document.getElementById(
-                'contact'
-            );
-
-
-        if (
-            !footer ||
-            !('IntersectionObserver'
-                in window)
-        ) return;
-
-
-        const observer =
-            new IntersectionObserver(
-                entries => {
+            entries.forEach(
+                (entry, index) => {
 
                     if (
-                        entries[0]
-                            .isIntersecting
+                        entry.isIntersecting
                     ) {
 
-                        footer.classList.add(
-                            'footer-active'
+                        setTimeout(
+                            () => {
+
+                                entry.target.classList.add(
+                                    'visible'
+                                );
+
+                            },
+                            index * 80
                         );
 
-                        observer.unobserve(
-                            footer
+
+                        revealObs.unobserve(
+                            entry.target
                         );
+
                     }
-                },
-                {
-                    threshold:
-                        0.25
+
                 }
             );
 
-
-        observer.observe(
-            footer
-        );
-    }
-
-
-    /* =========================================================
-       CURSOR GLOW
-       ========================================================= */
-
-    function setupCursorGlow() {
-
-        const glow =
-            document.getElementById(
-                'cursorGlow'
-            );
-
-
-        if (
-            !glow ||
-            prefersReducedMotion ||
-            window.matchMedia(
-                '(max-width: 900px)'
-            ).matches
-        ) return;
-
-
-        window.addEventListener(
-            'mousemove',
-            event => {
-
-                glow.style.transform =
-                    `
-                    translate(
-                        ${event.clientX - 190}px,
-                        ${event.clientY - 190}px
-                    )
-                    `;
-
-
-                glow.classList.add(
-                    'active'
-                );
-
-            },
-            {
-                passive: true
-            }
-        );
-
-
-        window.addEventListener(
-            'mouseleave',
-            () => {
-
-                glow.classList.remove(
-                    'active'
-                );
-
-            }
-        );
-    }
-
-
-    /* =========================================================
-       MAGNETIC BUTTONS
-       ========================================================= */
-
-    function setupMagneticButtons() {
-
-        if (
-            prefersReducedMotion ||
-            window.matchMedia(
-                '(max-width: 900px)'
-            ).matches
-        ) return;
-
-
-        document
-            .querySelectorAll(
-                '.magnetic'
-            )
-            .forEach(
-                button => {
-
-                    button.addEventListener(
-                        'mousemove',
-                        event => {
-
-                            const rect =
-                                button.getBoundingClientRect();
-
-
-                            const x =
-                                event.clientX -
-                                rect.left -
-                                rect.width /
-                                2;
-
-
-                            const y =
-                                event.clientY -
-                                rect.top -
-                                rect.height /
-                                2;
-
-
-                            button.style.transform =
-                                `
-                                translate(
-                                    ${x * .15}px,
-                                    ${y * .25}px
-                                )
-                                `;
-                        }
-                    );
-
-
-                    button.addEventListener(
-                        'mouseleave',
-                        () => {
-
-                            button.style.transform =
-                                'translate(0,0)';
-                        }
-                    );
-                }
-            );
-    }
-
-
-    /* =========================================================
-       PROJECT DATA
-       ========================================================= */
-
-    const projectData = {
-
-        'pixel-play': {
-
-            meta:
-                'Competition · Cinematic Direction',
-
-            title:
-                'Pixel Play Showcase',
-
-            desc:
-                'A comprehensive generative AI video pipeline showcasing complete timeline synchronization. Engineered using text-to-video diffusion loops combined with synthesized spectral audio elements.',
-
-            tags:
-                [
-                    'Runway Gen-2',
-                    'Higgsfield AI',
-                    'Audio Sync'
-                ],
-
-            videoSrc:
-                './assets/work/pixel-play.mp4'
         },
-
-
-        'pocket-fm': {
-
-            meta:
-                'Campaign · Generative AI Workflow',
-
-            title:
-                'Pocket FM Scale Assets',
-
-            desc:
-                'Automated deep graphic workflows to scale asset requirements across high-impact Hindi UGC story universes. Boosted community asset deployment efficiency by more than 40%.',
-
-            tags:
-                [
-                    'Midjourney',
-                    'Prompt Matrix',
-                    'Asset Scaling'
-                ],
-
-            imgSrc:
-                'assets/work/work2.jpg'
-        },
-
-
-        'chernobyl': {
-
-            meta:
-                'Keyart · Matte Painting',
-
-            title:
-                'Chernobyl Promo Art',
-
-            desc:
-                'Atmospheric promotional poster configuration managing customized fine-grain composition maps and industrial exposure fields to echo narrative weight.',
-
-            tags:
-                [
-                    'Photoshop',
-                    'Matte Composite',
-                    'Color Grading'
-                ],
-
-            imgSrc:
-                'assets/work/work3.jpg'
-        },
-
-
-        'contests': {
-
-            meta:
-                'Community Engagement · Strategy',
-
-            title:
-                'High-Impact Contests',
-
-            desc:
-                'Designed and scaled structural promotional media vectors targeted towards global user design marathons. Managed end-to-end promotional visuals and cross-channel community operations.',
-
-            tags:
-                [
-                    'Creative Direction',
-                    'AI Promos',
-                    'Campaign Layout'
-                ],
-
-            imgSrc:
-                'assets/work/work4.jpg'
-        },
-
-
-        'stranger-things': {
-
-            meta:
-                'VFX Motion · High-Contrast',
-
-            title:
-                'Stranger Things Concept',
-
-            desc:
-                'Cinematic title framing study built in After Effects. Seamlessly intersections neon glow layouts with heavy analog film-grain mapping channels.',
-
-            tags:
-                [
-                    'After Effects',
-                    'Premiere Pro',
-                    'VFX Motion'
-                ],
-
-            imgSrc:
-                'assets/work/work5.jpg'
+        {
+            threshold: 0.12
         }
+    );
 
-    };
 
+document
+    .querySelectorAll(
+        '.reveal:not(.hero .reveal)'
+    )
+    .forEach(
+        (element) => {
 
-    /* =========================================================
-       PROJECT MODAL
-       ========================================================= */
-
-    function setupModal() {
-
-        const overlay =
-            document.getElementById(
-                'premiumProjectModal'
+            revealObs.observe(
+                element
             );
 
-        const media =
-            document.getElementById(
-                'modalMediaAnchor'
-            );
-
-        const meta =
-            document.getElementById(
-                'modalMetaField'
-            );
-
-        const title =
-            document.getElementById(
-                'modalTitleField'
-            );
-
-        const description =
-            document.getElementById(
-                'modalDescField'
-            );
-
-        const tags =
-            document.getElementById(
-                'modalTagsField'
-            );
-
-        const closeButton =
-            document.getElementById(
-                'modalCloseBtn'
-            );
-
-
-        if (!overlay) {
-            return null;
         }
+    );
 
 
-        function open(projectId) {
+/* ============================================================
+   ABOUT — WORD BY WORD REVEAL
+   ============================================================ */
 
-            const data =
-                projectData[projectId];
+document
+    .querySelectorAll(
+        '[data-split]'
+    )
+    .forEach(
+        (paragraph) => {
 
-            if (!data) return;
-
-
-            if (meta) {
-                meta.textContent =
-                    data.meta;
-            }
-
-
-            if (title) {
-                title.textContent =
-                    data.title;
-            }
+            const text =
+                paragraph.textContent.trim();
 
 
-            if (description) {
-                description.textContent =
-                    data.desc;
-            }
+            paragraph.innerHTML =
+                '';
 
 
-            if (tags) {
+            text
+                .split(' ')
+                .forEach(
+                    (word) => {
 
-                tags.innerHTML =
-                    '';
-
-
-                data.tags.forEach(
-                    tag => {
-
-                        const element =
+                        const span =
                             document.createElement(
                                 'span'
                             );
 
-                        element.className =
-                            'tag';
 
-                        element.textContent =
-                            tag;
+                        span.className =
+                            'split-word';
 
-                        tags.appendChild(
-                            element
+
+                        span.textContent =
+                            word;
+
+
+                        paragraph.appendChild(
+                            span
                         );
+
+
+                        paragraph.appendChild(
+                            document.createTextNode(
+                                ' '
+                            )
+                        );
+
                     }
                 );
-            }
 
-
-            if (media) {
-
-                if (
-                    data.videoSrc
-                ) {
-
-                    media.innerHTML =
-                        `
-                        <video
-                            autoplay
-                            loop
-                            controls
-                            playsinline
-                            style="
-                                width:100%;
-                                height:100%;
-                                object-fit:cover;
-                            "
-                        >
-                            <source
-                                src="${data.videoSrc}"
-                                type="video/mp4"
-                            >
-                        </video>
-                        `;
-
-                } else {
-
-                    media.innerHTML =
-                        `
-                        <img
-                            src="${data.imgSrc}"
-                            alt="${data.title}"
-                            style="
-                                width:100%;
-                                height:100%;
-                                object-fit:cover;
-                            "
-                        >
-                        `;
-                }
-            }
-
-
-            overlay.classList.add(
-                'modal-visible'
-            );
-
-            body.style.overflow =
-                'hidden';
         }
+    );
 
 
-        function close() {
+const aboutWordObs =
+    new IntersectionObserver(
+        (entries) => {
 
-            overlay.classList.remove(
-                'modal-visible'
-            );
+            entries.forEach(
+                (entry) => {
 
+                    if (
+                        entry.isIntersecting
+                    ) {
 
-            if (media) {
-                media.innerHTML =
-                    '';
-            }
+                        const words =
+                            entry.target.querySelectorAll(
+                                '.split-word'
+                            );
 
 
-            body.style.overflow =
-                '';
-        }
+                        words.forEach(
+                            (word, index) => {
 
+                                setTimeout(
+                                    () => {
 
-        if (closeButton) {
+                                        word.classList.add(
+                                            'word-visible'
+                                        );
 
-            closeButton.addEventListener(
-                'click',
-                close
-            );
-        }
+                                    },
+                                    index * 28
+                                );
 
-
-        overlay.addEventListener(
-            'click',
-            event => {
-
-                if (
-                    event.target ===
-                    overlay
-                ) {
-
-                    close();
-                }
-            }
-        );
-
-
-        window.addEventListener(
-            'keydown',
-            event => {
-
-                if (
-                    event.key ===
-                    'Escape' &&
-
-                    overlay.classList.contains(
-                        'modal-visible'
-                    )
-                ) {
-
-                    close();
-                }
-            }
-        );
-
-
-        return open;
-    }
-
-
-    /* =========================================================
-       MOVING WORK TAPES
-       ========================================================= */
-
-    function createWorkTapes() {
-
-        const accordion =
-            document.getElementById(
-                'accordionStage'
-            );
-
-
-        if (!accordion) return;
-
-
-        if (
-            document.querySelector(
-                '.work-tape'
-            )
-        ) return;
-
-
-        const tape =
-            document.createElement(
-                'div'
-            );
-
-        tape.className =
-            'work-tape';
-
-
-        const projects = [
-
-            {
-                index: '01',
-                image: '',
-                title:
-                    'PIXEL PLAY SHOWCASE',
-                meta:
-                    'AI VIDEO'
-            },
-
-            {
-                index: '02',
-                image:
-                    'assets/work/work2.jpg',
-                title:
-                    'POCKET FM SCALE ASSETS',
-                meta:
-                    'GENERATIVE AI'
-            },
-
-            {
-                index: '03',
-                image:
-                    'assets/work/work3.jpg',
-                title:
-                    'CHERNOBYL PROMO ART',
-                meta:
-                    'KEYART'
-            },
-
-            {
-                index: '04',
-                image:
-                    'assets/work/work4.jpg',
-                title:
-                    'HIGH-IMPACT CONTESTS',
-                meta:
-                    'CAMPAIGN'
-            },
-
-            {
-                index: '05',
-                image:
-                    'assets/work/work5.jpg',
-                title:
-                    'STRANGER THINGS CONCEPT',
-                meta:
-                    'MOTION'
-            }
-
-        ];
-
-
-        const categories = [
-
-            {
-                index: 'A',
-                type: '',
-                title:
-                    'VISUAL STORYTELLING',
-                meta:
-                    'CREATIVE DIRECTION'
-            },
-
-            {
-                index: 'B',
-                type:
-                    'tape-ring',
-                title:
-                    'MOTION DESIGN',
-                meta:
-                    'AFTER EFFECTS'
-            },
-
-            {
-                index: 'C',
-                type:
-                    'tape-grid',
-                title:
-                    'AI WORKFLOWS',
-                meta:
-                    'PRODUCTION SYSTEMS'
-            },
-
-            {
-                index: 'D',
-                type:
-                    'tape-diamond',
-                title:
-                    'BRAND IDENTITY',
-                meta:
-                    'VISUAL SYSTEMS'
-            },
-
-            {
-                index: 'E',
-                type:
-                    'tape-bars',
-                title:
-                    'CINEMATIC DIRECTION',
-                meta:
-                    'EDITING & AUDIO'
-            }
-
-        ];
-
-
-        function makeItem(
-            data,
-            secondRow = false
-        ) {
-
-            const item =
-                document.createElement(
-                    'div'
-                );
-
-            item.className =
-                'tape-item';
-
-
-            const index =
-                document.createElement(
-                    'span'
-                );
-
-            index.className =
-                'tape-index';
-
-            index.textContent =
-                data.index;
-
-
-            const visual =
-                document.createElement(
-                    'span'
-                );
-
-
-            if (secondRow) {
-
-                visual.className =
-                    `tape-shape ${
-                        data.type || ''
-                    }`;
-
-            } else {
-
-                visual.className =
-                    'tape-thumb';
-
-
-                if (data.image) {
-
-                    visual.style.backgroundImage =
-                        `url("${data.image}")`;
-
-                } else {
-
-                    visual.classList.add(
-                        'tape-video'
-                    );
-                }
-            }
-
-
-            const title =
-                document.createElement(
-                    'span'
-                );
-
-            title.className =
-                'tape-title';
-
-            title.textContent =
-                data.title;
-
-
-            const meta =
-                document.createElement(
-                    'small'
-                );
-
-            meta.className =
-                'tape-meta';
-
-            meta.textContent =
-                data.meta;
-
-
-            item.appendChild(
-                index
-            );
-
-            item.appendChild(
-                visual
-            );
-
-            item.appendChild(
-                title
-            );
-
-            item.appendChild(
-                meta
-            );
-
-
-            return item;
-        }
-
-
-        function makeTrack(
-            data,
-            secondRow
-        ) {
-
-            const track =
-                document.createElement(
-                    'div'
-                );
-
-            track.className =
-                'work-tape-track';
-
-
-            data.forEach(
-                item => {
-
-                    track.appendChild(
-                        makeItem(
-                            item,
-                            secondRow
-                        )
-                    );
-                }
-            );
-
-
-            /* Duplicate once so
-               animation loops seamlessly */
-
-            data.forEach(
-                item => {
-
-                    const duplicate =
-                        makeItem(
-                            item,
-                            secondRow
+                            }
                         );
 
-                    duplicate.setAttribute(
-                        'aria-hidden',
-                        'true'
-                    );
 
-                    track.appendChild(
-                        duplicate
-                    );
+                        aboutWordObs.unobserve(
+                            entry.target
+                        );
+
+                    }
+
                 }
             );
 
-
-            return track;
+        },
+        {
+            threshold: 0.3
         }
+    );
 
 
-        const rowOne =
-            document.createElement(
-                'div'
+document
+    .querySelectorAll(
+        '[data-split]'
+    )
+    .forEach(
+        (element) => {
+
+            aboutWordObs.observe(
+                element
             );
 
-        rowOne.className =
-            'work-tape-row';
+        }
+    );
 
 
-        rowOne.appendChild(
-            makeTrack(
-                projects,
-                false
-            )
-        );
+/* ============================================================
+   JOURNEY — TIMELINE
+   ============================================================ */
+
+const timelineProgress =
+    document.getElementById(
+        'timelineProgress'
+    );
 
 
-        const rowTwo =
-            document.createElement(
-                'div'
-            );
-
-        rowTwo.className =
-            'work-tape-row';
+const timelineEl =
+    document.querySelector(
+        '.timeline'
+    );
 
 
-        rowTwo.appendChild(
-            makeTrack(
-                categories,
-                true
-            )
-        );
+function updateTimelineProgress() {
 
-
-        tape.appendChild(
-            rowOne
-        );
-
-        tape.appendChild(
-            rowTwo
-        );
-
-
-        accordion.after(
-            tape
-        );
+    if (
+        !timelineProgress ||
+        !timelineEl
+    ) {
+        return;
     }
 
 
-    /* =========================================================
-       FEATURED WORK
-       ========================================================= */
-
-    function setupFeaturedWork(
-        openModal
-    ) {
-
-        const workSection =
-            document.getElementById(
-                'work'
-            );
-
-        const accordion =
-            document.getElementById(
-                'accordionStage'
-            );
-
-        const cards =
-            [
-                ...document.querySelectorAll(
-                    '.work-card'
-                )
-            ];
-
-        const indicator =
-            document.getElementById(
-                'workIndicatorProgress'
-            );
+    const rect =
+        timelineEl.getBoundingClientRect();
 
 
-        if (!cards.length) {
-            return;
-        }
+    const viewportHeight =
+        window.innerHeight;
 
 
-        let slideshowIntervals =
-            [];
+    const total =
+        rect.height;
 
 
-        function updateIndicator(
-            index
-        ) {
-
-            if (
-                !indicator ||
-                window.innerWidth <=
-                768
-            ) return;
+    let progress =
+        (
+            viewportHeight * 0.85 -
+            rect.top
+        ) / total;
 
 
-            const width =
-                100 /
-                cards.length;
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                progress
+            )
+        );
 
 
-            indicator.style.width =
-                `${width}%`;
+    timelineProgress.style.height =
+        `${progress * 100}%`;
+}
 
 
-            indicator.style.transform =
-                `translateX(
-                    ${index * 100}%
-                )`;
-        }
+window.addEventListener(
+    'scroll',
+    updateTimelineProgress,
+    {
+        passive: true
+    }
+);
 
 
-        function stopSlideshow(
-            card
-        ) {
+window.addEventListener(
+    'resize',
+    updateTimelineProgress
+);
 
-            slideshowIntervals =
-                slideshowIntervals.filter(
-                    item => {
+
+updateTimelineProgress();
+
+
+/* ============================================================
+   FOOTER — CINEMATIC ENDING
+   ============================================================ */
+
+const footerEl =
+    document.getElementById(
+        'contact'
+    );
+
+
+if (footerEl) {
+
+    const footerObs =
+        new IntersectionObserver(
+            (entries) => {
+
+                entries.forEach(
+                    (entry) => {
 
                         if (
-                            item.card !==
-                            card
+                            entry.isIntersecting
                         ) {
-                            return true;
+
+                            footerEl.classList.add(
+                                'footer-active'
+                            );
+
+
+                            footerObs.unobserve(
+                                entry.target
+                            );
+
                         }
 
+                    }
+                );
 
-                        clearInterval(
-                            item.interval
+            },
+            {
+                threshold: 0.25
+            }
+        );
+
+
+    footerObs.observe(
+        footerEl
+    );
+}
+
+
+/* ============================================================
+   CURSOR GLOW
+   ============================================================ */
+
+const cursorGlow =
+    document.getElementById(
+        'cursorGlow'
+    );
+
+
+if (
+    cursorGlow &&
+    !prefersReducedMotion &&
+    window.matchMedia('(min-width: 901px)').matches
+) {
+
+    let glowActive = false;
+
+
+    window.addEventListener(
+        'mousemove',
+        (event) => {
+
+            cursorGlow.style.transform =
+                `translate(
+                    ${event.clientX - 190}px,
+                    ${event.clientY - 190}px
+                )`;
+
+
+            if (!glowActive) {
+
+                cursorGlow.classList.add(
+                    'active'
+                );
+
+                glowActive = true;
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    window.addEventListener(
+        'mouseleave',
+        () => {
+
+            cursorGlow.classList.remove(
+                'active'
+            );
+
+        }
+    );
+}
+
+
+/* ============================================================
+   MAGNETIC BUTTONS
+   ============================================================ */
+
+if (
+    !prefersReducedMotion &&
+    window.matchMedia('(min-width: 901px)').matches
+) {
+
+    document
+        .querySelectorAll(
+            '.magnetic'
+        )
+        .forEach(
+            (button) => {
+
+                button.addEventListener(
+                    'mousemove',
+                    (event) => {
+
+                        const rect =
+                            button.getBoundingClientRect();
+
+
+                        const x =
+                            event.clientX -
+                            rect.left -
+                            rect.width / 2;
+
+
+                        const y =
+                            event.clientY -
+                            rect.top -
+                            rect.height / 2;
+
+
+                        button.style.transform =
+                            `translate(
+                                ${x * 0.18}px,
+                                ${y * 0.35}px
+                            )`;
+
+                    }
+                );
+
+
+                button.addEventListener(
+                    'mouseleave',
+                    () => {
+
+                        button.style.transform =
+                            'translate(0,0)';
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+/* ============================================================
+   PROJECT DATA
+   ============================================================ */
+
+const projectDataHub = {
+
+    'pixel-play': {
+
+        meta:
+            'Competition · Cinematic Direction',
+
+        title:
+            'Pixel Play Showcase',
+
+        desc:
+            'A comprehensive generative AI video pipeline showcasing complete timeline synchronization. Engineered using text-to-video diffusion loops combined with synthesized spectral audio elements.',
+
+        tags: [
+            'Runway Gen-2',
+            'Higgsfield AI',
+            'Audio Sync'
+        ],
+
+        videoSrc:
+            './assets/work/pixel-play.mp4'
+    },
+
+
+    'pocket-fm': {
+
+        meta:
+            'Campaign · Generative AI Workflow',
+
+        title:
+            'Pocket FM Scale Assets',
+
+        desc:
+            'Automated deep graphic workflows to scale asset requirements across high-impact Hindi UGC story universes. Boosted community asset deployment efficiency by more than 40%.',
+
+        tags: [
+            'Midjourney',
+            'Prompt Matrix',
+            'Asset Scaling'
+        ],
+
+        imgSrc:
+            'assets/work/work2.jpg'
+    },
+
+
+    'chernobyl': {
+
+        meta:
+            'Keyart · Matte Painting',
+
+        title:
+            'Chernobyl Promo Art',
+
+        desc:
+            'Atmospheric promotional poster configuration managing customized fine-grain composition maps and industrial exposure fields to echo narrative weight.',
+
+        tags: [
+            'Photoshop',
+            'Matte Composite',
+            'Color Grading'
+        ],
+
+        imgSrc:
+            'assets/work/work3.jpg'
+    },
+
+
+    'contests': {
+
+        meta:
+            'Community Engagement · Strategy',
+
+        title:
+            'High-Impact Contests',
+
+        desc:
+            'Designed and scaled structural promotional media vectors targeted towards global user design marathons. Managed end-to-end promotional visuals and cross-channel community operations.',
+
+        tags: [
+            'Creative Direction',
+            'AI Promos',
+            'Campaign Layout'
+        ],
+
+        imgSrc:
+            'assets/work/work4.jpg'
+    },
+
+
+    'stranger-things': {
+
+        meta:
+            'VFX Motion · High-Contrast',
+
+        title:
+            'Stranger Things Concept',
+
+        desc:
+            'Cinematic title framing study built in After Effects. Seamlessly intersections neon glow layouts with heavy analog film-grain mapping channels.',
+
+        tags: [
+            'After Effects',
+            'Premiere Pro',
+            'VFX Motion'
+        ],
+
+        imgSrc:
+            'assets/work/work5.jpg'
+    }
+
+};
+
+
+/* ============================================================
+   PROJECT MODAL
+   ============================================================ */
+
+const modalOverlay =
+    document.getElementById(
+        'premiumProjectModal'
+    );
+
+
+const modalMediaAnchor =
+    document.getElementById(
+        'modalMediaAnchor'
+    );
+
+
+const modalMetaField =
+    document.getElementById(
+        'modalMetaField'
+    );
+
+
+const modalTitleField =
+    document.getElementById(
+        'modalTitleField'
+    );
+
+
+const modalDescField =
+    document.getElementById(
+        'modalDescField'
+    );
+
+
+const modalTagsField =
+    document.getElementById(
+        'modalTagsField'
+    );
+
+
+const modalCloseBtn =
+    document.getElementById(
+        'modalCloseBtn'
+    );
+
+
+function openCinematicModal(
+    projectId
+) {
+
+    const data =
+        projectDataHub[projectId];
+
+
+    if (
+        !data ||
+        !modalOverlay
+    ) {
+        return;
+    }
+
+
+    if (modalMetaField) {
+        modalMetaField.innerHTML =
+            data.meta;
+    }
+
+
+    if (modalTitleField) {
+        modalTitleField.innerText =
+            data.title;
+    }
+
+
+    if (modalDescField) {
+        modalDescField.innerText =
+            data.desc;
+    }
+
+
+    if (modalTagsField) {
+
+        modalTagsField.innerHTML =
+            '';
+
+
+        data.tags.forEach(
+            (tag) => {
+
+                const span =
+                    document.createElement(
+                        'span'
+                    );
+
+
+                span.className =
+                    'tag';
+
+
+                span.innerText =
+                    tag;
+
+
+                modalTagsField.appendChild(
+                    span
+                );
+
+            }
+        );
+
+    }
+
+
+    if (modalMediaAnchor) {
+
+        if (data.videoSrc) {
+
+            modalMediaAnchor.innerHTML =
+                `
+                <video
+                    autoplay
+                    loop
+                    controls
+                    playsinline
+                    style="
+                        width:100%;
+                        height:100%;
+                        object-fit:cover;
+                    "
+                >
+                    <source
+                        src="${data.videoSrc}"
+                        type="video/mp4"
+                    >
+                </video>
+                `;
+
+        } else {
+
+            modalMediaAnchor.innerHTML =
+                `
+                <img
+                    src="${data.imgSrc}"
+                    style="
+                        width:100%;
+                        height:100%;
+                        object-fit:cover;
+                    "
+                    alt="Showcase"
+                >
+                `;
+
+        }
+
+    }
+
+
+    modalOverlay.classList.add(
+        'modal-visible'
+    );
+}
+
+
+function closeCinematicModal() {
+
+    if (!modalOverlay) {
+        return;
+    }
+
+
+    modalOverlay.classList.remove(
+        'modal-visible'
+    );
+
+
+    if (modalMediaAnchor) {
+
+        modalMediaAnchor.innerHTML =
+            '';
+
+    }
+}
+
+
+if (modalCloseBtn) {
+
+    modalCloseBtn.addEventListener(
+        'click',
+        closeCinematicModal
+    );
+
+}
+
+
+if (modalOverlay) {
+
+    modalOverlay.addEventListener(
+        'click',
+        (event) => {
+
+            if (
+                event.target ===
+                modalOverlay
+            ) {
+
+                closeCinematicModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+window.addEventListener(
+    'keydown',
+    (event) => {
+
+        if (
+            event.key === 'Escape' &&
+            modalOverlay &&
+            modalOverlay.classList.contains(
+                'modal-visible'
+            )
+        ) {
+
+            closeCinematicModal();
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   FEATURED WORK
+   ============================================================ */
+
+const workSection =
+    document.getElementById(
+        'work'
+    );
+
+
+const accordionStage =
+    document.getElementById(
+        'accordionStage'
+    );
+
+
+const workCards =
+    document.querySelectorAll(
+        '.work-card'
+    );
+
+
+const indicatorProgress =
+    document.getElementById(
+        'workIndicatorProgress'
+    );
+
+
+/* ============================================================
+   WORK SECTION OBSERVER
+   ============================================================ */
+
+if (workSection) {
+
+    const workSectionObserver =
+        new IntersectionObserver(
+            (entries) => {
+
+                entries.forEach(
+                    (entry) => {
+
+                        if (
+                            entry.isIntersecting ||
+                            document.readyState ===
+                                'complete'
+                        ) {
+
+                            workSection
+                                .querySelectorAll(
+                                    '.animate-init'
+                                )
+                                .forEach(
+                                    (element) => {
+
+                                        element.classList.add(
+                                            'animate-active'
+                                        );
+
+                                    }
+                                );
+
+
+                            workSectionObserver.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    }
+                );
+
+            },
+            {
+                threshold: 0.05
+            }
+        );
+
+
+    workSectionObserver.observe(
+        workSection
+    );
+
+
+    setTimeout(
+        () => {
+
+            workSection
+                .querySelectorAll(
+                    '.animate-init'
+                )
+                .forEach(
+                    (element) => {
+
+                        element.classList.add(
+                            'animate-active'
+                        );
+
+                    }
+                );
+
+        },
+        800
+    );
+}
+
+
+/* ============================================================
+   WORK PROGRESS INDICATOR
+   ============================================================ */
+
+function updateProgressIndicator(
+    activeIndex
+) {
+
+    if (
+        !indicatorProgress ||
+        window.innerWidth <= 768 ||
+        workCards.length === 0
+    ) {
+        return;
+    }
+
+
+    const totalCards =
+        workCards.length;
+
+
+    const segmentWidth =
+        100 / totalCards;
+
+
+    indicatorProgress.style.width =
+        `${segmentWidth}%`;
+
+
+    indicatorProgress.style.transform =
+        `translateX(
+            ${activeIndex * 100}%
+        )`;
+}
+
+
+updateProgressIndicator(0);
+
+
+/* ============================================================
+   CARD SLIDESHOW
+   ============================================================ */
+
+let activeSlideshowIntervals = [];
+
+
+function initializeCardSlideshowSequence(
+    card
+) {
+
+    if (!card) return;
+
+
+    const wrap =
+        card.querySelector(
+            '.dynamic-slideshow'
+        );
+
+
+    if (!wrap) return;
+
+
+    const slides =
+        wrap.querySelectorAll(
+            '.card-bg-img'
+        );
+
+
+    if (
+        slides.length <= 1
+    ) {
+        return;
+    }
+
+
+    let activeSlideIndex = 0;
+
+
+    const intervalId =
+        setInterval(
+            () => {
+
+                slides[
+                    activeSlideIndex
+                ].classList.remove(
+                    'active-slide'
+                );
+
+
+                if (
+                    slides[
+                        activeSlideIndex
+                    ].tagName === 'VIDEO'
+                ) {
+
+                    slides[
+                        activeSlideIndex
+                    ].pause();
+
+                }
+
+
+                activeSlideIndex =
+                    (
+                        activeSlideIndex + 1
+                    ) %
+                    slides.length;
+
+
+                slides[
+                    activeSlideIndex
+                ].classList.add(
+                    'active-slide'
+                );
+
+
+                if (
+                    slides[
+                        activeSlideIndex
+                    ].tagName === 'VIDEO'
+                ) {
+
+                    slides[
+                        activeSlideIndex
+                    ].muted = true;
+
+
+                    slides[
+                        activeSlideIndex
+                    ].play()
+                    .catch(
+                        () => {}
+                    );
+
+                }
+
+            },
+            2800
+        );
+
+
+    activeSlideshowIntervals.push({
+        card: card,
+        interval: intervalId
+    });
+}
+
+
+/* ============================================================
+   TERMINATE CARD SLIDESHOW
+   ============================================================ */
+
+function terminateCardSlideshowSequence(
+    card
+) {
+
+    activeSlideshowIntervals =
+        activeSlideshowIntervals.filter(
+            (item) => {
+
+                if (
+                    item.card === card
+                ) {
+
+                    clearInterval(
+                        item.interval
+                    );
+
+
+                    const slides =
+                        card.querySelectorAll(
+                            '.card-bg-img'
                         );
 
 
-                        const slides =
-                            [
-                                ...card.querySelectorAll(
-                                    '.card-bg-img'
-                                )
-                            ];
+                    slides.forEach(
+                        (slide, index) => {
 
+                            if (
+                                index === 0
+                            ) {
 
-                        slides.forEach(
-                            (
-                                slide,
-                                index
-                            ) => {
-
-                                const active =
-                                    index ===
-                                    0;
-
-
-                                slide.classList.toggle(
-                                    'active-slide',
-                                    active
+                                slide.classList.add(
+                                    'active-slide'
                                 );
 
 
@@ -3414,634 +1838,538 @@
                                     'VIDEO'
                                 ) {
 
-                                    if (
-                                        active
-                                    ) {
+                                    slide
+                                        .play()
+                                        .catch(
+                                            () => {}
+                                        );
 
-                                        slide
-                                            .play()
-                                            .catch(
-                                                () => {}
-                                            );
-
-                                    } else {
-
-                                        slide.pause();
-                                    }
                                 }
-                            }
-                        );
 
+                            } else {
 
-                        return false;
-                    }
-                );
-        }
-
-
-        function startSlideshow(
-            card
-        ) {
-
-            const wrap =
-                card.querySelector(
-                    '.dynamic-slideshow'
-                );
-
-
-            if (!wrap) return;
-
-
-            const slides =
-                [
-                    ...wrap.querySelectorAll(
-                        '.card-bg-img'
-                    )
-                ];
-
-
-            if (
-                slides.length <=
-                1
-            ) return;
-
-
-            stopSlideshow(
-                card
-            );
-
-
-            let index =
-                slides.findIndex(
-                    slide =>
-                        slide.classList.contains(
-                            'active-slide'
-                        )
-                );
-
-
-            if (index < 0) {
-                index = 0;
-            }
-
-
-            const interval =
-                setInterval(
-                    () => {
-
-                        slides[index]
-                            .classList
-                            .remove(
-                                'active-slide'
-                            );
-
-
-                        if (
-                            slides[index]
-                                .tagName ===
-                            'VIDEO'
-                        ) {
-
-                            slides[index]
-                                .pause();
-                        }
-
-
-                        index =
-                            (
-                                index + 1
-                            ) %
-                            slides.length;
-
-
-                        slides[index]
-                            .classList
-                            .add(
-                                'active-slide'
-                            );
-
-
-                        if (
-                            slides[index]
-                                .tagName ===
-                            'VIDEO'
-                        ) {
-
-                            slides[index].muted =
-                                true;
-
-                            slides[index]
-                                .play()
-                                .catch(
-                                    () => {}
+                                slide.classList.remove(
+                                    'active-slide'
                                 );
-                        }
 
-                    },
-                    2800
-                );
-
-
-            slideshowIntervals.push({
-                card,
-                interval
-            });
-        }
-
-
-        if (cards[0]) {
-
-            startSlideshow(
-                cards[0]
-            );
-
-            updateIndicator(
-                0
-            );
-        }
-
-
-        cards.forEach(
-            (
-                card,
-                index
-            ) => {
-
-                card.addEventListener(
-                    'mouseenter',
-                    () => {
-
-                        if (
-                            window.innerWidth <=
-                            768
-                        ) return;
-
-
-                        cards.forEach(
-                            other => {
 
                                 if (
-                                    other !==
-                                    card
+                                    slide.tagName ===
+                                    'VIDEO'
                                 ) {
 
-                                    other.classList.remove(
-                                        'active'
-                                    );
+                                    slide.pause();
 
-                                    stopSlideshow(
-                                        other
-                                    );
-
-                                    other
-                                        .querySelectorAll(
-                                            'video'
-                                        )
-                                        .forEach(
-                                            video =>
-                                                video.pause()
-                                        );
                                 }
+
                             }
-                        );
+
+                        }
+                    );
 
 
-                        card.classList.add(
+                    return false;
+                }
+
+
+                return true;
+
+            }
+        );
+}
+
+
+/* ============================================================
+   DEFAULT FIRST CARD
+   ============================================================ */
+
+if (workCards[0]) {
+
+    initializeCardSlideshowSequence(
+        workCards[0]
+    );
+
+}
+
+
+/* ============================================================
+   WORK CARD HOVER + CLICK
+   ============================================================ */
+
+workCards.forEach(
+    (card, index) => {
+
+
+        /*
+           Desktop hover.
+        */
+
+        card.addEventListener(
+            'mouseenter',
+            () => {
+
+                if (
+                    window.innerWidth <= 768
+                ) {
+                    return;
+                }
+
+
+                workCards.forEach(
+                    (otherCard) => {
+
+                        otherCard.classList.remove(
                             'active'
                         );
 
 
-                        updateIndicator(
-                            index
+                        terminateCardSlideshowSequence(
+                            otherCard
                         );
 
 
-                        startSlideshow(
-                            card
-                        );
-
-
-                        const activeVideo =
-                            card.querySelector(
-                                '.active-slide'
+                        const fallbackVideo =
+                            otherCard.querySelector(
+                                'video'
                             );
 
 
                         if (
-                            activeVideo &&
-                            activeVideo.tagName ===
-                            'VIDEO'
+                            fallbackVideo
                         ) {
 
-                            activeVideo.muted =
-                                true;
+                            fallbackVideo.pause();
 
-                            activeVideo
-                                .play()
-                                .catch(
-                                    () => {}
-                                );
                         }
+
                     }
                 );
 
 
-                card.addEventListener(
-                    'click',
-                    () => {
-
-                        if (
-                            window.innerWidth >
-                                768 &&
-                            !card.classList.contains(
-                                'active'
-                            )
-                        ) return;
-
-
-                        if (
-                            openModal
-                        ) {
-
-                            openModal(
-                                card.getAttribute(
-                                    'data-project'
-                                )
-                            );
-                        }
-                    }
+                card.classList.add(
+                    'active'
                 );
-            }
-        );
 
 
-        /* Mobile horizontal scroll */
-
-        if (accordion) {
-
-            accordion.addEventListener(
-                'scroll',
-                () => {
-
-                    if (
-                        window.innerWidth >
-                        768
-                    ) return;
+                updateProgressIndicator(
+                    index
+                );
 
 
-                    const width =
-                        accordion.offsetWidth;
+                initializeCardSlideshowSequence(
+                    card
+                );
 
 
-                    const index =
-                        Math.round(
-                            accordion.scrollLeft /
-                            (
-                                width *
-                                .85
-                            )
+                const activeVideo =
+                    card.querySelector(
+                        '.active-slide'
+                    );
+
+
+                if (
+                    activeVideo &&
+                    activeVideo.tagName ===
+                        'VIDEO'
+                ) {
+
+                    activeVideo.muted =
+                        true;
+
+
+                    activeVideo
+                        .play()
+                        .catch(
+                            () => {}
                         );
 
-
-                    if (
-                        cards[index] &&
-                        !cards[index]
-                            .classList
-                            .contains(
-                                'active'
-                            )
-                    ) {
-
-                        cards.forEach(
-                            card =>
-                                card.classList.remove(
-                                    'active'
-                                )
-                        );
-
-
-                        cards[index]
-                            .classList
-                            .add(
-                                'active'
-                            );
-                    }
-                },
-                {
-                    passive: true
                 }
-            );
-        }
+
+            }
+        );
 
 
-        /* Work reveal */
+        /*
+           Card click opens modal.
+        */
 
-        if (
-            workSection &&
-            'IntersectionObserver'
-                in window
-        ) {
+        card.addEventListener(
+            'click',
+            () => {
 
-            const observer =
-                new IntersectionObserver(
-                    entries => {
+                if (
+                    window.innerWidth > 768 &&
+                    !card.classList.contains(
+                        'active'
+                    )
+                ) {
 
-                        if (
-                            entries[0]
-                                .isIntersecting
-                        ) {
+                    return;
 
-                            workSection
-                                .querySelectorAll(
-                                    '.animate-init'
-                                )
-                                .forEach(
-                                    element =>
-                                        element.classList.add(
-                                            'animate-active'
-                                        )
-                                );
+                }
 
 
-                            observer.unobserve(
-                                workSection
-                            );
-                        }
-                    },
-                    {
-                        threshold:
-                            .05
-                    }
+                const projectId =
+                    card.getAttribute(
+                        'data-project'
+                    );
+
+
+                openCinematicModal(
+                    projectId
                 );
 
-
-            observer.observe(
-                workSection
-            );
-        }
-
-
-        /* Work parallax */
-
-        if (
-            prefersReducedMotion
-        ) return;
-
-
-        let targetX = 0;
-        let targetY = 0;
-
-        let currentX = 0;
-        let currentY = 0;
-
-
-        window.addEventListener(
-            'mousemove',
-            event => {
-
-                targetX =
-                    (
-                        event.clientX -
-                        window.innerWidth /
-                        2
-                    ) /
-                    (
-                        window.innerWidth /
-                        2
-                    );
-
-
-                targetY =
-                    (
-                        event.clientY -
-                        window.innerHeight /
-                        2
-                    ) /
-                    (
-                        window.innerHeight /
-                        2
-                    );
-            },
-            {
-                passive: true
             }
         );
 
-
-        function parallax() {
-
-            currentX +=
-                (
-                    targetX -
-                    currentX
-                ) *
-                .08;
+    }
+);
 
 
-            currentY +=
-                (
-                    targetY -
-                    currentY
-                ) *
-                .08;
+/* ============================================================
+   HARDWARE ACCELERATED PARALLAX
+   ============================================================ */
+
+let targetMouseX = 0;
+
+let targetMouseY = 0;
+
+let currentMouseX = 0;
+
+let currentMouseY = 0;
 
 
-            if (
-                window.innerWidth >
-                768
-            ) {
-
-                const active =
-                    document.querySelector(
-                        '.work-card.active .card-bg-wrap .active-slide'
-                    );
+const interpolationFactor =
+    0.08;
 
 
-                if (active) {
+window.addEventListener(
+    'mousemove',
+    (event) => {
 
-                    active.style.setProperty(
-                        '--move-x',
-                        `${currentX * 28}px`
-                    );
-
-
-                    active.style.setProperty(
-                        '--move-y',
-                        `${currentY * 28}px`
-                    );
-                }
-            }
-
-
-            requestAnimationFrame(
-                parallax
+        targetMouseX =
+            (
+                event.clientX -
+                window.innerWidth / 2
+            ) /
+            (
+                window.innerWidth / 2
             );
-        }
 
 
-        requestAnimationFrame(
-            parallax
+        targetMouseY =
+            (
+                event.clientY -
+                window.innerHeight / 2
+            ) /
+            (
+                window.innerHeight / 2
+            );
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+function processParallaxLoop() {
+
+    currentMouseX +=
+        (
+            targetMouseX -
+            currentMouseX
+        ) *
+        interpolationFactor;
+
+
+    currentMouseY +=
+        (
+            targetMouseY -
+            currentMouseY
+        ) *
+        interpolationFactor;
+
+
+    const pxOffsetValueX =
+        currentMouseX * 28;
+
+
+    const pxOffsetValueY =
+        currentMouseY * 28;
+
+
+    const activeMediaElement =
+        document.querySelector(
+            '.work-card.active .card-bg-wrap .active-slide'
         );
+
+
+    if (
+        activeMediaElement &&
+        window.innerWidth > 768
+    ) {
+
+        activeMediaElement.style.setProperty(
+            '--move-x',
+            `${pxOffsetValueX}px`
+        );
+
+
+        activeMediaElement.style.setProperty(
+            '--move-y',
+            `${pxOffsetValueY}px`
+        );
+
     }
 
 
-    /* =========================================================
-       VIDEO AUTOPLAY
-       ========================================================= */
+    requestAnimationFrame(
+        processParallaxLoop
+    );
+}
 
-    function setupVideo() {
 
-        const video =
+requestAnimationFrame(
+    processParallaxLoop
+);
+
+
+/* ============================================================
+   VIDEO AUTOPLAY RECOVERY
+   ============================================================ */
+
+window.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+        const defaultVideoElement =
             document.getElementById(
                 'showcaseVideo'
             );
 
 
-        if (!video) return;
+        if (!defaultVideoElement) {
+            return;
+        }
 
 
-        video.muted =
+        defaultVideoElement.muted =
             true;
 
 
-        video
+        defaultVideoElement
             .play()
             .catch(
                 () => {
 
-                    const retry =
+                    const initialInteractionTrigger =
                         () => {
 
-                            video
+                            defaultVideoElement
                                 .play()
                                 .catch(
                                     () => {}
                                 );
+
+
+                            window.removeEventListener(
+                                'click',
+                                initialInteractionTrigger
+                            );
+
+
+                            window.removeEventListener(
+                                'scroll',
+                                initialInteractionTrigger
+                            );
+
                         };
 
 
                     window.addEventListener(
                         'click',
-                        retry,
-                        {
-                            once: true
-                        }
+                        initialInteractionTrigger
                     );
 
 
                     window.addEventListener(
                         'scroll',
-                        retry,
-                        {
-                            once: true
-                        }
+                        initialInteractionTrigger
                     );
+
                 }
             );
+
     }
+);
 
 
-    /* =========================================================
-       GSAP
-       ========================================================= */
+/* ============================================================
+   MOBILE TOUCH / SWIPE TRACKING
+   ============================================================ */
 
-    function setupGSAP() {
+if (accordionStage) {
 
-        if (
-            !window.gsap ||
-            !window.ScrollTrigger ||
-            prefersReducedMotion
-        ) return;
+    accordionStage.addEventListener(
+        'scroll',
+        () => {
 
-
-        gsap.registerPlugin(
-            ScrollTrigger
-        );
-
-
-        gsap
-            .utils
-            .toArray(
-                '.about-meta, .skills-grid'
-            )
-            .forEach(
-                element => {
-
-                    gsap.fromTo(
-                        element,
-
-                        {
-                            y: 24
-                        },
-
-                        {
-                            y: 0,
-
-                            ease:
-                                'none',
-
-                            scrollTrigger: {
-
-                                trigger:
-                                    element,
-
-                                start:
-                                    'top bottom',
-
-                                end:
-                                    'top center',
-
-                                scrub:
-                                    .6
-                            }
-                        }
-                    );
-                }
-            );
-    }
+            if (
+                window.innerWidth > 768
+            ) {
+                return;
+            }
 
 
-    /* =========================================================
-       INITIALIZE
-       ========================================================= */
+            const stageWidth =
+                accordionStage.offsetWidth;
 
-    prepareHero();
 
-    injectStyles();
+            const currentScrollPosition =
+                accordionStage.scrollLeft;
 
-    setupLoaderName();
 
-    buildKineticName();
+            const estimatedIndex =
+                Math.round(
+                    currentScrollPosition /
+                    (
+                        stageWidth *
+                        0.85
+                    )
+                );
 
-    createWorkTapes();
 
-    const openModal =
-        setupModal();
+            if (
+                workCards[
+                    estimatedIndex
+                ] &&
+                !workCards[
+                    estimatedIndex
+                ].classList.contains(
+                    'active'
+                )
+            ) {
 
-    setupNavbar();
+                workCards.forEach(
+                    (card) => {
 
-    setupReveals();
+                        card.classList.remove(
+                            'active'
+                        );
 
-    setupAbout();
+                    }
+                );
 
-    setupTimeline();
 
-    setupFooter();
+                workCards[
+                    estimatedIndex
+                ].classList.add(
+                    'active'
+                );
 
-    setupCursorGlow();
+            }
 
-    setupMagneticButtons();
+        },
+        {
+            passive: true
+        }
+    );
+}
 
-    setupFeaturedWork(
-        openModal
+
+/* ============================================================
+   GSAP SCROLLTRIGGER ENHANCEMENTS
+   ============================================================ */
+
+if (
+    window.gsap &&
+    window.ScrollTrigger &&
+    !prefersReducedMotion
+) {
+
+    gsap.registerPlugin(
+        ScrollTrigger
     );
 
-    setupVideo();
 
-    setupGSAP();
+    /*
+       Subtle parallax continuity.
+    */
 
-    setupHeroCursor();
+    gsap
+        .utils
+        .toArray(
+            '.about-meta, .skills-grid'
+        )
+        .forEach(
+            (element) => {
 
-    startLoader();
+                gsap.fromTo(
+                    element,
 
-})();
+                    {
+                        y: 24
+                    },
+
+                    {
+                        y: 0,
+
+                        ease: 'none',
+
+                        scrollTrigger: {
+
+                            trigger: element,
+
+                            start:
+                                'top bottom',
+
+                            end:
+                                'top center',
+
+                            scrub: 0.6
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+/* ============================================================
+   FINAL SAFETY
+   ============================================================ */
+
+/*
+   If the page has already loaded before this script runs,
+   make sure hero is visible.
+*/
+
+if (
+    document.readyState ===
+    'complete'
+) {
+
+    setTimeout(
+        () => {
+
+            if (
+                heroNameEl &&
+                !heroNameEl.classList.contains(
+                    'kinetic-active'
+                )
+            ) {
+
+                heroNameEl.classList.add(
+                    'kinetic-active'
+                );
+
+            }
+
+        },
+        100
+    );
+}
