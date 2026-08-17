@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Portfolio — Akshat Sharma | Lead Graphic Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="background">
+    <div class="bg-vignette"></div>
+    <div class="bg-glow-left"></div>
+    <div class="bg-glow-right"></div>
+    <div class="bg-noise"></div>
+</div>
+
+<header id="navbar">
+    <nav>
+        <a href="index.html" class="logo">AKSHAT</a>
+        <ul>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#journey">Journey</a></li>
+            <li><a href="index.html#skills">Skills</a></li>
+        </ul>
+        <a href="assets/CV_graphic_designer.jpg" class="resume-btn" target="_blank">Resume ↗</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span>
+        </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#journey">Journey</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="assets/CV_graphic_designer.jpg" target="_blank">Resume ↗</a>
+    </div>
+</header>
+
+<section class="archive-hero">
+    <a href="index.html" class="archive-back">← Back to Home</a>
+    <p class="eyebrow reveal visible"><span class="dot"></span> Full Archive</p>
+    <h1 class="archive-title">Selected Work,<br>In Full.</h1>
+    <p class="archive-subtitle">Campaign banners, contest creatives, mythology &amp; horror key art, and community engagement design — built for Pocket FM's Hindi audio universe.</p>
+</section>
+
+<section class="archive-section">
+
+    <div class="archive-filters" id="archiveFilters">
+        <button class="filter-chip active" data-filter="all">All Work</button>
+        <button class="filter-chip" data-filter="keyart">Movie Posters &amp; Key Art</button>
+        <button class="filter-chip" data-filter="mythology">Mythology &amp; Devotional</button>
+        <button class="filter-chip" data-filter="horror">Horror</button>
+        <button class="filter-chip" data-filter="contest">Contest &amp; Campaign Banners</button>
+        <button class="filter-chip" data-filter="billboard">Billboards &amp; OOH</button>
+        <button class="filter-chip" data-filter="community">Community &amp; Engagement</button>
+    </div>
+
+    <div class="archive-grid" id="archiveGrid">
+
+        <div class="archive-card" data-cat="keyart" data-full="assets/work-real/protocol-72-codename-bharat.jpg" data-title="Protocol 72: Codename Bharat" data-desc="Cinematic key art for a high-stakes spy-thriller audio series — layered VFX, wanted-board overlays and dramatic rim lighting to sell blockbuster scale.">
+            <div class="archive-img" style="background-image:url('assets/work-real/protocol-72-codename-bharat.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Key Art</span>
+                <h3>Protocol 72: Codename Bharat</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/khatu-shyam-hare-ka-sahara.jpg" data-title="Khatu Shyam — Haare Ka Sahara" data-desc="Epic mythological cover art blending devotional symbolism with battlefield scale, built through custom Gen-AI image workflows.">
+            <div class="archive-img" style="background-image:url('assets/work-real/khatu-shyam-hare-ka-sahara.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Khatu Shyam — Haare Ka Sahara</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="horror" data-full="assets/work-real/horror-ya-bhakti-contests.jpg" data-title="Horror Ya Bhakti — 7 Contests" data-desc="Moody dual-genre campaign visual pitting horror against devotion, designed to drive sign-ups across seven simultaneous contests.">
+            <div class="archive-img" style="background-image:url('assets/work-real/horror-ya-bhakti-contests.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Horror</span>
+                <h3>Horror Ya Bhakti</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="contest" data-full="assets/work-real/9-adaptation-contest-live.jpg" data-title="9 Adaptation Contest's LIVE" data-desc="Jungle-adventure key art launching a ₹1 Lakh prize-pool writing contest, using cinematic torchlight and character staging.">
+            <div class="archive-img" style="background-image:url('assets/work-real/9-adaptation-contest-live.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Contest Banner</span>
+                <h3>9 Adaptation Contest's LIVE</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/milestone-50k-consistency.jpg" data-title="10K पर रुकना नहीं" data-desc="Playful illustrated character concept nudging writers toward consistency, turning a growth metric into a scroll-stopping moment.">
+            <div class="archive-img" style="background-image:url('assets/work-real/milestone-50k-consistency.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>10K पर रुकना नहीं</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="horror" data-full="assets/work-real/bhoot-pret-atmayein.jpg" data-title="Bhoot, Pret Aur Aatmayein" data-desc="Three-contest horror campaign visual — spooky character grid framed around a startled protagonist to drive curiosity clicks.">
+            <div class="archive-img" style="background-image:url('assets/work-real/bhoot-pret-atmayein.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Horror</span>
+                <h3>Bhoot, Pret Aur Aatmayein</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/comeback-ka-samay.jpg" data-title="Comeback Ka Samay Agaya" data-desc="Re-engagement creative for lapsed listeners, pairing the app UI mock with warm brand-red lighting and a direct, emotional headline.">
+            <div class="archive-img" style="background-image:url('assets/work-real/comeback-ka-samay.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Comeback Ka Samay Agaya</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/dialogue-hook-challenge.jpg" data-title="Day 3: Dialogue Hook Challenge" data-desc="Noir-styled daily-challenge creative for the writer community, built around a mysterious silhouette and a bold, editorial type stack.">
+            <div class="archive-img" style="background-image:url('assets/work-real/dialogue-hook-challenge.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Day 3: Dialogue Hook Challenge</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="contest" data-full="assets/work-real/gupt-sipahi-contest.jpg" data-title="Gupt Sipahi Contest" data-desc="Comic, relatable neighbourhood-spy scene built to promote a ₹2 Lakh prize-pool contest with humor-led visual storytelling.">
+            <div class="archive-img" style="background-image:url('assets/work-real/gupt-sipahi-contest.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Contest Banner</span>
+                <h3>Gupt Sipahi Contest</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="contest" data-full="assets/work-real/10-adaptation-contest-live.jpg" data-title="10 Adaptation Contest LIVE" data-desc="High-energy, cash-forward creative announcing a ₹10 Lakh prize contest slate across fantasy, drama, romance and mythology.">
+            <div class="archive-img" style="background-image:url('assets/work-real/10-adaptation-contest-live.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Contest Banner</span>
+                <h3>10 Adaptation Contest LIVE</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/important-update.jpg" data-title="Important Update" data-desc="Clean, high-visibility announcement creative built for critical platform-wide messages that need to stop the scroll.">
+            <div class="archive-img" style="background-image:url('assets/work-real/important-update.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Important Update</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="contest" data-full="assets/work-real/5-contests-join-today.jpg" data-title="5 Contests, Join Today" data-desc="Multi-title showcase creative bundling five live contests into one prize-forward composition to maximize sign-up conversion.">
+            <div class="archive-img" style="background-image:url('assets/work-real/5-contests-join-today.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Contest Banner</span>
+                <h3>5 Contests, Join Today</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/kahani-jahan-ruki-thi.jpg" data-title="Kahani Jahan Ruki Thi" data-desc="Shiva-Shakti themed continuation campaign for two new mythology contests, built around a volcanic, high-drama backdrop.">
+            <div class="archive-img" style="background-image:url('assets/work-real/kahani-jahan-ruki-thi.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Kahani Jahan Ruki Thi</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/mythology-meets-storytelling.jpg" data-title="Jahan Mythology Mile Modern Storytelling Se" data-desc="Portrait-format contest hub visual using a VR-headset framing device to connect five mythological titles into one story circle.">
+            <div class="archive-img" style="background-image:url('assets/work-real/mythology-meets-storytelling.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Jahan Mythology Mile Modern Storytelling Se</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/100k-words-milestone.jpg" data-title="100K Shabd Poore Karoge" data-desc="Mentor-and-writer scene creative reinforcing the 100K-word milestone requirement to unlock the trophy and prize pool.">
+            <div class="archive-img" style="background-image:url('assets/work-real/100k-words-milestone.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>100K Shabd Poore Karoge</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/episode-express-50k.jpg" data-title="Episode Express — 50K Words" data-desc="Train-station chase concept turning episode-publishing consistency into a fun, kinetic visual metaphor for the writer community.">
+            <div class="archive-img" style="background-image:url('assets/work-real/episode-express-50k.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Episode Express — 50K Words</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/aadi-dev.jpg" data-title="Aadi Dev — अंत का आरंभ" data-desc="Lord Shiva key art built around a glowing astrological mandala, positioning the mythology title as an epic, cosmic-scale origin story.">
+            <div class="archive-img" style="background-image:url('assets/work-real/aadi-dev.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Aadi Dev — अंत का आरंभ</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/bajrangbali.jpg" data-title="Bajrangbali — Jahan Bhakti Wahan Shakti" data-desc="Hanuman key art shot from behind against a burning skyline, using scale and silhouette to sell raw devotional power.">
+            <div class="archive-img" style="background-image:url('assets/work-real/bajrangbali.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Bajrangbali</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/shri-ram.jpg" data-title="Shri Ram — संकल्प से सिद्धि तक" data-desc="Serene, celestial key art for a Ram-centric mythology title, built around a glowing zodiac circle and cool blue lighting.">
+            <div class="archive-img" style="background-image:url('assets/work-real/shri-ram.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Shri Ram</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="mythology" data-full="assets/work-real/ranchandi-shakti-unstoppable.jpg" data-title="Ranchandi — Shakti Unstoppable" data-desc="Modern-meets-mythological key art fusing a police officer with the goddess Chandi looming behind her, for a contemporary devotional thriller.">
+            <div class="archive-img" style="background-image:url('assets/work-real/ranchandi-shakti-unstoppable.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Mythology</span>
+                <h3>Ranchandi — Shakti Unstoppable</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="horror" data-full="assets/work-real/aghori.jpg" data-title="Aghori — श्मशान के साये में" data-desc="Cremation-ground horror key art built around a ritual circle and fire, using cold moonlight against warm flame for contrast.">
+            <div class="archive-img" style="background-image:url('assets/work-real/aghori.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Horror</span>
+                <h3>Aghori</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="horror" data-full="assets/work-real/baital-sharto-ka-jaal.jpg" data-title="Baital — शर्तों का जाल" data-desc="Forest-set horror key art with a possessed figure looming over a frightened protagonist, lit by a single torch for tension.">
+            <div class="archive-img" style="background-image:url('assets/work-real/baital-sharto-ka-jaal.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Horror</span>
+                <h3>Baital — शर्तों का जाल</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="horror" data-full="assets/work-real/kaala-jaadu.jpg" data-title="Kaala Jaadu" data-desc="Temple-door horror key art pairing an ominous sorcerer with a young girl, using warm doorway light to frame the threshold moment.">
+            <div class="archive-img" style="background-image:url('assets/work-real/kaala-jaadu.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Horror</span>
+                <h3>Kaala Jaadu</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="horror" data-full="assets/work-real/aatript.jpg" data-title="Aatript — Extension Contest" data-desc="Possession-themed key art with ghostly figures emerging from a screaming protagonist, built for a contest-extension announcement.">
+            <div class="archive-img" style="background-image:url('assets/work-real/aatript.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Horror</span>
+                <h3>Aatript</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/guess-the-audio-show.jpg" data-title="Guess The Audio Show Name" data-desc="Torn-paper reveal mechanic teasing a fantasy title's key art through a ripped opening, built as an interactive-feeling guessing game post.">
+            <div class="archive-img" style="background-image:url('assets/work-real/guess-the-audio-show.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Guess The Audio Show Name</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/independence-day-kalam-chalegi.jpg" data-title="Independence Day — Aapki Kalam Chalegi" data-desc="Festive Independence Day creative merging a fountain-pen nib with the India Gate silhouette, tying patriotism to the writer community's craft.">
+            <div class="archive-img" style="background-image:url('assets/work-real/independence-day-kalam-chalegi.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Independence Day Creative</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="community" data-full="assets/work-real/brand-new-episode-spiderman.jpg" data-title="Time To Upload A Brand New Episode" data-desc="Playful pop-culture crossover using a Spider-Man hand holding a phone, nudging writers to publish their next episode.">
+            <div class="archive-img" style="background-image:url('assets/work-real/brand-new-episode-spiderman.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Community</span>
+                <h3>Brand New Episode</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="contest" data-full="assets/work-real/30-contests-live-spiderman.jpg" data-title="30 Contests LIVE" data-desc="High-energy contest announcement using a Spider-Man POV framing device to make the writing-contest list feel like a superhero briefing.">
+            <div class="archive-img" style="background-image:url('assets/work-real/30-contests-live-spiderman.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Contest Banner</span>
+                <h3>30 Contests LIVE</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="billboard" data-full="assets/work-real/billboard-stop-dreaming-1.jpg" data-title="Stop Dreaming, Start Writing" data-desc="Outdoor billboard design pairing bold typography with a cash-in-hand hero shot to announce ₹40 Lakh across 25 live contests.">
+            <div class="archive-img" style="background-image:url('assets/work-real/billboard-stop-dreaming-1.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Billboard</span>
+                <h3>Stop Dreaming, Start Writing</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="billboard" data-full="assets/work-real/billboard-mahagatha.jpg" data-title="Mahagatha — In-App Key Art" data-desc="Epic three-hero composition beneath a giant serpent, built as hero key art for the Mahagatha mythology title inside the app.">
+            <div class="archive-img" style="background-image:url('assets/work-real/billboard-mahagatha.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Billboard</span>
+                <h3>Mahagatha</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="billboard" data-full="assets/work-real/billboard-48-ghante.jpg" data-title="48 Ghante Baaki Hain" data-desc="Urgency-driven billboard design using a countdown clock and confetti to push writers toward the 100K-word deadline.">
+            <div class="archive-img" style="background-image:url('assets/work-real/billboard-48-ghante.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Billboard</span>
+                <h3>48 Ghante Baaki Hain</h3>
+            </div>
+        </div>
+
+        <div class="archive-card" data-cat="billboard" data-full="assets/work-real/billboard-inner-writer-voice.jpg" data-title="Give Your Inner Writer A Voice" data-desc="Clean, minimal billboard design pairing a simple headline with a lifestyle shot to advertise a ₹40 Lakh contest prize pool.">
+            <div class="archive-img" style="background-image:url('assets/work-real/billboard-inner-writer-voice.jpg')"></div>
+            <div class="archive-info">
+                <span class="archive-tag">Billboard</span>
+                <h3>Give Your Inner Writer A Voice</h3>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="archive-section archive-insta-section">
+    <p class="eyebrow reveal visible"><span class="dot"></span> Instagram Carousels</p>
+    <h2 class="archive-insta-title">Carousel Sets</h2>
+    <p class="archive-insta-text">Multi-slide Instagram posts designed to walk followers through a story or a stat, one swipe at a time.</p>
+
+    <div class="carousel-block">
+        <h3 class="carousel-block-title">How To Win A Contest? <span>· 5 slides</span></h3>
+        <div class="carousel-strip">
+            <div class="carousel-slide" data-full="assets/instagram-carousel/how-to-win-contest-01.jpg" style="background-image:url('assets/instagram-carousel/how-to-win-contest-01.jpg')"></div>
+            <div class="carousel-slide" data-full="assets/instagram-carousel/how-to-win-contest-02.jpg" style="background-image:url('assets/instagram-carousel/how-to-win-contest-02.jpg')"></div>
+            <div class="carousel-slide" data-full="assets/instagram-carousel/how-to-win-contest-03.jpg" style="background-image:url('assets/instagram-carousel/how-to-win-contest-03.jpg')"></div>
+            <div class="carousel-slide" data-full="assets/instagram-carousel/how-to-win-contest-04.jpg" style="background-image:url('assets/instagram-carousel/how-to-win-contest-04.jpg')"></div>
+            <div class="carousel-slide" data-full="assets/instagram-carousel/how-to-win-contest-05.jpg" style="background-image:url('assets/instagram-carousel/how-to-win-contest-05.jpg')"></div>
+        </div>
+    </div>
+
+    <div class="carousel-block">
+        <h3 class="carousel-block-title">₹64 Lakh Contest Campaign <span>· cover + summary slide</span></h3>
+        <div class="carousel-strip carousel-strip--pair">
+            <div class="carousel-slide" data-full="assets/instagram-carousel/campaign-32-contests-cover.jpg" style="background-image:url('assets/instagram-carousel/campaign-32-contests-cover.jpg')"></div>
+            <div class="carousel-slide" data-full="assets/instagram-carousel/campaign-32-contests-summary.jpg" style="background-image:url('assets/instagram-carousel/campaign-32-contests-summary.jpg')"></div>
+        </div>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="footer-inner">
+        <p class="footer-eyebrow">Get In Touch</p>
+        <h2 class="footer-cta">
+            <span class="footer-line">LET'S CREATE</span>
+            <span class="footer-line">SOMETHING</span>
+            <span class="footer-line accent">UNFORGETTABLE.</span>
+        </h2>
+        <a href="mailto:Sharmaakshat756@gmail.com" class="btn-primary footer-say-hello magnetic">Say Hello <span class="arrow">→</span></a>
+        <div class="contact-details">
+            <a href="mailto:Sharmaakshat756@gmail.com" class="contact-item"><span class="contact-icon">✉</span> Sharmaakshat756@gmail.com</a>
+            <a href="tel:+919958653008" class="contact-item"><span class="contact-icon">☎</span> +91 9958653008</a>
+            <span class="contact-item"><span class="contact-icon">📍</span> Ghaziabad, U.P.</span>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Akshat Sharma</p>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Behance</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+        <p class="footer-end-mark">END OF STORY</p>
+    </div>
+</footer>
+
+<div class="archive-lightbox" id="archiveLightbox">
+    <button class="archive-lightbox-close" id="archiveLightboxClose">&times; Close</button>
+    <div class="archive-lightbox-inner">
+        <div class="archive-lightbox-img" id="archiveLightboxImg"></div>
+        <div class="archive-lightbox-info">
+            <h3 id="archiveLightboxTitle"></h3>
+            <p id="archiveLightboxDesc"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mobile menu toggle (same behaviour as index.html)
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            menuToggle.classList.toggle('open', isOpen);
+            menuToggle.setAttribute('aria-expanded', isOpen);
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            menuToggle.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        }));
+    }
+
+    // Filtering
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const archiveCards = document.querySelectorAll('.archive-card');
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            filterChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            const filter = chip.getAttribute('data-filter');
+            archiveCards.forEach(card => {
+                const show = filter === 'all' || card.getAttribute('data-cat') === filter;
+                card.style.display = show ? '' : 'none';
+            });
+        });
+    });
+
+    // Lightbox
+    const lightbox = document.getElementById('archiveLightbox');
+    const lightboxImg = document.getElementById('archiveLightboxImg');
+    const lightboxTitle = document.getElementById('archiveLightboxTitle');
+    const lightboxDesc = document.getElementById('archiveLightboxDesc');
+    const lightboxClose = document.getElementById('archiveLightboxClose');
+
+    archiveCards.forEach(card => {
+        card.addEventListener('click', () => {
+            lightboxImg.style.backgroundImage = `url('${card.getAttribute('data-full')}')`;
+            lightboxTitle.innerText = card.getAttribute('data-title');
+            lightboxDesc.innerText = card.getAttribute('data-desc');
+            lightbox.classList.add('visible');
+        });
+    });
+
+    // Carousel slides open in lightbox too (no title/desc, just the visual)
+    document.querySelectorAll('.carousel-slide').forEach(slide => {
+        slide.addEventListener('click', () => {
+            lightboxImg.style.backgroundImage = `url('${slide.getAttribute('data-full')}')`;
+            lightboxTitle.innerText = '';
+            lightboxDesc.innerText = '';
+            lightbox.classList.add('visible');
+        });
+    });
+
+    function closeLightbox() {
+        lightbox.classList.remove('visible');
+    }
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+    });
+</script>
+
+</body>
+</html>
